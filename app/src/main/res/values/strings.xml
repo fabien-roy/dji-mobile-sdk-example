@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">Drone Travail Pratique</string>
+  <string name="title_activity_test1">Test1Activity</string>
 </resources>

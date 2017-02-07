@@ -14,5 +14,42 @@
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Hello World!"/>
+    android:text="Fabien Roy"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"/>
+
+  <Button
+    android:text="Test #1 : Vol de base"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/button"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"/>
+
+  <Button
+    android:text="Volet #3 : Balle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="48dp"
+    android:id="@+id/button4"
+    android:layout_below="@+id/button3"
+    android:layout_centerHorizontal="true"/>
+
+  <Button
+    android:text="Volet #2 : Ligne"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="41dp"
+    android:id="@+id/button3"
+    android:layout_below="@+id/button2"
+    android:layout_centerHorizontal="true"/>
+
+  <Button
+    android:text="Volet #1 : Parcours"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="44dp"
+    android:id="@+id/button2"
+    android:layout_below="@+id/button"
+    android:layout_centerHorizontal="true"/>
 </RelativeLayout>
