@@ -8,7 +8,7 @@ A) Faire suivre un parcours précis à un drone;
 B) Faire suivre une ligne de gymnase verte à un drone;
 C) Faire trouver une balle dans un gymnase à un drone.
 
-## Technologies utilisées ## 
+## Technologies utilisées ##
 
 Java
 Android Studio
