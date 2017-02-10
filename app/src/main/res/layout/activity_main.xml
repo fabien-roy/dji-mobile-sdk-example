@@ -9,47 +9,38 @@
   android:paddingLeft="@dimen/activity_horizontal_margin"
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:paddingTop="@dimen/activity_vertical_margin"
-  tools:context="net.info420.fabien.dronetravailpratique.MainActivity">
+  tools:context="net.info420.fabien.dronetravailpratique.ActivityMain">
 
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Fabien Roy"
+    android:text="BY-NC-SA Fabien Roy"
     android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"/>
-
-  <Button
-    android:text="Test #1 : Vol de base"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/button"
-    android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
 
   <Button
     android:text="Volet #3 : Balle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="48dp"
-    android:id="@+id/button4"
-    android:layout_below="@+id/button3"
+    android:layout_marginTop="45dp"
+    android:id="@+id/activity_main_btn_obj3"
+    android:layout_below="@+id/activity_main_btn_obj2"
     android:layout_centerHorizontal="true"/>
 
   <Button
     android:text="Volet #2 : Ligne"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="41dp"
-    android:id="@+id/button3"
-    android:layout_below="@+id/button2"
+    android:layout_marginTop="45dp"
+    android:id="@+id/activity_main_btn_obj2"
+    android:layout_below="@+id/activity_main_btn_obj1"
     android:layout_centerHorizontal="true"/>
 
   <Button
     android:text="Volet #1 : Parcours"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="44dp"
-    android:id="@+id/button2"
-    android:layout_below="@+id/button"
+    android:layout_marginTop="45dp"
+    android:id="@+id/activity_main_btn_obj1"
     android:layout_centerHorizontal="true"/>
 </RelativeLayout>
