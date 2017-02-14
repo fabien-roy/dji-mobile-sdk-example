@@ -31,32 +31,55 @@
 
   <!-- SDK requirement permission end -->
   <application
-    android:name=".ApplicationDrone"
+    android:name=".common.ApplicationDrone"
     android:allowBackup="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
+    android:label="ROYF_Drone"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
 
     <!-- ADD API_KEY HERE and make sure you are connected to the Internet before the app is launched -->
     <meta-data
       android:name="com.dji.sdk.API_KEY"
-      android:value="5b5c1d2fa0d8b6658884dc8b"/>
+      android:value="71b603e51c920379c5a9a850"/>
 
-    <!-- TODO : Check Sample Application and add necessary data to Manifest -->
+    <service android:name="dji.sdk.sdkmanager.DJIGlobalService" />
 
-    <activity android:name=".ActivityMain">
+    <service android:name="dji.internal.geofeature.flyforbid.FlyforbidUpdateService" />
+
+    <!-- Required for receiving GEO system pushing. -->
+    <service android:name="dji.sdk.sdkmanager.GeoSyncFileService"/>
+
+    <!-- Required for receiving accessory attachment events.
+        This is necessary for product when connecting over USB. -->
+    <activity
+      android:name="dji.sdk.sdkmanager.DJIAoaControllerActivity"
+      android:theme="@android:style/Theme.Translucent" >
       <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-
-        <category android:name="android.intent.category.LAUNCHER"/>
+        <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
       </intent-filter>
+
+      <meta-data
+        android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+        android:resource="@xml/accessory_filter" />
     </activity>
 
-    <service
-      android:name=".IntentServiceObj1Step1"
-      android:exported="false">
-    </service>
+    <activity
+      android:name=".common.ActivityMain"
+      android:label="@string/app_name"
+      android:screenOrientation="portrait"
+      android:configChanges="orientation|keyboardHidden|screenSize"
+      android:theme="@style/AppTheme" >
+      <intent-filter>
+        <!--<action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />-->
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+
+      <!--<meta-data-->
+      <!--android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"-->
+      <!--android:resource="@xml/accessory_filter" />-->
+    </activity>
   </application>
 
 </manifest>

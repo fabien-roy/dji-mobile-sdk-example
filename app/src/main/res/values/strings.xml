@@ -1,4 +1,10 @@
 <resources>
-  <string name="app_name">Drone Travail Pratique</string>
-  <string name="title_activity_test1">Test1Activity</string>
+  <string name="app_name">ROYF Drone Travail Pratique</string>
+  <string name="app_license">CC3.0 Fabien Roy BY-NC-SA</string>
+
+  <string name="sdk_version">Version du DJI SDK : 3.5.1</string>
+
+  <!-- Interface du ActivityMain -->
+  <string name="model_not_available">Drone non-accessible</string>
+  <string name="product_information">Information du produit</string>
 </resources>

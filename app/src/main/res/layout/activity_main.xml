@@ -9,38 +9,15 @@
   android:paddingLeft="@dimen/activity_horizontal_margin"
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:paddingTop="@dimen/activity_vertical_margin"
-  tools:context="net.info420.fabien.dronetravailpratique.ActivityMain">
+  tools:context="net.info420.fabien.dronetravailpratique.common.ActivityMain">
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="BY-NC-SA Fabien Roy"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"/>
+  <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/framelayout_content">
 
-  <Button
-    android:text="Volet #3 : Balle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="45dp"
-    android:id="@+id/activity_main_btn_obj3"
-    android:layout_below="@+id/activity_main_btn_obj2"
-    android:layout_centerHorizontal="true"/>
+    <include layout="@layout/content_main"/>
 
-  <Button
-    android:text="Volet #2 : Ligne"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="45dp"
-    android:id="@+id/activity_main_btn_obj2"
-    android:layout_below="@+id/activity_main_btn_obj1"
-    android:layout_centerHorizontal="true"/>
+  </FrameLayout>
 
-  <Button
-    android:text="Volet #1 : Parcours"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="45dp"
-    android:id="@+id/activity_main_btn_obj1"
-    android:layout_centerHorizontal="true"/>
 </RelativeLayout>

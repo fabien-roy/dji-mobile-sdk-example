@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /home/fabien/android/workspace/DroneTravailPratique/openCVLibrary310/src/main/aidl/org/opencv/engine/OpenCVEngineInterface.aidl
+ * Original file: /home/fabien/school/drone/DroneTravailPratique/openCVLibrary310/src/main/aidl/org/opencv/engine/OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**

@@ -2,5 +2,9 @@
     {
         "merged": "/home/fabien/android/workspace/DroneTravailPratique/dJISDKLIB/build/intermediates/res/merged/androidTest/debug/xml/accessory_filter.xml",
         "source": "/home/fabien/android/workspace/DroneTravailPratique/dJISDKLIB/build/intermediates/bundles/debug/res/xml/accessory_filter.xml"
+    },
+    {
+        "merged": "/home/fabien/school/drone/DroneTravailPratique/dJISDKLIB/build/intermediates/res/merged/androidTest/debug/xml/accessory_filter.xml",
+        "source": "/home/fabien/school/drone/DroneTravailPratique/dJISDKLIB/build/intermediates/bundles/debug/res/xml/accessory_filter.xml"
     }
 ]
