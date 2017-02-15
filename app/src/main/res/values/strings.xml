@@ -2,6 +2,8 @@
   <string name="app_name">ROYF Drone Travail Pratique</string>
   <string name="app_license">CC3.0 Fabien Roy BY-NC-SA</string>
 
+  <string name="activity_objectives">Objectifs</string>
+
   <string name="sdk_version">Version du DJI SDK : 3.5.1</string>
 
   <!-- Interface du ActivityMain -->
