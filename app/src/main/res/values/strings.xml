@@ -7,4 +7,5 @@
   <!-- Interface du ActivityMain -->
   <string name="model_not_available">Drone non-accessible</string>
   <string name="product_information">Information du produit</string>
+  <string name="connection_loose">Statut: Aucun produit connecté</string>
 </resources>
