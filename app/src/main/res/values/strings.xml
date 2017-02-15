@@ -2,12 +2,16 @@
   <string name="app_name">ROYF Drone Travail Pratique</string>
   <string name="app_license">CC3.0 Fabien Roy BY-NC-SA</string>
 
-  <string name="activity_objectives">Objectifs</string>
-
   <string name="sdk_version">Version du DJI SDK : 3.5.1</string>
 
-  <!-- Interface du ActivityMain -->
+  <!-- Interface du ContentMain -->
   <string name="model_not_available">Drone non-accessible</string>
   <string name="product_information">Information du produit</string>
   <string name="connection_loose">Statut: Aucun produit connecté</string>
+
+  <!-- Interface du ContentObjectives -->
+  <string name="activity_objectives">Objectifs</string>
+  <string name="start">Démarrer</string>
+  <string name="objective1_step1">Objectif #1 : Étape #1</string>
+  <string name="objective1_step1_description">Décoller, attendre 5 minutes, attérir</string>
 </resources>
