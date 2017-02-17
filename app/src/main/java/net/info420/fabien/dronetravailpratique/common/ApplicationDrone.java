@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
@@ -71,19 +72,20 @@ public class ApplicationDrone extends Application {
     @Override
     public void onGetRegisteredResult(DJIError error) {
       if(error == DJISDKError.REGISTRATION_SUCCESS) {
-        Log.d(TAG, "SDK registration success!");
+        Toast.makeText(getBaseContext(), "SDK enregistré avec succès!", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "SDK enregistré avec succès!");
 
         // Réussite -> Début de la connection au produit
         DJISDKManager.getInstance().startConnectionToProduct();
       } else {
-        Log.d(TAG, "SDK registration error");
+        Toast.makeText(getBaseContext(), "L'enregistrement du SDK a échoué...", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "L'enregistrement du SDK a échoué...");
       }
       Log.v(TAG, error.getDescription());
     }
 
     @Override
     public void onProductChanged(DJIBaseProduct oldProduct, DJIBaseProduct newProduct) {
-
       Log.d("Alex", String.format("onProductChanged oldProduct:%s, newProduct:%s", oldProduct, newProduct));
       mProduct = newProduct;
       if(mProduct != null) {
