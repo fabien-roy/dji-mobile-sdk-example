@@ -15,6 +15,7 @@ import net.info420.fabien.dronetravailpratique.R;
 
 import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.products.DJIAircraft;
+import dji.thirdparty.eventbus.EventBus;
 
 /**
  * Created by fabien on 17-02-14.
@@ -56,7 +57,7 @@ public class ContentMain extends RelativeLayout implements DJIBaseProduct.DJIVer
       public void onClick(View v) {
         Log.d(TAG, "mBtnOpen : onClick()");
 
-        //EventBus.getDefault().post(new SetViewWrapper(R.layout.content_objectives, R.string.activity_objectives, getContext()));
+        EventBus.getDefault().post(new SetViewWrapper(R.layout.content_objectives, R.string.activity_objectives, getContext()));
       }
     });
   }
