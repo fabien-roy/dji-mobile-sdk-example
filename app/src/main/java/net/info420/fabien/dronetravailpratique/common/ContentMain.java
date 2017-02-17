@@ -15,7 +15,6 @@ import net.info420.fabien.dronetravailpratique.R;
 
 import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.products.DJIAircraft;
-import dji.thirdparty.eventbus.EventBus;
 
 /**
  * Created by fabien on 17-02-14.
@@ -50,13 +49,14 @@ public class ContentMain extends RelativeLayout implements DJIBaseProduct.DJIVer
     mTextConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
     mBtnOpen = (Button) findViewById(R.id.btn_open);
 
-    mBtnOpen.setEnabled(false);
+    mBtnOpen.setEnabled(true);
 
     mBtnOpen.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "onClick : mBtnOpen");
-        EventBus.getDefault().post(new SetViewWrapper(R.layout.content_objectives, R.string.activity_objectives, getContext()));
+        Log.d(TAG, "mBtnOpen : onClick()");
+
+        //EventBus.getDefault().post(new SetViewWrapper(R.layout.content_objectives, R.string.activity_objectives, getContext()));
       }
     });
   }
@@ -109,7 +109,7 @@ public class ContentMain extends RelativeLayout implements DJIBaseProduct.DJIVer
     if (null != mProduct && mProduct.isConnected()) {
       mBtnOpen.setEnabled(true);
 
-      mTextConnectionStatus.setText("Statut : " + (mProduct instanceof DJIAircraft ? "DJIAircraft" : "DJIHandHeld") + " connecté");
+      mTextConnectionStatus.setText("Statut : " + (mProduct instanceof DJIAircraft ? "Aéronef DJI" : "Engin DJI") + " connecté");
       mProduct.setDJIVersionCallback(this);
       updateVersion();
 
@@ -119,7 +119,7 @@ public class ContentMain extends RelativeLayout implements DJIBaseProduct.DJIVer
         mTextProduct.setText(R.string.product_information);
       }
     } else {
-      mBtnOpen.setEnabled(false);
+      mBtnOpen.setEnabled(true);
 
       mTextProduct.setText(R.string.product_information);
       mTextConnectionStatus.setText(R.string.connection_loose);

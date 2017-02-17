@@ -44,4 +44,8 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         break;
     }
   }
+
+  public void goToObjectives() {
+    setContentView(R.layout.content_objectives);
+  }
 }
