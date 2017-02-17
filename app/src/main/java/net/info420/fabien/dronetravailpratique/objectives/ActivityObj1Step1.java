@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import net.info420.fabien.dronetravailpratique.R;
+import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
+
+import dji.common.error.DJIError;
+import dji.common.util.DJICommonCallbacks;
 
 public class ActivityObj1Step1 extends AppCompatActivity {
 
@@ -53,10 +57,26 @@ public class ActivityObj1Step1 extends AppCompatActivity {
   }
 
   private void start() {
-
+    // TAKE OFF
+    ApplicationDrone.getAircraftInstance().getFlightController().takeOff(
+      new DJICommonCallbacks.DJICompletionCallback () {
+        @Override
+        public void onResult(DJIError djiError) {
+          Log.e(TAG, "Takeoff error : " + djiError.getDescription());
+        }
+      }
+    );
   }
 
   private void stop() {
-
+    // LANDING
+    ApplicationDrone.getAircraftInstance().getFlightController().autoLanding(
+      new DJICommonCallbacks.DJICompletionCallback () {
+        @Override
+        public void onResult(DJIError djiError) {
+          Log.e(TAG, "landing error : " + djiError.getDescription());
+        }
+      }
+    );
   }
 }

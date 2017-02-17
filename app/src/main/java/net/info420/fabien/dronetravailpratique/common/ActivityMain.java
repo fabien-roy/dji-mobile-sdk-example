@@ -26,6 +26,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
   private TextView mTextModelAvailable;
   private TextView mTextConnectionStatus;
   private Button mBtnOpen;
+  private Button mBtnRefresh;
 
   private DJIBaseProduct mProduct;
 
@@ -49,7 +50,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
     }
 
     initUI();
-
+    refreshSDKRelativeUI();
   }
 
   private void initUI() {
@@ -61,8 +62,9 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
     mTextProduct = (TextView) findViewById(R.id.text_product_info);
     mTextConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
     mBtnOpen = (Button) findViewById(R.id.btn_open);
+    mBtnRefresh = (Button) findViewById(R.id.btn_refresh);
 
-    mBtnOpen.setEnabled(true);
+    mBtnOpen.setEnabled(false);
 
     mBtnOpen.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -71,6 +73,15 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
 
         // On change d'application
         startActivity(new Intent(getApplicationContext(), ActivityObjectives.class));
+      }
+    });
+
+    mBtnRefresh.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Log.d(TAG, "mBtnRefresh : onClick()");
+
+        refreshSDKRelativeUI();
       }
     });
   }
@@ -123,7 +134,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
         mTextProduct.setText(R.string.product_information);
       }
     } else {
-      mBtnOpen.setEnabled(true);
+      mBtnOpen.setEnabled(false);
 
       mTextProduct.setText(R.string.product_information);
       mTextConnectionStatus.setText(R.string.connection_loose);

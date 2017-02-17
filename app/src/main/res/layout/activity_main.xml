@@ -57,6 +57,17 @@
     android:textSize="15dp"
     />
 
+  <Button
+    android:id="@+id/btn_refresh"
+    android:layout_width="150dp"
+    android:layout_height="55dp"
+    android:layout_centerHorizontal="true"
+    android:textAllCaps="false"
+    android:layout_marginTop="330dp"
+    android:text="@string/refresh"
+    android:textSize="15dp"
+    />
+
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
