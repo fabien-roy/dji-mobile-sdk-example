@@ -26,11 +26,11 @@ tools:context="net.info420.fabien.dronetravailpratique.common.ActivityObjectives
   android:textSize="15dp"
   android:layout_alignParentTop="true"
   android:layout_centerHorizontal="true"
-  android:layout_below="@+id/btn_obj1step1"
+  android:layout_below="@+id/btn_obj1_step1"
   android:layout_marginTop="37dp"/>
 
 <Button
-  android:id="@+id/btn_obj1step1"
+  android:id="@+id/btn_obj1_step1"
   android:layout_width="100dp"
   android:layout_height="50dp"
   android:textAllCaps="false"

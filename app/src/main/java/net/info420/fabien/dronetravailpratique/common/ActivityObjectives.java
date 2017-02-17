@@ -32,13 +32,22 @@ public class ActivityObjectives extends Activity implements View.OnClickListener
   private void initUI(){
     setContentView(R.layout.activity_objectives);
 
-    mBtnObj1Step1 = (Button) findViewById(R.id.btn_obj1step1);
+    mBtnObj1Step1 = (Button) findViewById(R.id.btn_obj1_step1);
+
+    mBtnObj1Step1.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Log.d(TAG, "mBtnObj1Step1 : onClick()");
+        startActivity(new Intent(getApplicationContext(), ActivityObj1Step1.class));
+      }
+    });
   }
 
   @Override
   public void onClick(View view) {
     switch(view.getId()) {
-      case R.id.btn_obj1step1:
+      case R.id.btn_obj1_step1:
+        Log.d(TAG, "mBtnObj1Step1 : onClick()");
         startActivity(new Intent(getApplicationContext(), ActivityObj1Step1.class));
         break;
     }
