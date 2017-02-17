@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.info420.fabien.dronetravailpratique.R;
 
@@ -51,6 +50,8 @@ public class ContentMain extends RelativeLayout implements DJIBaseProduct.DJIVer
     mTextConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
     mBtnOpen = (Button) findViewById(R.id.btn_open);
 
+    mBtnOpen.setEnabled(false);
+
     mBtnOpen.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -89,32 +90,31 @@ public class ContentMain extends RelativeLayout implements DJIBaseProduct.DJIVer
   }
 
 
+  // Revérifier
   protected BroadcastReceiver mReceiver = new BroadcastReceiver() {
-
     @Override
     public void onReceive(Context context, Intent intent) {
       Log.d(TAG, "BroadcastReceiver : onReceive()");
       refreshSDKRelativeUI();
     }
-
   };
 
 
   // Vérifie si le drone est connecté et active l'interface necéssaire
   private void refreshSDKRelativeUI() {
     mProduct = ApplicationDrone.getProductInstance();
-    Toast.makeText(getContext(), "mProduct: " + (mProduct == null? "null" : "unnull"), Toast.LENGTH_LONG).show();
+
     Log.d(TAG, "mProduct: " + (mProduct == null? "null" : "unnull") );
+
     if (null != mProduct && mProduct.isConnected()) {
       mBtnOpen.setEnabled(true);
 
-      String str = mProduct instanceof DJIAircraft ? "DJIAircraft" : "DJIHandHeld";
-      mTextConnectionStatus.setText("Statut : " + str + " connecté");
+      mTextConnectionStatus.setText("Statut : " + (mProduct instanceof DJIAircraft ? "DJIAircraft" : "DJIHandHeld") + " connecté");
       mProduct.setDJIVersionCallback(this);
       updateVersion();
 
       if (null != mProduct.getModel()) {
-        mTextProduct.setText("" + mProduct.getModel().getDisplayName());
+        mTextProduct.setText(mProduct.getModel().getDisplayName());
       } else {
         mTextProduct.setText(R.string.product_information);
       }

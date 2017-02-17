@@ -55,7 +55,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="450dp"
+    android:layout_marginTop="425dp"
     android:text="@string/sdk_version"
     android:textSize="15dp"
     />
@@ -64,7 +64,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="475dp"
+    android:layout_marginTop="450dp"
     android:text="@string/app_license"
     android:textSize="10dp"
     />
