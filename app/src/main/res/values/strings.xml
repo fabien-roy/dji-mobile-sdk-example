@@ -5,6 +5,7 @@
   <string name="sdk_version">Version du DJI SDK : 3.5.1</string>
 
   <!-- Interface du ContentMain -->
+  <string name="access">Accèder</string>
   <string name="model_not_available">Drone non-accessible</string>
   <string name="product_information">Information du produit</string>
   <string name="connection_loose">Statut: Aucun produit connecté</string>
