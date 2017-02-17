@@ -42,43 +42,54 @@
       android:name="com.dji.sdk.API_KEY"
       android:value="71b603e51c920379c5a9a850"/>
 
-    <service android:name="dji.sdk.sdkmanager.DJIGlobalService" />
-
-    <service android:name="dji.internal.geofeature.flyforbid.FlyforbidUpdateService" />
+    <service android:name="dji.sdk.sdkmanager.DJIGlobalService"/>
+    <service android:name="dji.internal.geofeature.flyforbid.FlyforbidUpdateService"/>
 
     <!-- Required for receiving GEO system pushing. -->
     <service android:name="dji.sdk.sdkmanager.GeoSyncFileService"/>
 
-    <!-- Required for receiving accessory attachment events.
-        This is necessary for product when connecting over USB. -->
+    <!--
+         Required for receiving accessory attachment events.
+        This is necessary for product when connecting over USB.
+        -->
     <activity
       android:name="dji.sdk.sdkmanager.DJIAoaControllerActivity"
-      android:theme="@android:style/Theme.Translucent" >
+      android:theme="@android:style/Theme.Translucent">
       <intent-filter>
-        <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+        <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"/>
       </intent-filter>
 
       <meta-data
         android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
-        android:resource="@xml/accessory_filter" />
+        android:resource="@xml/accessory_filter"/>
     </activity>
-
     <activity
       android:name=".common.ActivityMain"
+      android:configChanges="orientation|keyboardHidden|screenSize"
       android:label="@string/app_name"
       android:screenOrientation="portrait"
-      android:configChanges="orientation|keyboardHidden|screenSize"
-      android:theme="@style/AppTheme" >
+      android:theme="@style/AppTheme">
       <intent-filter>
-        <!--<action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />-->
-        <action android:name="android.intent.action.MAIN" />
 
-        <category android:name="android.intent.category.LAUNCHER" />
+        <!-- <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" /> -->
+        <action android:name="android.intent.action.MAIN"/>
+
+        <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
 
-      <!--<meta-data-->
-      <!--android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"-->
-      <!--android:resource="@xml/accessory_filter" />-->
+      <!-- <meta-data -->
+      <!-- android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" -->
+      <!-- android:resource="@xml/accessory_filter" /> -->
+    </activity>
+    <activity
+      android:name=".common.ActivityObjectives"
+      android:label="@string/activity_objectives"
+      android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+    <activity
+      android:name=".objectives.ActivityObj1Step1"
+      android:label="@string/title_activity_obj1_step1"
+      android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>
 

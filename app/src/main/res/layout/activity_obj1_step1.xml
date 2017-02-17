@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_objectives"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingBottom="@dimen/activity_vertical_margin"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+tools:context="net.info420.fabien.dronetravailpratique.objectives.ActivityObj1Step1">
+
+<TextView
+  android:text="@string/objective1_step1"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:layout_marginTop="14dp"
+  android:textSize="20dp"
+  android:layout_below="@+id/textView2"
+  android:layout_centerHorizontal="true"/>
+
+<TextView
+  android:text="@string/objective1_step1_description"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:textSize="15dp"
+  android:layout_alignParentTop="true"
+  android:layout_centerHorizontal="true"
+  android:layout_below="@+id/btn_obj1step1"
+  android:layout_marginTop="37dp"/>
+
+<Button
+  android:id="@+id/btn_start"
+  android:layout_width="100dp"
+  android:layout_height="50dp"
+  android:textAllCaps="false"
+  android:text="@string/start"
+  android:textSize="15dp"
+  android:layout_marginTop="70dp"
+  android:layout_alignParentTop="true"
+  android:layout_centerHorizontal="true"/>
+
+<Button
+  android:id="@+id/btn_stop"
+  android:layout_width="100dp"
+  android:layout_height="50dp"
+  android:textAllCaps="false"
+  android:text="@string/stop"
+  android:textSize="15dp"
+  android:layout_marginTop="80dp"
+  android:layout_alignParentTop="true"
+  android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

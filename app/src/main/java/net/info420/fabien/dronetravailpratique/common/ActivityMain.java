@@ -1,40 +1,33 @@
 package net.info420.fabien.dronetravailpratique.common;
 
 import android.Manifest;
-import android.animation.LayoutTransition;
-import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.Button;
+import android.widget.TextView;
 
 import net.info420.fabien.dronetravailpratique.R;
 
-import java.util.Stack;
-
 import dji.sdk.base.DJIBaseProduct;
-import dji.thirdparty.eventbus.EventBus;
+import dji.sdk.products.DJIAircraft;
 
-public class ActivityMain extends AppCompatActivity {
+public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJIVersionCallback {
 
   public static final String TAG = ActivityMain.class.getName();
 
-  private FrameLayout mContentFrameLayout;
+  private TextView mTextProduct;
+  private TextView mTextModelAvailable;
+  private TextView mTextConnectionStatus;
+  private Button mBtnOpen;
 
-  private ObjectAnimator mPushInAnimator;
-  private ObjectAnimator mPushOutAnimator;
-  private ObjectAnimator mPopInAnimator;
-  private LayoutTransition mPopOutTransition;
-
-  private Stack<SetViewWrapper> mStack;
+  private DJIBaseProduct mProduct;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -55,131 +48,85 @@ public class ActivityMain extends AppCompatActivity {
         , 1);
     }
 
+    initUI();
+
+  }
+
+  private void initUI() {
+    Log.d(TAG, "initUI()");
+
     setContentView(R.layout.activity_main);
 
-    mContentFrameLayout = (FrameLayout) findViewById(R.id.framelayout_content);
+    mTextModelAvailable = (TextView) findViewById(R.id.text_model_available);
+    mTextProduct = (TextView) findViewById(R.id.text_product_info);
+    mTextConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
+    mBtnOpen = (Button) findViewById(R.id.btn_open);
 
-    initParams();
-    EventBus.getDefault().register(this);
+    mBtnOpen.setEnabled(true);
 
-    IntentFilter filter = new IntentFilter();
-    filter.addAction(ApplicationDrone.FLAG_CONNECTION_CHANGE);
-    registerReceiver(mReceiver, filter);
+    mBtnOpen.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Log.d(TAG, "mBtnOpen : onClick()");
 
+        // On change d'application
+        startActivity(new Intent(getApplicationContext(), ActivityObjectives.class));
+      }
+    });
+  }
+
+  private void updateVersion() {
+    String version = null;
+    if(mProduct != null) {
+      version = mProduct.getFirmwarePackageVersion();
+    }
+
+    if(version == null) {
+      mTextModelAvailable.setText("N/A");
+    } else {
+      mTextModelAvailable.setText(version);
+    }
   }
 
   @Override
-  protected void onDestroy() {
-    EventBus.getDefault().unregister(this);
-    unregisterReceiver(mReceiver);
-    super.onDestroy();
+  public void onProductVersionChange(String oldVersion, String newVersion) {
+    updateVersion();
   }
 
-  private void initParams() {
-    mStack = new Stack<SetViewWrapper>();
-    View view = mContentFrameLayout.getChildAt(0);
-    mStack.push(new SetViewWrapper(view, R.string.activity_objectives));
-  }
 
-  private void pushView(SetViewWrapper wrapper) {
-    if (mStack.size() <= 0) return;
-
-    mContentFrameLayout.setLayoutTransition(null);
-
-    int titleId = wrapper.getTitleId();
-    View showView = wrapper.getView();
-
-    int preTitleId = mStack.peek().getTitleId();
-    View preView = mStack.peek().getView();
-
-    mStack.push(wrapper);
-
-    mContentFrameLayout.addView(showView);
-
-    mPushOutAnimator.setTarget(preView);
-    mPushOutAnimator.start();
-
-    mPushInAnimator.setTarget(showView);
-    mPushInAnimator.setFloatValues(mContentFrameLayout.getWidth(), 0);
-    mPushInAnimator.start();
-
-    refreshTitle();
-  }
-
+  // Revérifier
   protected BroadcastReceiver mReceiver = new BroadcastReceiver() {
-
     @Override
     public void onReceive(Context context, Intent intent) {
-      refreshTitle();
+      Log.d(TAG, "BroadcastReceiver : onReceive()");
+      refreshSDKRelativeUI();
     }
   };
 
-  private void refreshTitle() {
-    if(mStack.size() > 1) {
-      SetViewWrapper wrapper = mStack.peek();
-      setTitle(wrapper.getTitleId());
-    } else if(mStack.size() == 1) {
-      DJIBaseProduct product = ApplicationDrone.getProductInstance();
-      if(product != null && product.getModel() != null) {
-        setTitle(product.getModel().getDisplayName());
+
+  // Vérifie si le drone est connecté et active l'interface necéssaire
+  private void refreshSDKRelativeUI() {
+    mProduct = ApplicationDrone.getProductInstance();
+
+    Log.d(TAG, "mProduct: " + (mProduct == null? "null" : "unnull") );
+
+    if (null != mProduct && mProduct.isConnected()) {
+      mBtnOpen.setEnabled(true);
+
+      mTextConnectionStatus.setText("Statut : " + (mProduct instanceof DJIAircraft ? "Aéronef DJI" : "Engin DJI") + " connecté");
+      mProduct.setDJIVersionCallback(this);
+      updateVersion();
+
+      if (null != mProduct.getModel()) {
+        mTextProduct.setText(mProduct.getModel().getDisplayName());
       } else {
-        setTitle(R.string.app_name);
+        mTextProduct.setText(R.string.product_information);
       }
-    }
-  }
-
-  private void popView() {
-
-    if (mStack.size() <= 1) {
-      finish();
-      return;
-    }
-
-    SetViewWrapper removeWrapper = mStack.pop();
-
-    View showView = mStack.peek().getView();
-    View removeView = removeWrapper.getView();
-
-    int titleId = mStack.peek().getTitleId();
-    int preTitleId = 0;
-    if (mStack.size() > 1) {
-      preTitleId = mStack.get(mStack.size() - 2).getTitleId();
-    }
-
-    mContentFrameLayout.setLayoutTransition(mPopOutTransition);
-    mContentFrameLayout.removeView(removeView);
-
-    mPopInAnimator.setTarget(showView);
-    mPopInAnimator.start();
-
-    refreshTitle();
-
-  }
-
-  @Override
-  public void onBackPressed() {
-    if (mStack.size() > 1) {
-      popView();
     } else {
-      super.onBackPressed();
+      mBtnOpen.setEnabled(true);
+
+      mTextProduct.setText(R.string.product_information);
+      mTextConnectionStatus.setText(R.string.connection_loose);
     }
-  }
-
-  public void onEventMainThread(SetViewWrapper wrapper) {
-    pushView(wrapper);
-  }
-
-  public void onEventMainThread(SetViewWrapper.Remove wrapper) {
-
-    if (mStack.peek().getView() == wrapper.getView()) {
-      popView();
-    }
-
-  }
-
-  @Override
-  public void onConfigurationChanged(Configuration newConfig){
-    Log.d(TAG, "onConfigurationChanged()");
-    super.onConfigurationChanged(newConfig);
   }
 }
