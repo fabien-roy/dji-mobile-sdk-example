@@ -66,6 +66,20 @@ public class ApplicationDrone extends Application {
     return (DJIHandHeld) getProductInstance();
   }
 
+  public static boolean isProductModuleAvailable() {
+    return (null != getProductInstance());
+  }
+
+  public static boolean isAircraft() {
+    return getProductInstance() instanceof DJIAircraft;
+  }
+
+  public static boolean isFlightControllerAvailable() {
+    return isProductModuleAvailable() && isAircraft() &&
+      (null != getAircraftInstance().getFlightController());
+  }
+
+
   // Gestion du Mobile SDK, de l'authentification de la clé d'API
   private DJISDKManager.DJISDKManagerCallback mDJISDKManagerCallback = new DJISDKManager.DJISDKManagerCallback() {
 

@@ -30,7 +30,7 @@ public class ActivityObj1Step1 extends AppCompatActivity {
 
   @Override
   protected void onDestroy(){
-    stop();
+    land();
   }
 
   private void initUI(){
@@ -51,7 +51,7 @@ public class ActivityObj1Step1 extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         Log.d(TAG, "mBtnStop : onClick()");
-        stop();
+        land();
       }
     });
   }
@@ -68,7 +68,7 @@ public class ActivityObj1Step1 extends AppCompatActivity {
     );
   }
 
-  private void stop() {
+  private void land() {
     // LANDING
     ApplicationDrone.getAircraftInstance().getFlightController().autoLanding(
       new DJICommonCallbacks.DJICompletionCallback () {

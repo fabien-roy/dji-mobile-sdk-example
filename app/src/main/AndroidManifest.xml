@@ -88,7 +88,7 @@
     </activity>
     <activity
       android:name=".objectives.ActivityObj1Step1"
-      android:label="@string/title_activity_obj1_step1"
+      android:label="@string/activity_obj1_step1"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>

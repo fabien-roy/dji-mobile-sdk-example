@@ -11,33 +11,26 @@ android:paddingRight="@dimen/activity_horizontal_margin"
 android:paddingTop="@dimen/activity_vertical_margin"
 tools:context="net.info420.fabien.dronetravailpratique.common.ActivityObjectives">
 
-<TextView
-  android:text="@string/objective1_step1"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:layout_marginTop="14dp"
-  android:textSize="20dp"
-  android:layout_centerHorizontal="true"/>
-
-<TextView
-  android:text="@string/objective1_step1_description"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:textSize="15dp"
-  android:layout_alignParentTop="true"
-  android:layout_centerHorizontal="true"
-  android:layout_below="@+id/btn_obj1_step1"
-  android:layout_marginTop="37dp"/>
-
-<Button
+  <Button
   android:id="@+id/btn_obj1_step1"
-  android:layout_width="100dp"
+  android:layout_width="200dp"
   android:layout_height="50dp"
   android:textAllCaps="false"
-  android:text="@string/access"
+  android:text="@string/objective1_step1"
   android:textSize="15dp"
-  android:layout_marginTop="70dp"
   android:layout_alignParentTop="true"
-  android:layout_centerHorizontal="true"/>
+  android:layout_alignLeft="@+id/btn_obj1_step2"
+  android:layout_alignStart="@+id/btn_obj1_step2"/>
+
+  <Button
+    android:id="@+id/btn_obj1_step2"
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:textAllCaps="false"
+    android:text="@string/objective1_step2"
+    android:textSize="15dp"
+    android:layout_marginTop="28dp"
+    android:layout_below="@+id/btn_obj1_step1"
+    android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
