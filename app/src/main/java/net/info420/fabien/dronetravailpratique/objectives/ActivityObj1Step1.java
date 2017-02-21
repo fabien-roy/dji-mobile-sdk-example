@@ -62,7 +62,8 @@ public class ActivityObj1Step1 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          Log.e(TAG, "Takeoff error : " + djiError.getDescription());
+          // Log.e(TAG, "Takeoff error : " + djiError.getDescription());
+          // Toast.makeText(ActivityObj1Step1.this, "Takeoff error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
         }
       }
     );
@@ -74,7 +75,8 @@ public class ActivityObj1Step1 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          Log.e(TAG, "landing error : " + djiError.getDescription());
+          // Log.e(TAG, "Landing error : " + djiError.getDescription());
+          // Toast.makeText(ActivityObj1Step1.this, "Landing error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
         }
       }
     );

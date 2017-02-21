@@ -28,6 +28,8 @@
 
   <string name="go_forward">Avancer</string>
   <string name="go_back">Reculer</string>
+  <string name="go_left">Aller à gauche</string>
+  <string name="go_right">Aller à droite</string>
   <string name="turn_left">Tourner à gauche</string>
   <string name="turn_right">Tourner à droite</string>
 </resources>

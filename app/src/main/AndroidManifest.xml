@@ -35,7 +35,8 @@
     android:allowBackup="true"
     android:label="ROYF_Drone"
     android:supportsRtl="true"
-    android:theme="@style/AppTheme">
+    android:theme="@style/AppTheme"
+    android:icon="@mipmap/ic_launcher">
 
     <!-- ADD API_KEY HERE and make sure you are connected to the Internet before the app is launched -->
     <meta-data
@@ -89,6 +90,11 @@
     <activity
       android:name=".objectives.ActivityObj1Step1"
       android:label="@string/activity_obj1_step1"
+      android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+    <activity
+      android:name=".objectives.ActivityObj1Step2"
+      android:label="@string/activity_obj1_step2"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>

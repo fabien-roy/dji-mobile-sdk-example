@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import net.info420.fabien.dronetravailpratique.R;
 
+import dji.common.error.DJIError;
+import dji.common.util.DJICommonCallbacks;
 import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.products.DJIAircraft;
 
@@ -29,6 +31,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
   private Button mBtnRefresh;
 
   private DJIBaseProduct mProduct;
+  private DJIAircraft mAircraft;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -114,14 +117,53 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
     }
   };
 
+  // Ajuste les limitations de vol
+  protected boolean setFlightLimitation() {
+
+    boolean isSafe = true;
+
+    mAircraft = ApplicationDrone.getAircraftInstance();
+
+    // Altitude max : 3 mètres
+    mAircraft.getFlightController().getFlightLimitation().setMaxFlightHeight(3, new DJICommonCallbacks.DJICompletionCallback () {
+        @Override
+        public void onResult(DJIError djiError) {
+          // Log.e(TAG, "Limitation error : " + djiError.getDescription());
+          // Toast.makeText(ActivityMain.this, "Limitation error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
+
+          // isSafe = false;
+        }
+      });
+
+    // Altiture de retour à la maison : 3 mètres
+    mAircraft.getFlightController().setGoHomeAltitude(3, new DJICommonCallbacks.DJICompletionCallback () {
+      @Override
+      public void onResult(DJIError djiError) {
+        // Log.e(TAG, "Limitation error : " + djiError.getDescription());
+        // Toast.makeText(ActivityMain.this, "Limitation error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
+
+        // isSafe = false;
+      }
+    });
+
+    // TODO : Inclinaise maximale : 5°
+
+    // TODO : Vitesse de déplacement maximale : 5 km/h
+
+    return isSafe;
+  }
+
 
   // Vérifie si le drone est connecté et active l'interface necéssaire
   private void refreshSDKRelativeUI() {
+
+    boolean isSafe = setFlightLimitation();
+
     mProduct = ApplicationDrone.getProductInstance();
 
     Log.d(TAG, "mProduct: " + (mProduct == null? "null" : "unnull") );
 
-    if (null != mProduct && mProduct.isConnected()) {
+    if (null != mProduct && mProduct.isConnected() && isSafe) {
       mBtnOpen.setEnabled(true);
 
       mTextConnectionStatus.setText("Statut : " + (mProduct instanceof DJIAircraft ? "Aéronef DJI" : "Engin DJI") + " connecté");
@@ -133,6 +175,8 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
       } else {
         mTextProduct.setText(R.string.product_information);
       }
+
+      ApplicationDrone.getAircraftInstance().getFlightController();
     } else {
       mBtnOpen.setEnabled(false);
 

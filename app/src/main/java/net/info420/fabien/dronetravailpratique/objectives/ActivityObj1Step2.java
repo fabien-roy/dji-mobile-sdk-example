@@ -9,6 +9,9 @@ import android.widget.Button;
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import dji.common.error.DJIError;
 import dji.common.flightcontroller.DJIVirtualStickFlightControlData;
 import dji.common.util.DJICommonCallbacks;
@@ -24,10 +27,20 @@ public class ActivityObj1Step2 extends AppCompatActivity {
 
   private Button mBtnStart;
   private Button mBtnStop;
-  private Button mBtnForward;
-  private Button mBtnBack;
+  private Button mBtnGoForward;
+  private Button mBtnGoBack;
+  private Button mBtnGoLeft;
+  private Button mBtnGoRight;
   private Button mBtnTurnRight;
   private Button mBtnTurnLeft;
+
+  private Timer mSendVirtualStickDataTimer;
+  private SendVirtualStickDataTask mSendVirtualStickDataTask;
+
+  private float mPitch;
+  private float mRoll;
+  private float mYaw;
+  private float mThrottle;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +52,28 @@ public class ActivityObj1Step2 extends AppCompatActivity {
   }
 
   @Override
-  protected void onDestroy(){
+  protected void onDestroy() {
+
+    if (null != mSendVirtualStickDataTimer) {
+      mSendVirtualStickDataTask.cancel();
+      mSendVirtualStickDataTask = null;
+      mSendVirtualStickDataTimer.cancel();
+      mSendVirtualStickDataTimer.purge();
+      mSendVirtualStickDataTimer = null;
+    }
+
     land();
   }
 
   private void initUI(){
-    setContentView(R.layout.activity_obj1_step1);
+    setContentView(R.layout.activity_obj1_step2);
 
     mBtnStart = (Button) findViewById(R.id.btn_obj1_step2_start);
     mBtnStop = (Button) findViewById(R.id.btn_obj1_step2_stop);
-    mBtnForward = (Button) findViewById(R.id.btn_obj1_step2_go_forward);
-    mBtnBack = (Button) findViewById(R.id.btn_obj1_step2_go_back);
+    mBtnGoForward = (Button) findViewById(R.id.btn_obj1_step2_go_forward);
+    mBtnGoBack = (Button) findViewById(R.id.btn_obj1_step2_go_back);
+    mBtnGoLeft = (Button) findViewById(R.id.btn_obj1_step2_go_left);
+    mBtnGoRight = (Button) findViewById(R.id.btn_obj1_step2_go_right);
     mBtnTurnRight = (Button) findViewById(R.id.btn_obj1_step2_turn_right);
     mBtnTurnLeft = (Button) findViewById(R.id.btn_obj1_step2_turn_left);
 
@@ -69,19 +93,35 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       }
     });
 
-    mBtnForward.setOnClickListener(new View.OnClickListener() {
+    mBtnGoForward.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnForward : onClick()");
-        goForward();
+        Log.d(TAG, "mBtnGoForward : onClick()");
+        move(goForward());
       }
     });
 
-    mBtnBack.setOnClickListener(new View.OnClickListener() {
+    mBtnGoBack.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnBack : onClick()");
-        goBack();
+        Log.d(TAG, "mBtnGoBack : onClick()");
+        move(goBack());
+      }
+    });
+
+    mBtnGoLeft.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Log.d(TAG, "mBtnGoLeft : onClick()");
+        move(goLeft());
+      }
+    });
+
+    mBtnGoRight.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Log.d(TAG, "mBtnGoRight : onClick()");
+        move(goRight());
       }
     });
 
@@ -89,7 +129,7 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         Log.d(TAG, "mBtnTurnLeft : onClick()");
-        turnLeft();
+        move(turnLeft());
       }
     });
 
@@ -97,10 +137,25 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         Log.d(TAG, "mBtnTurnRight : onClick()");
-        turnRight();
+        move(turnRight());
       }
     });
   }
+
+  //                                                p    r    y    t
+
+  private float[] goForward() { float[] array = { -35,   0,   0,   0}; return array; }
+
+  private float[] goBack()    { float[] array = {  35,   0,   0,   0}; return array; }
+
+  private float[] goLeft()    { float[] array = {   0,  35,   0,   0}; return array; }
+
+  private float[] goRight()   { float[] array = {   0, -35,   0,   0}; return array; }
+
+  private float[] turnLeft()  { float[] array = {   0,   0,  35,   0}; return array; }
+
+  private float[] turnRight() { float[] array = {   0,   0, -35,   0}; return array; }
+
 
   private void start() {
     // TAKE OFF
@@ -108,7 +163,8 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          Log.e(TAG, "Takeoff error : " + djiError.getDescription());
+          // Log.e(TAG, "Takeoff error : " + djiError.getDescription());
+          // Toast.makeText(ActivityObj1Step2.this, "Takeoff error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
         }
       }
     );
@@ -117,80 +173,47 @@ public class ActivityObj1Step2 extends AppCompatActivity {
   private void land() {
     // LANDING
     ApplicationDrone.getAircraftInstance().getFlightController().autoLanding(
-      new DJICommonCallbacks.DJICompletionCallback () {
+      new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          Log.e(TAG, "landing error : " + djiError.getDescription());
+          // Log.e(TAG, "Landing error : " + djiError.getDescription());
+          // Toast.makeText(ActivityObj1Step2.this, "Landing error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
         }
       }
     );
   }
 
-  private void goForward() {
+  private void move(float[] pitchRollYawThrottle) {
+    mPitch = pitchRollYawThrottle[0];
+    mRoll = pitchRollYawThrottle[1];
+    mYaw = pitchRollYawThrottle[2];
+    mThrottle = pitchRollYawThrottle[3];
 
-    if (ApplicationDrone.isFlightControllerAvailable()) {
-      ApplicationDrone.getAircraftInstance().
-        getFlightController().sendVirtualStickFlightControlData(
-        new DJIVirtualStickFlightControlData(
-          1, 0, 0, 1 // pitch roll yaw throttle
-        ), new DJICompletionCallback() {
-          @Override
-          public void onResult(DJIError djiError) {
-
-          }
-        }
-      );
+    if (null == mSendVirtualStickDataTimer) {
+      mSendVirtualStickDataTask = new SendVirtualStickDataTask();
+      mSendVirtualStickDataTimer = new Timer();
+      mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 200);
     }
   }
 
-  private void goBack() {
+  class SendVirtualStickDataTask extends TimerTask {
 
-    if (ApplicationDrone.isFlightControllerAvailable()) {
-      ApplicationDrone.getAircraftInstance().
-        getFlightController().sendVirtualStickFlightControlData(
-        new DJIVirtualStickFlightControlData(
-          -1, 0, 0, 1 // pitch roll yaw throttle
-        ), new DJICompletionCallback() {
-          @Override
-          public void onResult(DJIError djiError) {
-
+    @Override
+    public void run() {
+      if (ApplicationDrone.isFlightControllerAvailable()) {
+        ApplicationDrone.getAircraftInstance().
+          getFlightController().sendVirtualStickFlightControlData(
+          new DJIVirtualStickFlightControlData(
+            mPitch, mRoll, mYaw, mThrottle
+          ), new DJICompletionCallback() {
+            @Override
+            public void onResult(DJIError djiError) {
+              // Log.e(TAG, "Move error : " + djiError.getDescription());
+              // Toast.makeText(ActivityObj1Step2.this, "Move error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
+            }
           }
-        }
-      );
-    }
-  }
-
-  private void turnLeft() {
-
-    if (ApplicationDrone.isFlightControllerAvailable()) {
-      ApplicationDrone.getAircraftInstance().
-        getFlightController().sendVirtualStickFlightControlData(
-        new DJIVirtualStickFlightControlData(
-          0, 0, -1, 0 // pitch roll yaw throttle
-        ), new DJICompletionCallback() {
-          @Override
-          public void onResult(DJIError djiError) {
-
-          }
-        }
-      );
-    }
-  }
-
-  private void turnRight() {
-
-    if (ApplicationDrone.isFlightControllerAvailable()) {
-      ApplicationDrone.getAircraftInstance().
-        getFlightController().sendVirtualStickFlightControlData(
-        new DJIVirtualStickFlightControlData(
-          0, 0, 1, 0 // pitch roll yaw throttle
-        ), new DJICompletionCallback() {
-          @Override
-          public void onResult(DJIError djiError) {
-
-          }
-        }
-      );
+        );
+      }
     }
   }
 }
