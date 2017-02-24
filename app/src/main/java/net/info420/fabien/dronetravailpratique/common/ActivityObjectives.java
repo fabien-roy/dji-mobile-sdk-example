@@ -40,7 +40,6 @@ public class ActivityObjectives extends Activity {
     mBtnObj1Step1.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnObj1Step1 : onClick()");
         startActivity(new Intent(getApplicationContext(), ActivityObj1Step1.class));
       }
     });
@@ -48,7 +47,6 @@ public class ActivityObjectives extends Activity {
     mBtnObj1Step2.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnObj1Step2 : onClick()");
         startActivity(new Intent(getApplicationContext(), ActivityObj1Step2.class));
       }
     });

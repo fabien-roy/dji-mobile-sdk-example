@@ -14,6 +14,7 @@ import java.util.TimerTask;
 
 import dji.common.error.DJIError;
 import dji.common.flightcontroller.DJIVirtualStickFlightControlData;
+import dji.common.flightcontroller.DJIVirtualStickRollPitchControlMode;
 import dji.common.util.DJICommonCallbacks;
 import dji.common.util.DJICommonCallbacks.DJICompletionCallback;
 
@@ -34,8 +35,8 @@ public class ActivityObj1Step2 extends AppCompatActivity {
   private Button mBtnTurnRight;
   private Button mBtnTurnLeft;
 
-  private Timer mSendVirtualStickDataTimer;
-  private SendVirtualStickDataTask mSendVirtualStickDataTask;
+  private Timer movementTimer;
+  private MovementTimerTask movementTimerTask;
 
   private float mPitch;
   private float mRoll;
@@ -49,20 +50,50 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     Log.d(TAG, "onCreate()");
 
     initUI();
+
+    // Activation du mode de contrôle par Virtual Stick
+    ApplicationDrone.getAircraftInstance().getFlightController().enableVirtualStickControlMode(
+      new DJICompletionCallback() {
+        @Override
+        public void onResult(DJIError djiError) {
+          if (djiError != null) {
+            Log.e(TAG, "Erreur d'activation du mode de contrôle par Virtual Stick : " + djiError.getDescription());
+          }
+        }
+      }
+    );
+
+    // Mise en place du mode de vélocité pour le roll et le pitch
+    ApplicationDrone.getAircraftInstance().getFlightController().
+      setRollPitchControlMode(
+        DJIVirtualStickRollPitchControlMode.Velocity
+      );
   }
 
   @Override
   protected void onDestroy() {
 
-    if (null != mSendVirtualStickDataTimer) {
-      mSendVirtualStickDataTask.cancel();
-      mSendVirtualStickDataTask = null;
-      mSendVirtualStickDataTimer.cancel();
-      mSendVirtualStickDataTimer.purge();
-      mSendVirtualStickDataTimer = null;
+    if (null != movementTimer) {
+      movementTimerTask.cancel();
+      movementTimerTask = null;
+      movementTimer.cancel();
+      movementTimer.purge();
+      movementTimer = null;
     }
 
     land();
+
+    // Désactivation du mode de controle par Virtual Stick
+    ApplicationDrone.getAircraftInstance().getFlightController().disableVirtualStickControlMode(
+      new DJICompletionCallback() {
+        @Override
+        public void onResult(DJIError djiError) {
+          if (djiError != null) {
+            Log.e(TAG, "Erreur de désactivation du mode de contrôle par Virtual Stick : " + djiError.getDescription());
+          }
+        }
+      }
+    );
   }
 
   private void initUI(){
@@ -183,27 +214,29 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mYaw = pitchRollYawThrottle[2];
     mThrottle = pitchRollYawThrottle[3];
 
-    if (null == mSendVirtualStickDataTimer) {
-      mSendVirtualStickDataTask = new SendVirtualStickDataTask();
-      mSendVirtualStickDataTimer = new Timer();
-      mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 200);
+    if (null == movementTimer) {
+      movementTimerTask = new MovementTimerTask();
+      movementTimer = new Timer();
+      movementTimer.schedule(movementTimerTask, 0, 200);
     }
   }
 
-  class SendVirtualStickDataTask extends TimerTask {
+  class MovementTimerTask extends TimerTask {
 
     @Override
     public void run() {
+
+      // On vérifie si le flightController est O.K.
       if (ApplicationDrone.isFlightControllerAvailable()) {
-        ApplicationDrone.getAircraftInstance().
-          getFlightController().sendVirtualStickFlightControlData(
+
+        ApplicationDrone.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
           new DJIVirtualStickFlightControlData(
             mPitch, mRoll, mYaw, mThrottle
           ), new DJICompletionCallback() {
             @Override
             public void onResult(DJIError djiError) {
               if (djiError != null) {
-                Log.e(TAG, "Erreur de mouvement : " + djiError.getDescription());
+                Log.e(TAG, String.format("Erreur de mouvement avec pitch s% roll %s yaw %s throttle %s : ", mPitch, mRoll, mYaw, mThrottle) + djiError.getDescription());
               }
             }
           }
