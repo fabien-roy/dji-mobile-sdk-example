@@ -25,6 +25,11 @@ public class ApplicationDrone extends Application {
 
   public static final String FLAG_CONNECTION_CHANGE = "net_info420_fabien_dronetravailpratique_connection_change";
 
+  public static final int MAX_FLIGHT_HEIGHT = 3;     // 3 mètres du sol
+  public static final int MAX_GO_HOME_ALTITURE = 3;  // 3 mètres du sol
+  public static final int MAX_ANGLE = 5;             // 5°
+  public static final int MAX_SPEED = 5;             // 5 km/h
+
   private static DJIBaseProduct mProduct;
 
   private Handler mHandler;

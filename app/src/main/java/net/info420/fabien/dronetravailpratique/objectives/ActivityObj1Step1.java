@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
@@ -42,7 +43,6 @@ public class ActivityObj1Step1 extends AppCompatActivity {
     mBtnStart.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnStart : onClick()");
         start();
       }
     });
@@ -50,7 +50,6 @@ public class ActivityObj1Step1 extends AppCompatActivity {
     mBtnStop.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnStop : onClick()");
         land();
       }
     });
@@ -62,8 +61,8 @@ public class ActivityObj1Step1 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          // Log.e(TAG, "Takeoff error : " + djiError.getDescription());
-          // Toast.makeText(ActivityObj1Step1.this, "Takeoff error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
+          Log.e(TAG, "Erreur de décollage : " + djiError.getDescription().toString());
+          Toast.makeText(ActivityObj1Step1.this, "Erreur de décollage : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
         }
       }
     );
@@ -72,11 +71,11 @@ public class ActivityObj1Step1 extends AppCompatActivity {
   private void land() {
     // LANDING
     ApplicationDrone.getAircraftInstance().getFlightController().autoLanding(
-      new DJICommonCallbacks.DJICompletionCallback () {
+      new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          // Log.e(TAG, "Landing error : " + djiError.getDescription());
-          // Toast.makeText(ActivityObj1Step1.this, "Landing error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
+          Log.e(TAG, "Erreur d'atterissage : " + djiError.getDescription().toString());
+          Toast.makeText(ActivityObj1Step1.this, "Erreur d'atterrissage : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
         }
       }
     );

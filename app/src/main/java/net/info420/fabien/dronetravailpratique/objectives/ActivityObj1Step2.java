@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
@@ -80,7 +81,6 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mBtnStart.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnStart : onClick()");
         start();
       }
     });
@@ -88,7 +88,6 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mBtnStop.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnStop : onClick()");
         land();
       }
     });
@@ -96,7 +95,6 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mBtnGoForward.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnGoForward : onClick()");
         move(goForward());
       }
     });
@@ -104,7 +102,6 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mBtnGoBack.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnGoBack : onClick()");
         move(goBack());
       }
     });
@@ -112,7 +109,6 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mBtnGoLeft.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnGoLeft : onClick()");
         move(goLeft());
       }
     });
@@ -120,7 +116,6 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mBtnGoRight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnGoRight : onClick()");
         move(goRight());
       }
     });
@@ -128,7 +123,6 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mBtnTurnLeft.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnTurnLeft : onClick()");
         move(turnLeft());
       }
     });
@@ -136,7 +130,6 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mBtnTurnRight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "mBtnTurnRight : onClick()");
         move(turnRight());
       }
     });
@@ -163,8 +156,8 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          // Log.e(TAG, "Takeoff error : " + djiError.getDescription());
-          // Toast.makeText(ActivityObj1Step2.this, "Takeoff error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
+          Log.e(TAG, "Erreur de décollage : " + djiError.getDescription().toString());
+          Toast.makeText(ActivityObj1Step2.this, "Erreur de décollage : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
         }
       }
     );
@@ -176,8 +169,8 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          // Log.e(TAG, "Landing error : " + djiError.getDescription());
-          // Toast.makeText(ActivityObj1Step2.this, "Landing error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
+          Log.e(TAG, "Erreur d'atterissage : " + djiError.getDescription().toString());
+          Toast.makeText(ActivityObj1Step2.this, "Erreur d'atterrissage : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
         }
       }
     );
@@ -208,8 +201,8 @@ public class ActivityObj1Step2 extends AppCompatActivity {
           ), new DJICompletionCallback() {
             @Override
             public void onResult(DJIError djiError) {
-              // Log.e(TAG, "Move error : " + djiError.getDescription());
-              // Toast.makeText(ActivityObj1Step2.this, "Move error : " + djiError.getDescription(), Toast.LENGTH_LONG).show();
+              Log.e(TAG, "Move error : " + djiError.getDescription().toString());
+              Toast.makeText(ActivityObj1Step2.this, "Move error : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
             }
           }
         );
