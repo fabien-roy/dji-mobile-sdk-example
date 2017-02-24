@@ -25,10 +25,10 @@ public class ApplicationDrone extends Application {
 
   public static final String FLAG_CONNECTION_CHANGE = "net_info420_fabien_dronetravailpratique_connection_change";
 
-  public static final int MAX_FLIGHT_HEIGHT = 3;     // 3 mètres du sol
-  public static final int MAX_GO_HOME_ALTITURE = 3;  // 3 mètres du sol
-  public static final int MAX_ANGLE = 5;             // 5°
-  public static final int MAX_SPEED = 5;             // 5 km/h
+  public static final int MAX_FLIGHT_HEIGHT = 20;     // 20 mètres du sol (3 mètres = impossible)
+  public static final int MAX_GO_HOME_ALTITURE = 20;  // 20 mètres du sol (3 mètres = impossible)
+  public static final int MAX_ANGLE = 5;              // 5°
+  public static final int MAX_SPEED = 5;              // 5 km/h
 
   private static DJIBaseProduct mProduct;
 
@@ -130,7 +130,7 @@ public class ApplicationDrone extends Application {
       @Override
       public void onProductConnectivityChanged(boolean isConnected) {
 
-        Log.d(TAG, "onProductConnectivityChanged: " + isConnected);
+        Log.d(TAG, "onProductConnectivityChanged : " + isConnected);
 
         notifyStatusChange();
       }
@@ -141,7 +141,7 @@ public class ApplicationDrone extends Application {
 
       @Override
       public void onComponentConnectivityChanged(boolean isConnected) {
-        Log.d(TAG, "onComponentConnectivityChanged: " + isConnected);
+        Log.d(TAG, "onComponentConnectivityChanged : " + isConnected);
         notifyStatusChange();
       }
 
