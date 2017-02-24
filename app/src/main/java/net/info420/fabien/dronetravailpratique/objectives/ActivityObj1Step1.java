@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
@@ -61,8 +60,9 @@ public class ActivityObj1Step1 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          Log.e(TAG, "Erreur de décollage : " + djiError.getDescription().toString());
-          Toast.makeText(ActivityObj1Step1.this, "Erreur de décollage : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
+          if (djiError != null) {
+            Log.e(TAG, "Erreur de décollage : " + djiError.getDescription());
+          }
         }
       }
     );
@@ -74,8 +74,9 @@ public class ActivityObj1Step1 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          Log.e(TAG, "Erreur d'atterissage : " + djiError.getDescription().toString());
-          Toast.makeText(ActivityObj1Step1.this, "Erreur d'atterrissage : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
+          if (djiError != null) {
+            Log.e(TAG, "Erreur d'atterissage : " + djiError.getDescription());
+          }
         }
       }
     );

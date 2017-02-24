@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
@@ -137,13 +136,13 @@ public class ActivityObj1Step2 extends AppCompatActivity {
 
   //                                                p    r    y    t
 
-  private float[] goForward() { float[] array = { -35,   0,   0,   0}; return array; }
+  private float[] goForward() { float[] array = { -10,   0,   0,   0}; return array; }
 
-  private float[] goBack()    { float[] array = {  35,   0,   0,   0}; return array; }
+  private float[] goBack()    { float[] array = {  10,   0,   0,   0}; return array; }
 
-  private float[] goLeft()    { float[] array = {   0,  35,   0,   0}; return array; }
+  private float[] goLeft()    { float[] array = {   0,  10,   0,   0}; return array; }
 
-  private float[] goRight()   { float[] array = {   0, -35,   0,   0}; return array; }
+  private float[] goRight()   { float[] array = {   0, -10,   0,   0}; return array; }
 
   private float[] turnLeft()  { float[] array = {   0,   0,  35,   0}; return array; }
 
@@ -156,8 +155,9 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          Log.e(TAG, "Erreur de décollage : " + djiError.getDescription().toString());
-          Toast.makeText(ActivityObj1Step2.this, "Erreur de décollage : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
+          if (djiError != null) {
+            Log.e(TAG, "Erreur de décollage : " + djiError.getDescription());
+          }
         }
       }
     );
@@ -169,8 +169,9 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          Log.e(TAG, "Erreur d'atterissage : " + djiError.getDescription().toString());
-          Toast.makeText(ActivityObj1Step2.this, "Erreur d'atterrissage : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
+          if (djiError != null) {
+            Log.e(TAG, "Erreur d'atterissage : " + djiError.getDescription());
+          }
         }
       }
     );
@@ -201,8 +202,9 @@ public class ActivityObj1Step2 extends AppCompatActivity {
           ), new DJICompletionCallback() {
             @Override
             public void onResult(DJIError djiError) {
-              Log.e(TAG, "Move error : " + djiError.getDescription().toString());
-              Toast.makeText(ActivityObj1Step2.this, "Move error : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
+              if (djiError != null) {
+                Log.e(TAG, "Erreur de mouvement : " + djiError.getDescription());
+              }
             }
           }
         );

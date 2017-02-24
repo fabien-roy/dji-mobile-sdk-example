@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.info420.fabien.dronetravailpratique.R;
 
@@ -125,8 +124,9 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
     mAircraft.getFlightController().getFlightLimitation().setMaxFlightHeight(ApplicationDrone.MAX_FLIGHT_HEIGHT, new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          Log.e(TAG, "Erreur de limitation : " + djiError.getDescription().toString());
-          Toast.makeText(ActivityMain.this, "Erreur de limitation : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
+          if (djiError != null) {
+            Log.e(TAG, "Erreur de limitation : " + djiError.getDescription());
+          }
 
           // TODO : isSafe ne marche pas
           // isSafe = false;
@@ -137,8 +137,9 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
     mAircraft.getFlightController().setGoHomeAltitude(ApplicationDrone.MAX_GO_HOME_ALTITURE, new DJICommonCallbacks.DJICompletionCallback () {
       @Override
       public void onResult(DJIError djiError) {
-        Log.e(TAG, "Erreur de limitation : " + djiError.getDescription().toString());
-        Toast.makeText(ActivityMain.this, "Erreur de limitation : " + djiError.getDescription().toString(), Toast.LENGTH_LONG).show();
+        if (djiError != null) {
+          Log.e(TAG, "Erreur de limitation : " + djiError.getDescription());
+        }
 
         // isSafe = false;
       }
