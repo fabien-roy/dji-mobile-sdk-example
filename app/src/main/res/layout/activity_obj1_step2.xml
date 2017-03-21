@@ -29,24 +29,13 @@
     android:layout_marginTop="37dp"/>
 
   <Button
-    android:id="@+id/btn_obj1_step2_start"
+    android:id="@+id/btn_obj1_step2_start_motors"
     android:layout_width="100dp"
     android:layout_height="50dp"
     android:textAllCaps="false"
-    android:text="@string/take_off"
+    android:text="@string/start_motors"
     android:textSize="15dp"
     android:layout_marginTop="70dp"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"/>
-
-  <Button
-    android:id="@+id/btn_obj1_step2_stop"
-    android:layout_width="100dp"
-    android:layout_height="50dp"
-    android:textAllCaps="false"
-    android:text="@string/landing"
-    android:textSize="15dp"
-    android:layout_marginTop="120dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
 

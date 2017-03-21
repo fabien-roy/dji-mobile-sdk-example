@@ -38,7 +38,7 @@
     android:theme="@style/AppTheme"
     android:icon="@mipmap/ic_launcher">
 
-    <!-- ADD API_KEY HERE and make sure you are connected to the Internet before the app is launched -->
+    <!-- Clé d'API pour le Mobile SDK -->
     <meta-data
       android:name="com.dji.sdk.API_KEY"
       android:value="71b603e51c920379c5a9a850"/>
