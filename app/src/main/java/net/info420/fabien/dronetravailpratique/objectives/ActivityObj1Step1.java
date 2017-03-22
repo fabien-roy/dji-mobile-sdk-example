@@ -9,9 +9,6 @@ import android.widget.Button;
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
 
-import dji.common.error.DJIError;
-import dji.common.util.DJICommonCallbacks;
-
 public class ActivityObj1Step1 extends AppCompatActivity {
 
   public static final String TAG = ActivityObj1Step1.class.getName();
@@ -30,7 +27,7 @@ public class ActivityObj1Step1 extends AppCompatActivity {
 
   @Override
   protected void onDestroy(){
-    land();
+    ApplicationDrone.getDroneMover().land();
   }
 
   private void initUI(){
@@ -42,43 +39,15 @@ public class ActivityObj1Step1 extends AppCompatActivity {
     mBtnStart.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        start();
+        ApplicationDrone.getDroneMover().takeOff();
       }
     });
 
     mBtnStop.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        land();
+        ApplicationDrone.getDroneMover().land();
       }
     });
-  }
-
-  private void start() {
-    // TAKE OFF
-    ApplicationDrone.getAircraftInstance().getFlightController().takeOff(
-      new DJICommonCallbacks.DJICompletionCallback () {
-        @Override
-        public void onResult(DJIError djiError) {
-          if (djiError != null) {
-            Log.e(TAG, "Erreur de décollage : " + djiError.getDescription());
-          }
-        }
-      }
-    );
-  }
-
-  private void land() {
-    // LANDING
-    ApplicationDrone.getAircraftInstance().getFlightController().autoLanding(
-      new DJICommonCallbacks.DJICompletionCallback() {
-        @Override
-        public void onResult(DJIError djiError) {
-          if (djiError != null) {
-            Log.e(TAG, "Erreur d'atterissage : " + djiError.getDescription());
-          }
-        }
-      }
-    );
   }
 }

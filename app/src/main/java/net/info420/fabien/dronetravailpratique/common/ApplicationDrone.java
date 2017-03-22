@@ -7,12 +7,13 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import net.info420.fabien.dronetravailpratique.utils.DroneMover;
+
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
 import dji.sdk.base.DJIBaseComponent;
 import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.products.DJIAircraft;
-import dji.sdk.products.DJIHandHeld;
 import dji.sdk.sdkmanager.DJISDKManager;
 
 /**
@@ -34,11 +35,15 @@ public class ApplicationDrone extends Application {
 
   private Handler mHandler;
 
+  public static DroneMover droneMover;
+
   @Override
   public void onCreate() {
     super.onCreate();
 
     mHandler = new Handler(Looper.getMainLooper());
+
+    droneMover = new DroneMover();
 
     // Identification de la clé d'API du SDK
     Log.d(TAG, "onCreate(), initSDKManager...");
@@ -53,22 +58,21 @@ public class ApplicationDrone extends Application {
     return mProduct;
   }
 
-  public static boolean isAircraftConnected() {
-    return getProductInstance() != null && getProductInstance() instanceof DJIAircraft;
+  // Méthode pour avoir l'instance de droneMover (Singleton)
+  public static synchronized DroneMover getDroneMover() {
+    if (null == droneMover) {
+      droneMover = new DroneMover();
+    }
+    return droneMover;
   }
 
-  public static boolean isHandHeldConnected() {
-    return getProductInstance() != null && getProductInstance() instanceof DJIHandHeld;
+  public static boolean isAircraftConnected() {
+    return getProductInstance() != null && getProductInstance() instanceof DJIAircraft;
   }
 
   public static synchronized DJIAircraft getAircraftInstance() {
     if (!isAircraftConnected()) return null;
     return (DJIAircraft) getProductInstance();
-  }
-
-  public static synchronized DJIHandHeld getHandHeldInstance() {
-    if (!isHandHeldConnected()) return null;
-    return (DJIHandHeld) getProductInstance();
   }
 
   public static boolean isProductModuleAvailable() {
