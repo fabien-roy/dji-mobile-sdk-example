@@ -62,12 +62,12 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     setContentView(R.layout.activity_obj1_step2);
 
     mBtnStartMotors = (Button) findViewById(R.id.btn_obj1_step2_start_motors);
-    mBtnGoForward = (Button) findViewById(R.id.btn_obj1_step2_go_forward);
-    mBtnGoBack = (Button) findViewById(R.id.btn_obj1_step2_go_back);
-    mBtnGoLeft = (Button) findViewById(R.id.btn_obj1_step2_go_left);
-    mBtnGoRight = (Button) findViewById(R.id.btn_obj1_step2_go_right);
-    mBtnTurnRight = (Button) findViewById(R.id.btn_obj1_step2_turn_right);
-    mBtnTurnLeft = (Button) findViewById(R.id.btn_obj1_step2_turn_left);
+    mBtnGoForward   = (Button) findViewById(R.id.btn_obj1_step2_go_forward);
+    mBtnGoBack      = (Button) findViewById(R.id.btn_obj1_step2_go_back);
+    mBtnGoLeft      = (Button) findViewById(R.id.btn_obj1_step2_go_left);
+    mBtnGoRight     = (Button) findViewById(R.id.btn_obj1_step2_go_right);
+    mBtnTurnRight   = (Button) findViewById(R.id.btn_obj1_step2_turn_right);
+    mBtnTurnLeft    = (Button) findViewById(R.id.btn_obj1_step2_turn_left);
 
     mBtnStartMotors.setOnClickListener(new View.OnClickListener() {
       @Override

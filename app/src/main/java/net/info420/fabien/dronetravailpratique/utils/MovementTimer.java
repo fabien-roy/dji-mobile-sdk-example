@@ -35,12 +35,6 @@ class MovementTimer extends CountDownTimer {
   public void onTick(long l) {
     Log.d(TAG, "onTick()");
     if (ApplicationDrone.isFlightControllerAvailable()) {
-      Log.d(TAG, "flightController is available");
-
-      if (mPitch == 0) {
-        Log.d(TAG, "WHAT THE FUCK mPitch est 0!");
-      }
-
       Log.d(TAG, String.format("Tentative de mouvement avec pitch %s roll %s yaw %s throttle %s", mPitch, mRoll, mYaw, mThrottle));
 
       ApplicationDrone.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
@@ -49,12 +43,9 @@ class MovementTimer extends CountDownTimer {
         ), new DJICommonCallbacks.DJICompletionCallback() {
           @Override
           public void onResult(DJIError djiError) {
-            Log.d(TAG, "callback");
             if (djiError != null) {
-              Log.e(TAG, "Erreur.");
               Log.d(TAG, String.format("Erreur de mouvement avec pitch %s roll %s yaw %s throttle %s : %s", mPitch, mRoll, mYaw, mThrottle, djiError.getDescription()));
             } else {
-              Log.d(TAG, "Pô d'erreur.");
               Log.d(TAG, String.format("Mouvement avec pitch %s roll %s yaw %s throttle %s", mPitch, mRoll, mYaw, mThrottle));
             }
           }
@@ -69,15 +60,12 @@ class MovementTimer extends CountDownTimer {
   public void onFinish() {
     Log.d(TAG, "onFinish()");
     if (ApplicationDrone.isFlightControllerAvailable()) {
-      Log.d(TAG, "flightController is available");
-
       ApplicationDrone.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
         new DJIVirtualStickFlightControlData(
           0, 0, 0, 0
         ), new DJICommonCallbacks.DJICompletionCallback() {
           @Override
           public void onResult(DJIError djiError) {
-            Log.d(TAG, "callback");
             if (djiError != null) {
               Log.e(TAG, String.format("Erreur de mouvement à zéro : %s", djiError.getDescription()));
             } else {
