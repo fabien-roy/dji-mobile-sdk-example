@@ -16,10 +16,10 @@ import dji.common.util.DJICommonCallbacks;
 class MovementTimer extends CountDownTimer {
   private final static String TAG = MovementTimer.class.getName();
 
-  private float mPitch;
-  private float mRoll;
-  private float mYaw;
-  private float mThrottle;
+  private float mPitch = 0;
+  private float mRoll = 0;
+  private float mYaw = 0;
+  private float mThrottle = 0;
 
   public MovementTimer(long millisInFuture, long countDownInterval, float pitch, float roll, float yaw, float throttle) {
     super(millisInFuture, countDownInterval);
@@ -37,7 +37,11 @@ class MovementTimer extends CountDownTimer {
     if (ApplicationDrone.isFlightControllerAvailable()) {
       Log.d(TAG, "flightController is available");
 
-      Log.d(TAG, "Tentative de mouvement avec pitch " + mPitch + " roll " + mRoll + " yaw " + mYaw + " throttle " + mThrottle);
+      if (mPitch == 0) {
+        Log.d(TAG, "WHAT THE FUCK mPitch est 0!");
+      }
+
+      Log.d(TAG, String.format("Tentative de mouvement avec pitch %s roll %s yaw %s throttle %s", mPitch, mRoll, mYaw, mThrottle));
 
       ApplicationDrone.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
         new DJIVirtualStickFlightControlData(
@@ -47,9 +51,11 @@ class MovementTimer extends CountDownTimer {
           public void onResult(DJIError djiError) {
             Log.d(TAG, "callback");
             if (djiError != null) {
-              Log.e(TAG, "Erreur de mouvement avec pitch " + mPitch + " roll " + mRoll + " yaw " + mYaw + " throttle " + mThrottle + " : " + djiError.getDescription());
+              Log.e(TAG, "Erreur.");
+              Log.d(TAG, String.format("Erreur de mouvement avec pitch %s roll %s yaw %s throttle %s : %s", mPitch, mRoll, mYaw, mThrottle, djiError.getDescription()));
             } else {
-              Log.d(TAG, "Mouvement avec pitch " + mPitch + " roll " + mRoll + " yaw " + mYaw + " throttle " + mThrottle);
+              Log.d(TAG, "Pô d'erreur.");
+              Log.d(TAG, String.format("Mouvement avec pitch %s roll %s yaw %s throttle %s", mPitch, mRoll, mYaw, mThrottle));
             }
           }
         }
@@ -61,7 +67,7 @@ class MovementTimer extends CountDownTimer {
 
   @Override
   public void onFinish() {
-    Log.d(TAG, "onTick()");
+    Log.d(TAG, "onFinish()");
     if (ApplicationDrone.isFlightControllerAvailable()) {
       Log.d(TAG, "flightController is available");
 
@@ -73,7 +79,7 @@ class MovementTimer extends CountDownTimer {
           public void onResult(DJIError djiError) {
             Log.d(TAG, "callback");
             if (djiError != null) {
-              Log.e(TAG, "Erreur de mouvement à zéro : " + djiError.getDescription());
+              Log.e(TAG, String.format("Erreur de mouvement à zéro : %s", djiError.getDescription()));
             } else {
               Log.d(TAG, "Mouvement à zéro");
             }

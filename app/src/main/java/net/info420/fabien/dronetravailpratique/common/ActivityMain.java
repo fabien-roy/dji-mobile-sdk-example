@@ -125,7 +125,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
         @Override
         public void onResult(DJIError djiError) {
           if (djiError != null) {
-            Log.e(TAG, "Erreur de limitation : " + djiError.getDescription());
+            Log.e(TAG, String.format("Erreur de limitation : %s", djiError.getDescription()));
           }
 
           // TODO : isSafe ne marche pas
@@ -138,7 +138,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
       @Override
       public void onResult(DJIError djiError) {
         if (djiError != null) {
-          Log.e(TAG, "Erreur de limitation : " + djiError.getDescription());
+          Log.e(TAG, String.format("Erreur de limitation : %s", djiError.getDescription()));
         }
 
         // isSafe = false;

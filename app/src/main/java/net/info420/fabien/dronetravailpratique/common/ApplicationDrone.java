@@ -109,7 +109,7 @@ public class ApplicationDrone extends Application {
 
     @Override
     public void onProductChanged(DJIBaseProduct oldProduct, DJIBaseProduct newProduct) {
-      Log.d("Alex", String.format("onProductChanged oldProduct:%s, newProduct:%s", oldProduct, newProduct));
+      Log.d(TAG, String.format("onProductChanged oldProduct : %s, newProduct : %s", oldProduct, newProduct));
       mProduct = newProduct;
       if(mProduct != null) {
         mProduct.setDJIBaseProductListener(mDJIBaseProductListener);
@@ -126,7 +126,7 @@ public class ApplicationDrone extends Application {
         if(newComponent != null) {
           newComponent.setDJIComponentListener(mDJIComponentListener);
         }
-        Log.d(TAG, String.format("onComponentChange key:%s, oldComponent:%s, newComponent:%s", key, oldComponent, newComponent));
+        Log.d(TAG, String.format("onComponentChange key : %s, oldComponent : %s, newComponent : %s", key, oldComponent, newComponent));
 
         notifyStatusChange();
       }
@@ -134,7 +134,7 @@ public class ApplicationDrone extends Application {
       @Override
       public void onProductConnectivityChanged(boolean isConnected) {
 
-        Log.d(TAG, "onProductConnectivityChanged : " + isConnected);
+        Log.d(TAG, String.format("onProductConnectivityChanged : %s", isConnected));
 
         notifyStatusChange();
       }
@@ -145,7 +145,7 @@ public class ApplicationDrone extends Application {
 
       @Override
       public void onComponentConnectivityChanged(boolean isConnected) {
-        Log.d(TAG, "onComponentConnectivityChanged : " + isConnected);
+        Log.d(TAG, String.format("onComponentConnectivityChanged : %s", isConnected));
         notifyStatusChange();
       }
 

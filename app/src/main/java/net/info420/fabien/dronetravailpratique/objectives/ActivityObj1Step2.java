@@ -118,31 +118,4 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       }
     });
   }
-
-//  class MovementTimerTask extends TimerTask {
-//    // Solution pour arrêter le timer après 1 seconde
-//    // Source : http://stackoverflow.com/questions/15894731/how-to-stop-the-timer-after-certain-time
-//
-//    @Override
-//    public void run() {
-//      // On vérifie si le flightController est O.K.
-//      if (ApplicationDrone.isFlightControllerAvailable()) {
-//
-//        ApplicationDrone.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
-//          new DJIVirtualStickFlightControlData(
-//            mPitch, mRoll, mYaw, mThrottle
-//          ), new DJICompletionCallback() {
-//            @Override
-//            public void onResult(DJIError djiError) {
-//              if (djiError != null) {
-//                Log.e(TAG, "Erreur de mouvement avec pitch " + mPitch + " roll " + mRoll + " yaw " + mYaw + " throttle " + mThrottle + " : " + djiError.getDescription());
-//              } else {
-//                Log.d(TAG, "Mouvement avec pitch " + mPitch + " roll " + mRoll + " yaw " + mYaw + " throttle " + mThrottle);
-//              }
-//            }
-//          }
-//        );
-//      }
-//    }
-//  }
 }

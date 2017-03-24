@@ -37,7 +37,7 @@ public class DroneMover {
         @Override
         public void onResult(DJIError djiError) {
           if (djiError != null) {
-            Log.e(TAG, "Erreur de démarrage des moteurs : " + djiError.getDescription());
+            Log.e(TAG, String.format("Erreur de démarrage des moteurs : %s", djiError.getDescription()));
           }
         }
       }
@@ -51,7 +51,7 @@ public class DroneMover {
         @Override
         public void onResult(DJIError djiError) {
           if (djiError != null) {
-            Log.e(TAG, "Erreur de décollage : " + djiError.getDescription());
+            Log.e(TAG, String.format("Erreur de décollage : %s", djiError.getDescription()));
           }
         }
       }
@@ -70,7 +70,7 @@ public class DroneMover {
         @Override
         public void onResult(DJIError djiError) {
           if (djiError != null) {
-            Log.e(TAG, "Erreur d'atterissage : " + djiError.getDescription());
+            Log.e(TAG, String.format("Erreur d'atterissage : %s",djiError.getDescription()));
           }
         }
       }
@@ -79,11 +79,13 @@ public class DroneMover {
 
   public void move(float[] pitchRollYawThrottle) {
     if (null != movementTimer) {
+      Log.d(TAG, "movementTimer is not null : cancelling");
       movementTimer.cancel();
       movementTimer = null;
     }
 
     if (null == movementTimer) {
+      Log.d(TAG, String.format("movementTimer is null, creating with pitch %s roll % yaw % throttle %s", pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
       movementTimer = new MovementTimer(100, 200, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
       movementTimer.start();
     }
@@ -111,7 +113,7 @@ public class DroneMover {
         @Override
         public void onResult(DJIError djiError) {
           if (djiError != null) {
-            Log.e(TAG, "Erreur d'activation du mode de contrôle par Virtual Stick : " + djiError.getDescription());
+            Log.e(TAG, String.format("Erreur d'activation du mode de contrôle par Virtual Stick : %s", djiError.getDescription()));
           }
         }
       }
@@ -125,7 +127,7 @@ public class DroneMover {
         @Override
         public void onResult(DJIError djiError) {
           if (djiError != null) {
-            Log.e(TAG, "Erreur de désactivation du mode de contrôle par Virtual Stick : " + djiError.getDescription());
+            Log.e(TAG, String.format("Erreur de désactivation du mode de contrôle par Virtual Stick : %s" + djiError.getDescription()));
           }
         }
       }
