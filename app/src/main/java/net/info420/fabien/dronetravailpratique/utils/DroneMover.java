@@ -85,8 +85,22 @@ public class DroneMover {
     }
 
     if (null == movementTimer) {
-      Log.d(TAG, String.format("movementTimer is null, creating with pitch %s roll % yaw % throttle %s", pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
+      Log.d(TAG, String.format("movementTimer is null, creating with pitch %s roll %s yaw %s throttle %s", pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
       movementTimer = new MovementTimer(100, 200, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
+      movementTimer.start();
+    }
+  }
+
+  public void move(float pitch, float roll, float yaw, float throttle) {
+    if (null != movementTimer) {
+      Log.d(TAG, "movementTimer is not null : cancelling");
+      movementTimer.cancel();
+      movementTimer = null;
+    }
+
+    if (null == movementTimer) {
+      Log.d(TAG, String.format("movementTimer is null, creating with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
+      movementTimer = new MovementTimer(100, 200, pitch, roll, yaw, throttle);
       movementTimer.start();
     }
   }

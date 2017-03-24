@@ -28,7 +28,7 @@ class MovementTimer extends CountDownTimer {
     mYaw = yaw;
     mThrottle = throttle;
 
-    Log.d(TAG, "MovementTimer()");
+    Log.d(TAG, String.format("MovementTimer(), with %s pitch %s roll %s yaw %s throttle", pitch, roll, yaw, throttle));
   }
 
   @Override
