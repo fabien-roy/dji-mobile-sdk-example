@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <attr name="colorDivider" format="reference" />
+  <attr name="colorPrimaryText" format="reference" />
+  <attr name="colorPrimaryLight" format="reference" />
+  <attr name="colorSecondaryText" format="reference" />
+  <attr name="colorTextIcons" format="reference" />
+</resources>

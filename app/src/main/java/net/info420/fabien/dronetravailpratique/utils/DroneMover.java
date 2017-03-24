@@ -80,10 +80,11 @@ public class DroneMover {
   public void move(float[] pitchRollYawThrottle) {
     if (null != movementTimer) {
       movementTimer.cancel();
-    } else {
-      // movementTimerTask = new MovementTimerTask();
+      movementTimer = null;
+    }
+
+    if (null == movementTimer) {
       movementTimer = new MovementTimer(100, 200, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
-      // movementTimer.schedule(movementTimerTask, 100, 200);
       movementTimer.start();
     }
   }

@@ -27,6 +27,8 @@ public class ActivityObj1Step1 extends AppCompatActivity {
 
   @Override
   protected void onDestroy(){
+    super.onDestroy();
+
     ApplicationDrone.getDroneMover().land();
   }
 
