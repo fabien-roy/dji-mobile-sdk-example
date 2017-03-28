@@ -46,6 +46,8 @@ public class ActivityObj1Step2 extends AppCompatActivity {
 
     Log.d(TAG, "onCreate()");
 
+    ApplicationDrone.getDroneMover().enableVirtualStickMode();
+
     initUI();
   }
 
