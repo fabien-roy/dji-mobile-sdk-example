@@ -61,4 +61,129 @@
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
 
+  <Button
+    android:text="A"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_run"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_a"/>
+
+  <Button
+    android:text="B"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_run"
+    android:layout_toRightOf="@id/btn_obj1_step3_a"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_b"/>
+
+  <Button
+    android:text="C"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_run"
+    android:layout_toRightOf="@id/btn_obj1_step3_b"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_c"/>
+
+  <Button
+    android:text="D"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_run"
+    android:layout_toRightOf="@id/btn_obj1_step3_c"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_d"/>
+
+  <Button
+    android:text="E"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_run"
+    android:layout_toRightOf="@id/btn_obj1_step3_d"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_e"/>
+
+  <Button
+    android:text="F"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_run"
+    android:layout_toRightOf="@id/btn_obj1_step3_e"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_f"/>
+
+  <Button
+    android:text="G"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_a"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_g"/>
+
+  <Button
+    android:text="H"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_a"
+    android:layout_toRightOf="@id/btn_obj1_step3_g"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_h"/>
+
+  <Button
+    android:text="I"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_a"
+    android:layout_toRightOf="@id/btn_obj1_step3_h"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_i"/>
+
+  <Button
+    android:text="J"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_a"
+    android:layout_toRightOf="@id/btn_obj1_step3_i"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_j"/>
+
+  <Button
+    android:text="K"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_a"
+    android:layout_toRightOf="@id/btn_obj1_step3_j"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_k"/>
+
+  <Button
+    android:text="L"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_a"
+    android:layout_toRightOf="@id/btn_obj1_step3_k"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_l"/>
+
+  <Button
+    android:text="M"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_g"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_m"/>
+
+  <Button
+    android:text="N"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj1_step3_g"
+    android:layout_toRightOf="@id/btn_obj1_step3_m"
+    android:layout_marginTop="22dp"
+    android:id="@+id/btn_obj1_step3_n"/>
+
 </RelativeLayout>
