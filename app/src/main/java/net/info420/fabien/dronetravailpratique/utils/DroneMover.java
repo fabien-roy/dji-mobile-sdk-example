@@ -105,6 +105,20 @@ public class DroneMover {
     }
   }
 
+  public void move(float pitch, float roll, float yaw, float throttle, int duration, int frequency) {
+    if (null != movementTimer) {
+      Log.d(TAG, "movementTimer is not null : cancelling");
+      movementTimer.cancel();
+      movementTimer = null;
+    }
+
+    if (null == movementTimer) {
+      Log.d(TAG, String.format("movementTimer is null, creating with pitch %s roll %s yaw %s throttle %s duration %s frequency %s", pitch, roll, yaw, throttle, duration, frequency));
+      movementTimer = new MovementTimer(duration, frequency, pitch, roll, yaw, throttle);
+      movementTimer.start();
+    }
+  }
+
   public void enableVirtualStickMode() {
     // Source : https://developer.dji.com/mobile-sdk/documentation/introduction/flightController_concepts.html
     // Mode de base du drone

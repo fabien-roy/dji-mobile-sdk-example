@@ -348,39 +348,85 @@ public class ActivityObj1Step3 extends AppCompatActivity {
   }
 
   private void moveA() {
+    Log.d(TAG, "Début : Mouvement A");
+
     // Mouvement A
     // On va du point (0, 0) au point (0,12)
     // Vecteur de mouvement : (0, 12)
     // On dépasse le poteau i vers le Nord
 
-    // TODO : Mouvement A
+    // Le drone doit avancer de 12 pieds en avant
+
+    // Avancer de 1 m/s pendant 4s (4m, environ 12')
+    ApplicationDrone.getDroneMover().move(1, 0, 0, 0, 4000, 100);
+
+    // Préparation au prochain movement
+    // On tourne le drone de 90° (horaire)
+
+    // Tourner de 15°/s pendant 6s (90°)
+    ApplicationDrone.getDroneMover().move(0, 0, 15, 0, 6000, 100);
+
+    Log.d(TAG, "Fin : Mouvement A");
   }
 
   private void moveB() {
+    Log.d(TAG, "Début : Mouvement B");
+
     // Mouvement B
     // On va du point (0, 12) au point (12,12)
     // Vecteur de mouvement : (12, 0)
     // On dépasse le poteau i vers l'Est
 
-    // TODO : Mouvement B
+    // Le drone doit avancer de 12 pieds en avant
+
+    // Avancer de 1 m/s pendant 4s (4m, environ 12')
+    ApplicationDrone.getDroneMover().move(1, 0, 0, 0, 4000, 100);
+
+    // Préparation au prochain movement
+    // On tourne le drone de 90° (horaire)
+
+    // Tourner de 15°/s pendant 6s (90°)
+    ApplicationDrone.getDroneMover().move(0, 0, 15, 0, 6000, 100);
+
+    Log.d(TAG, "Fin : Mouvement B");
   }
 
   private void moveC() {
+    Log.d(TAG, "Début : Mouvement C");
+
     // Mouvement C
     // On va du point (12, 12) au point (12, 0)
     // Vecteur de mouvement : (0, -12)
     // On dépasse le poteau i vers le Sud
 
-    // TODO : Mouvement C
+    // Le drone doit avancer de 12 pieds en avant
+
+    // Avancer de 1 m/s pendant 4s (4m, environ 12')
+    ApplicationDrone.getDroneMover().move(1, 0, 0, 0, 4000, 100);
+
+    // Préparation au prochain movement
+    // On tourne le drone de 90° (antihoraire)
+
+    // Tourner de -15°/s pendant 6s (90°)
+    ApplicationDrone.getDroneMover().move(0, 0, -15, 0, 6000, 100);
+
+    Log.d(TAG, "Fin : Mouvement C");
   }
 
   private void moveD() {
+    Log.d(TAG, "Début : Mouvement D");
+
     // Mouvement D
     // On va du point (12, 0) au point (32, 0)
     // Vecteur de mouvement : (20, 0)
     // On va jusqu'au Sud du poteau ii
 
-    // TODO : Mouvement D
+    // Le drone doit avancer de 32 pieds en avant
+
+    // Avancer de 1 m/s pendant 11s (11m, environ 32')
+    ApplicationDrone.getDroneMover().move(1, 0, 0, 0, 11000, 100);
+
+    Log.d(TAG, "Fin : Mouvement D");
   }
 
   private void moveE() {
