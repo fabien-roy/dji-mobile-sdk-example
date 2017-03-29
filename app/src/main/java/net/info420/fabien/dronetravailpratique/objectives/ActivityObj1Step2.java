@@ -18,6 +18,7 @@ public class ActivityObj1Step2 extends AppCompatActivity {
   public static final String TAG = ActivityObj1Step2.class.getName();
 
   private Button mBtnStartMotors;
+  private Button mBtnLand;
   private Button mBtnGoForward;
   private Button mBtnGoBack;
   private Button mBtnGoLeft;
@@ -64,6 +65,7 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     setContentView(R.layout.activity_obj1_step2);
 
     mBtnStartMotors = (Button) findViewById(R.id.btn_obj1_step2_start_motors);
+    mBtnLand        = (Button) findViewById(R.id.btn_obj1_step2_land);
     mBtnGoForward   = (Button) findViewById(R.id.btn_obj1_step2_go_forward);
     mBtnGoBack      = (Button) findViewById(R.id.btn_obj1_step2_go_back);
     mBtnGoLeft      = (Button) findViewById(R.id.btn_obj1_step2_go_left);
@@ -75,6 +77,13 @@ public class ActivityObj1Step2 extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         ApplicationDrone.getDroneMover().startMotors();
+      }
+    });
+
+    mBtnLand.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        ApplicationDrone.getDroneMover().land();
       }
     });
 

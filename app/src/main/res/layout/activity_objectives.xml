@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/activity_objectives"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingBottom="@dimen/activity_vertical_margin"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
-android:paddingTop="@dimen/activity_vertical_margin"
-tools:context="net.info420.fabien.dronetravailpratique.common.ActivityObjectives">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/activity_objectives"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:paddingBottom="@dimen/activity_vertical_margin"
+  android:paddingLeft="@dimen/activity_horizontal_margin"
+  android:paddingRight="@dimen/activity_horizontal_margin"
+  android:paddingTop="@dimen/activity_vertical_margin"
+  tools:context="net.info420.fabien.dronetravailpratique.common.ActivityObjectives">
 
   <Button
-  android:id="@+id/btn_obj1_step1"
-  android:layout_width="200dp"
-  android:layout_height="50dp"
-  android:textAllCaps="false"
-  android:text="@string/objective1_step1"
-  android:textSize="15dp"
-  android:layout_alignParentTop="true"
-  android:layout_alignLeft="@+id/btn_obj1_step2"
-  android:layout_alignStart="@+id/btn_obj1_step2"/>
+    android:id="@+id/btn_obj1_step1"
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:textAllCaps="false"
+    android:text="@string/objective1_step1"
+    android:textSize="15dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignLeft="@+id/btn_obj1_step2"
+    android:layout_alignStart="@+id/btn_obj1_step2"/>
 
   <Button
     android:id="@+id/btn_obj1_step2"
@@ -31,6 +31,17 @@ tools:context="net.info420.fabien.dronetravailpratique.common.ActivityObjectives
     android:textSize="15dp"
     android:layout_marginTop="28dp"
     android:layout_below="@+id/btn_obj1_step1"
+    android:layout_centerHorizontal="true"/>
+
+  <Button
+    android:id="@+id/btn_obj1_step3"
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:textAllCaps="false"
+    android:text="@string/objective1_step3"
+    android:textSize="15dp"
+    android:layout_marginTop="32dp"
+    android:layout_below="@+id/btn_obj1_step2"
     android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

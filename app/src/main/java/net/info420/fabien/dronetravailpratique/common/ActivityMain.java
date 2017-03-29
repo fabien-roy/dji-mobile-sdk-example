@@ -186,6 +186,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
     } else {
 
       mBtnOpen.setEnabled(false);
+      // mBtnOpen.setEnabled(true);
 
       mTextProduct.setText(R.string.product_information);
       mTextConnectionStatus.setText(R.string.connection_loose);

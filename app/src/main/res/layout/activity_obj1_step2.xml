@@ -39,6 +39,16 @@
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
 
+  <Button
+    android:id="@+id/btn_obj1_step2_land"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:textAllCaps="false"
+    android:text="@string/landing"
+    android:textSize="15dp"
+    android:layout_marginTop="135dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"/>
 
   <Button
     android:text="@string/go_forward"

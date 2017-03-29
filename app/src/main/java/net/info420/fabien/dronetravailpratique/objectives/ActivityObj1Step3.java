@@ -1,0 +1,223 @@
+package net.info420.fabien.dronetravailpratique.objectives;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import net.info420.fabien.dronetravailpratique.R;
+import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
+
+/**
+ * Created by fabien on 17-02-20.
+ */
+
+public class ActivityObj1Step3 extends AppCompatActivity {
+
+  public static final String TAG = ActivityObj1Step2.class.getName();
+
+  private Button mBtnStartMotors;
+  private Button mBtnLand;
+  private Button mBtnGo;
+
+  // private CountDownTimer movementTimer;
+  // private MovementTimerTask movementTimerTask;
+
+  // Ceci a été fait avec un tableau sur le site de DJI : https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-flightController.html (Roll Pitch Control Mode)
+  // Important à savoir, on se sert du mode Velocity et Body
+  // Rappelez vous, c'est en m/s (et °/s pour le Yaw). Mon timer dure en fonction.
+  //                              p    r    y    t
+
+  private float[] goForward = {   0,   1,   0,   0};
+  private float[] goBack    = {   0,  -1,   0,   0};
+  private float[] goLeft    = {  -1,   0,   0,   0};
+  private float[] goRight   = {   1,   0,   0,   0};
+  private float[] turnLeft  = {   0,   0,  15,   0};
+  private float[] turnRight = {   0,   0, -15,   0};
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    Log.d(TAG, "onCreate()");
+
+    ApplicationDrone.getDroneMover().enableVirtualStickMode();
+
+    initUI();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+
+    ApplicationDrone.getDroneMover().land();
+
+    ApplicationDrone.getDroneMover().disableVirtualStickMode();
+  }
+
+  private void initUI(){
+    setContentView(R.layout.activity_obj1_step3);
+
+    mBtnStartMotors = (Button) findViewById(R.id.btn_obj1_step3_start);
+    mBtnLand        = (Button) findViewById(R.id.btn_obj1_step3_stop);
+    mBtnGo          = (Button) findViewById(R.id.btn_obj1_step3_run);
+
+    mBtnStartMotors.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        ApplicationDrone.getDroneMover().startMotors();
+      }
+    });
+
+    mBtnLand.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        ApplicationDrone.getDroneMover().land();
+      }
+    });
+
+    mBtnGo.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        go();
+      }
+    });
+  }
+
+  private void go() {
+    // Toutes les coordonnées sont en pieds
+    // Nord : y positif. Est : x positif.
+
+    // Coordonnées des poteaux
+    // i    : (  6,    6 )
+    // ii   : ( 32,    6 )
+    // iii  : ( 19,   18 )
+    // iv   : (  6,   24 )
+    // v    : ( 32,   24 )
+    // vi   : ( 19, 37,6 )
+
+    // Tables des vecteurs de mouvement
+    // A : (  0,    0 ) à (  0,   12 ) : (   0,    12 )
+    // B : (  0,   12 ) à ( 12,   12 ) : (  12,     0 )
+    // C : ( 12,   12 ) à ( 12,    0 ) : (   0,   -12 )
+    // D : ( 12,    0 ) à ( 32,    0 ) : (  20,     0 )
+    // E : ( 32,    0 ) à ( 32,   12 ) : (   0,    12 ), arc 180° antihoraire
+    // F : ( 32,   12 ) à (  6,   18 ) : ( -24,     6 )
+    // G : (  6,   18 ) à (  6,   30 ) : (   0,    12 ), arc 180° horaire
+    // H : (  6,   30 ) à ( 32,   18 ) : (  24,   -12 )
+    // I : ( 32,   18 ) à ( 32,   30 ) : (   0,    12 ), arc 180° antihoraire
+    // J : ( 32,   30 ) à ( 19, 31,6 ) : ( -13,   1,6 )
+    // K : ( 19, 31,6 ) à ( 25, 37,6 ) : (   6,     6 ), arc 270° horaire
+    // L : ( 25, 37,6 ) à ( 19,   12 ) : (  -6, -15,6 )
+    // M : ( 19,   12 ) à ( 19,   12 ) : (   0,     0 ), arc 360° antihoraire
+    // N : ( 19,   12 ) à ( 19,    0 ) : (   0,   -12 )
+
+    // Décollage
+
+    // TODO : Décollage
+
+    // Mouvement A
+    // On va du point (0, 0) au point (0,12)
+    // Vecteur de mouvement : (0, 12)
+    // On dépasse le poteau i vers le Nord
+
+    // TODO : Mouvement A
+
+    // Mouvement B
+    // On va du point (0, 12) au point (12,12)
+    // Vecteur de mouvement : (12, 0)
+    // On dépasse le poteau i vers l'Est
+
+    // TODO : Mouvement B
+
+    // Mouvement C
+    // On va du point (12, 12) au point (12, 0)
+    // Vecteur de mouvement : (0, -12)
+    // On dépasse le poteau i vers le Sud
+
+    // TODO : Mouvement C
+
+    // Mouvement D
+    // On va du point (12, 0) au point (32, 0)
+    // Vecteur de mouvement : (20, 0)
+    // On va jusqu'au Sud du poteau ii
+
+    // TODO : Mouvement D
+
+    // Mouvement E
+    // On va du point (32, 0) au point (32, 12)
+    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Ouest
+    // On fait un arc de 180° vers le Nord du poteau ii. L'arc est concave vers l'Ouest, antihoraire.
+
+    // TODO : Mouvement E
+
+    // Mouvement F
+    // On va du point (32, 12) au point (6, 18)
+    // Vecteur de mouvement : (-24, 6)
+    // On va vers le Sud du poteau iv, tout en passant à côté du poteau iii
+    // TODO : Vérifier qu'il ne faut pas voler plus haut pour ne pas accrocher le poteau iii
+
+    // TODO : Mouvement F
+
+    // Mouvement G
+    // On va du point (6, 18) au point (6, 30)
+    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Est
+    // On fait un arc de 180° vers le Nord du poteau iv. L'arc est concave vers l'Est, horaire.
+
+    // TODO : Mouvement G
+
+    // Mouvement H
+    // On va du point (6, 30) au point (32, 18)
+    // Vecteur de mouvement : (24, -12)
+    // On va jusqu'au Sud du poteau v
+
+    // TODO : Mouvement H
+
+    // Mouvement I
+    // On va du point (32, 18) au point (32, 30)
+    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Ouest
+    // On fait un arc de 180° vers le Nord du poteau v. L'arc est concave vers l'Ouest, antihoraire.
+
+    // TODO : Mouvement I
+
+    // Mouvement J
+    // On va du point (32, 30) au point (19, 31,6)
+    // Vecteur de mouvement : (-13, 1,6)
+    // On va jusqu'au Sud du poteau vi
+
+    // TODO : Mouvement J
+
+    // Mouvement K
+    // On va du point (19, 31,6) au point (25, 37,6)
+    // Vecteur de mouvement : Arc de 270° (6, 6), concave vers le Sud-Est.
+    // On fait un arc de 270° vers l'Est du poteau vi. L'arc est concave vers le Sud-Est, horaire.
+
+    // TODO : Mouvement K
+
+    // Mouvement L
+    // On va du point (25, 37,6) au point (19, 12)
+    // Vecteur de mouvement : (-6, -15,6)
+    // On va jusqu'à l'Ouest du poteau iii
+
+    // TODO : Mouvement L
+
+    // Mouvement M
+    // On va du point (19, 12) au point (19, 12)
+    // Vecteur de mouvement : Arc de 360° (0, 0).
+    // On fait un arc de 360° autour du poteau iii. L'arc est antihoraire.
+
+    // TODO : Mouvement M
+
+    // Mouvement N
+    // On va du point (19, 12) au point (19, 0)
+    // Vecteur de mouvement : (0, -12).
+    // On va au Sud
+
+    // TODO : Mouvement N
+
+    // Atterrissage
+
+    // TODO : Atterrissage
+  }
+}

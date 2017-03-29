@@ -84,17 +84,22 @@
     <activity
       android:name=".common.ActivityObjectives"
       android:label="@string/activity_objectives"
-      android:theme="@style/AppTheme.NoActionBar">
+      android:theme="@style/AppTheme">
     </activity>
     <activity
       android:name=".objectives.ActivityObj1Step1"
       android:label="@string/activity_obj1_step1"
-      android:theme="@style/AppTheme.NoActionBar">
+      android:theme="@style/AppTheme">
     </activity>
     <activity
       android:name=".objectives.ActivityObj1Step2"
       android:label="@string/activity_obj1_step2"
-      android:theme="@style/AppTheme.NoActionBar">
+      android:theme="@style/AppTheme">
+    </activity>
+    <activity
+      android:name=".objectives.ActivityObj1Step3"
+      android:label="@string/activity_obj1_step3"
+      android:theme="@style/AppTheme">
     </activity>
   </application>
 

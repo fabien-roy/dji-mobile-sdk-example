@@ -19,6 +19,10 @@
   <string name="objective1_step2_description">Bouger</string>
   <string name="activity_obj1_step2">ActivityObj1Step2</string>
 
+  <string name="objective1_step3">Objectif #1 Étape #3</string>
+  <string name="objective1_step3_description">Faire le parcours</string>
+  <string name="activity_obj1_step3">ActivityObj1Step3</string>
+
   <string name="access">Accèder</string>
   <string name="refresh">Rafraîchir</string>
   <string name="take_off">Décoller</string>

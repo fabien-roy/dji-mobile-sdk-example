@@ -10,6 +10,7 @@ import android.widget.Button;
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.objectives.ActivityObj1Step1;
 import net.info420.fabien.dronetravailpratique.objectives.ActivityObj1Step2;
+import net.info420.fabien.dronetravailpratique.objectives.ActivityObj1Step3;
 
 /**
  * Created by fabien on 17-02-15.
@@ -21,6 +22,7 @@ public class ActivityObjectives extends Activity {
 
   private Button mBtnObj1Step1;
   private Button mBtnObj1Step2;
+  private Button mBtnObj1Step3;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class ActivityObjectives extends Activity {
 
     mBtnObj1Step1 = (Button) findViewById(R.id.btn_obj1_step1);
     mBtnObj1Step2 = (Button) findViewById(R.id.btn_obj1_step2);
+    mBtnObj1Step3 = (Button) findViewById(R.id.btn_obj1_step3);
 
     mBtnObj1Step1.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -48,6 +51,13 @@ public class ActivityObjectives extends Activity {
       @Override
       public void onClick(View v) {
         startActivity(new Intent(getApplicationContext(), ActivityObj1Step2.class));
+      }
+    });
+
+    mBtnObj1Step3.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        startActivity(new Intent(getApplicationContext(), ActivityObj1Step3.class));
       }
     });
   }
