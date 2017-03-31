@@ -358,13 +358,13 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Le drone doit avancer de 12 pieds en avant
 
     // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    ApplicationDrone.getDroneMover().move(1, 0, 0, 0, 4000, 100);
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(1, 0, 0, 0, 4000, 100,
 
-    // Préparation au prochain movement
-    // On tourne le drone de 90° (horaire)
+      // Préparation au prochain movement
+      // On tourne le drone de 90° (horaire)
 
-    // Tourner de 15°/s pendant 6s (90°)
-    ApplicationDrone.getDroneMover().move(0, 0, 15, 0, 6000, 100);
+      // Tourner de 15°/s pendant 6s (90°)
+      ApplicationDrone.getDroneMover().getMovementTimer(0, 0, 15, 0, 6000, 100)));
 
     Log.d(TAG, "Fin : Mouvement A");
   }
@@ -380,13 +380,13 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Le drone doit avancer de 12 pieds en avant
 
     // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    ApplicationDrone.getDroneMover().move(1, 0, 0, 0, 4000, 100);
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(1, 0, 0, 0, 4000, 100));
 
     // Préparation au prochain movement
     // On tourne le drone de 90° (horaire)
 
     // Tourner de 15°/s pendant 6s (90°)
-    ApplicationDrone.getDroneMover().move(0, 0, 15, 0, 6000, 100);
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(0, 0, 15, 0, 6000, 100));
 
     Log.d(TAG, "Fin : Mouvement B");
   }
@@ -402,13 +402,13 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Le drone doit avancer de 12 pieds en avant
 
     // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    ApplicationDrone.getDroneMover().move(1, 0, 0, 0, 4000, 100);
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(1, 0, 0, 0, 4000, 100));
 
     // Préparation au prochain movement
     // On tourne le drone de 90° (antihoraire)
 
     // Tourner de -15°/s pendant 6s (90°)
-    ApplicationDrone.getDroneMover().move(0, 0, -15, 0, 6000, 100);
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(0, 0, -15, 0, 6000, 100));
 
     Log.d(TAG, "Fin : Mouvement C");
   }
@@ -424,7 +424,7 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Le drone doit avancer de 32 pieds en avant
 
     // Avancer de 1 m/s pendant 11s (11m, environ 32')
-    ApplicationDrone.getDroneMover().move(1, 0, 0, 0, 11000, 100);
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(1, 0, 0, 0, 11000, 100));
 
     Log.d(TAG, "Fin : Mouvement D");
   }

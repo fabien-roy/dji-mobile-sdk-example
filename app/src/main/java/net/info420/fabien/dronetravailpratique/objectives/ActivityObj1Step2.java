@@ -90,42 +90,42 @@ public class ActivityObj1Step2 extends AppCompatActivity {
     mBtnGoForward.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(goForward);
+        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goForward));
       }
     });
 
     mBtnGoBack.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(goBack);
+        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goBack));
       }
     });
 
     mBtnGoLeft.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(goLeft);
+        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goLeft));
       }
     });
 
     mBtnGoRight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(goRight);
+        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goRight));
       }
     });
 
     mBtnTurnLeft.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(turnLeft);
+        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(turnLeft));
       }
     });
 
     mBtnTurnRight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(turnRight);
+        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(turnRight));
       }
     });
   }

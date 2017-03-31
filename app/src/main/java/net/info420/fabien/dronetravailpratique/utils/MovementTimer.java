@@ -20,6 +20,7 @@ class MovementTimer extends CountDownTimer {
   private float mRoll = 0;
   private float mYaw = 0;
   private float mThrottle = 0;
+  private MovementTimer mNextMovementTimer;
 
   public MovementTimer(long millisInFuture, long countDownInterval, float pitch, float roll, float yaw, float throttle) {
     super(millisInFuture, countDownInterval);
@@ -27,6 +28,18 @@ class MovementTimer extends CountDownTimer {
     mRoll = roll;
     mYaw = yaw;
     mThrottle = throttle;
+    mNextMovementTimer = null;
+
+    Log.d(TAG, String.format("MovementTimer(), with %s pitch %s roll %s yaw %s throttle", pitch, roll, yaw, throttle));
+  }
+
+  public MovementTimer(long millisInFuture, long countDownInterval, float pitch, float roll, float yaw, float throttle, MovementTimer nextMovementTimer) {
+    super(millisInFuture, countDownInterval);
+    mPitch = pitch;
+    mRoll = roll;
+    mYaw = yaw;
+    mThrottle = throttle;
+    mNextMovementTimer = nextMovementTimer;
 
     Log.d(TAG, String.format("MovementTimer(), with %s pitch %s roll %s yaw %s throttle", pitch, roll, yaw, throttle));
   }
@@ -59,28 +72,28 @@ class MovementTimer extends CountDownTimer {
   @Override
   public void onFinish() {
     Log.d(TAG, "onFinish()");
-    if (ApplicationDrone.isFlightControllerAvailable()) {
-      ApplicationDrone.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
-        new DJIVirtualStickFlightControlData(
-          0, 0, 0, 0
-        ), new DJICommonCallbacks.DJICompletionCallback() {
-          @Override
-          public void onResult(DJIError djiError) {
-            if (djiError != null) {
-              Log.e(TAG, String.format("Erreur de mouvement à zéro : %s", djiError.getDescription()));
-            } else {
-              Log.d(TAG, "Mouvement à zéro");
+
+    if (mNextMovementTimer != null) {
+      mNextMovementTimer.start();
+    } else {
+      if (ApplicationDrone.isFlightControllerAvailable()) {
+        ApplicationDrone.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
+          new DJIVirtualStickFlightControlData(
+            0, 0, 0, 0
+          ), new DJICommonCallbacks.DJICompletionCallback() {
+            @Override
+            public void onResult(DJIError djiError) {
+              if (djiError != null) {
+                Log.e(TAG, String.format("Erreur de mouvement à zéro : %s", djiError.getDescription()));
+              } else {
+                Log.d(TAG, "Mouvement à zéro");
+              }
             }
           }
-        }
-      );
-    }else {
-      Log.d(TAG, "flightController is NOT available");
+        );
+      }else {
+        Log.d(TAG, "flightController is NOT available");
+      }
     }
-
-    mPitch = 0;
-    mRoll = 0;
-    mYaw = 0;
-    mThrottle = 0;
   }
 }

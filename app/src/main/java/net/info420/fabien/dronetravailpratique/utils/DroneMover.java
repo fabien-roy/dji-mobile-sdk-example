@@ -19,8 +19,15 @@ import dji.sdk.flightcontroller.DJIFlightController;
 public class DroneMover {
   private static final String TAG = DroneMover.class.getName();
 
+  public static final int CLOCKWISE             = 1;
+  public static final int COUNTER_CLOCKWISE     = -1;
+  public static final int QUARTER_CIRCLE        = 90;
+  public static final int HALF_CIRCLE           = 180;
+  public static final int THREE_QUARTER_CIRCLE  = 270;
+  public static final int FULL_CIRCLE           = 360;
+
   private DJIFlightController flightController;
-  private MovementTimer movementTimer;
+  private MovementTimer mMovementTimer;
 
   public void DroneMover() {
     initFlightController();
@@ -59,9 +66,9 @@ public class DroneMover {
   }
 
   public void land() {
-    if (null != movementTimer) {
-      movementTimer.cancel();
-      movementTimer = null;
+    if (null != mMovementTimer) {
+      mMovementTimer.cancel();
+      mMovementTimer = null;
     }
 
     // LANDING
@@ -77,46 +84,42 @@ public class DroneMover {
     );
   }
 
-  public void move(float[] pitchRollYawThrottle) {
-    if (null != movementTimer) {
-      Log.d(TAG, "movementTimer is not null : cancelling");
-      movementTimer.cancel();
-      movementTimer = null;
+  public void move(MovementTimer movementTimer) {
+    if (null != mMovementTimer) {
+      Log.d(TAG, "mMovementTimer is not null : cancelling");
+      mMovementTimer.cancel();
+      mMovementTimer = null;
     }
 
-    if (null == movementTimer) {
-      Log.d(TAG, String.format("movementTimer is null, creating with pitch %s roll %s yaw %s throttle %s", pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
-      movementTimer = new MovementTimer(1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
-      movementTimer.start();
+    if (null == mMovementTimer) {
+      mMovementTimer = movementTimer;
+      mMovementTimer.start();
     }
   }
 
-  public void move(float pitch, float roll, float yaw, float throttle) {
-    if (null != movementTimer) {
-      Log.d(TAG, "movementTimer is not null : cancelling");
-      movementTimer.cancel();
-      movementTimer = null;
-    }
-
-    if (null == movementTimer) {
-      Log.d(TAG, String.format("movementTimer is null, creating with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
-      movementTimer = new MovementTimer(1000, 100, pitch, roll, yaw, throttle);
-      movementTimer.start();
-    }
+  public MovementTimer getMovementTimer(float[] pitchRollYawThrottle) {
+    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
+    return new MovementTimer(1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
   }
 
-  public void move(float pitch, float roll, float yaw, float throttle, int duration, int frequency) {
-    if (null != movementTimer) {
-      Log.d(TAG, "movementTimer is not null : cancelling");
-      movementTimer.cancel();
-      movementTimer = null;
-    }
+  public MovementTimer getMovementTimer(int pitch, int roll, int yaw, int throttle) {
+    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
+    return new MovementTimer(1000, 100, pitch, roll, yaw, throttle);
+  }
 
-    if (null == movementTimer) {
-      Log.d(TAG, String.format("movementTimer is null, creating with pitch %s roll %s yaw %s throttle %s duration %s frequency %s", pitch, roll, yaw, throttle, duration, frequency));
-      movementTimer = new MovementTimer(duration, frequency, pitch, roll, yaw, throttle);
-      movementTimer.start();
-    }
+  public MovementTimer getMovementTimer(int pitch, int roll, int yaw, int throttle, MovementTimer nextMovementTimer) {
+    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
+    return new MovementTimer(1000, 100, pitch, roll, yaw, throttle, nextMovementTimer);
+  }
+
+  public MovementTimer getMovementTimer(int pitch, int roll, int yaw, int throttle, int duration, int frequency) {
+    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
+    return new MovementTimer(duration, frequency, pitch, roll, yaw, throttle);
+  }
+
+  public MovementTimer getMovementTimer(int pitch, int roll, int yaw, int throttle, int duration, int frequency, MovementTimer nextMovementTimer) {
+    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
+    return new MovementTimer(duration, frequency, pitch, roll, yaw, throttle, nextMovementTimer);
   }
 
   public void enableVirtualStickMode() {
