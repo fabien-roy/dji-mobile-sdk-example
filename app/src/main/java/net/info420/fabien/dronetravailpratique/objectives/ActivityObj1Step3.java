@@ -17,7 +17,7 @@ public class ActivityObj1Step3 extends AppCompatActivity {
 
   public static final String TAG = ActivityObj1Step2.class.getName();
 
-  private Button mBtnStartMotors;
+  private Button mBtnTakeoff;
   private Button mBtnLand;
   private Button mBtnGo;
 
@@ -48,8 +48,9 @@ public class ActivityObj1Step3 extends AppCompatActivity {
   private float[] goBack    = {   0,  -1,   0,   0};
   private float[] goLeft    = {  -1,   0,   0,   0};
   private float[] goRight   = {   1,   0,   0,   0};
-  private float[] turnLeft  = {   0,   0,  15,   0};
-  private float[] turnRight = {   0,   0, -15,   0};
+  private float[] turnLeft  = {   0,   0, -15,   0};
+  private float[] turnRight = {   0,   0,  15,   0};
+  private float[] wait      = {   0,   0,   0,   0};
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class ActivityObj1Step3 extends AppCompatActivity {
   private void initUI(){
     setContentView(R.layout.activity_obj1_step3);
 
-    mBtnStartMotors = (Button) findViewById(R.id.btn_obj1_step3_start);
+    mBtnTakeoff     = (Button) findViewById(R.id.btn_obj1_step3_takeoff);
     mBtnLand        = (Button) findViewById(R.id.btn_obj1_step3_stop);
     mBtnGo          = (Button) findViewById(R.id.btn_obj1_step3_run);
 
@@ -93,10 +94,10 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     mBtnMoveM = (Button) findViewById(R.id.btn_obj1_step3_m);
     mBtnMoveN = (Button) findViewById(R.id.btn_obj1_step3_n);
 
-    mBtnStartMotors.setOnClickListener(new View.OnClickListener() {
+    mBtnTakeoff.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().startMotors();
+        ApplicationDrone.getDroneMover().takeOff();
       }
     });
 
@@ -241,6 +242,12 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // M : ( 19,   12 ) à ( 19,   12 ) : (   0,     0 ), arc 360° antihoraire
     // N : ( 19,   12 ) à ( 19,    0 ) : (   0,   -12 )
 
+    // Puisqu'on travaille en mode Velocity, body :
+    // Pitch positif : vers la droite
+    // Pitch négatif : vers la gauche
+    // Roll  positif : vers l'avant
+    // Roll  négatif : vers l'arrière
+
     // Décollage
     ApplicationDrone.getDroneMover().takeOff();
 
@@ -249,28 +256,76 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Vecteur de mouvement : (0, 12)
     // On dépasse le poteau i vers le Nord
 
-    // TODO : Mouvement A
+    // Le drone doit avancer de 12 pieds en avant
 
-    // Mouvement B
-    // On va du point (0, 12) au point (12,12)
-    // Vecteur de mouvement : (12, 0)
-    // On dépasse le poteau i vers l'Est
+    // Avancer de 1 m/s pendant 4s (4m, environ 12')
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goForward[0], goForward[1], goForward[2], goForward[3], 4000, 100,
 
-    // TODO : Mouvement B
+      // On attend 2 secondes
+      ApplicationDrone.getDroneMover().getMovementTimer(wait[0], wait[1], wait[2], wait[3], 2000, 100,
 
-    // Mouvement C
-    // On va du point (12, 12) au point (12, 0)
-    // Vecteur de mouvement : (0, -12)
-    // On dépasse le poteau i vers le Sud
+      // Préparation au prochain movement
+      // On tourne le drone de 90° (horaire)
 
-    // TODO : Mouvement C
+      // Tourner de 15°/s pendant 6s (90°)
+      ApplicationDrone.getDroneMover().getMovementTimer(turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100,
 
-    // Mouvement D
-    // On va du point (12, 0) au point (32, 0)
-    // Vecteur de mouvement : (20, 0)
-    // On va jusqu'au Sud du poteau ii
+      // On attend 2 secondes
+      ApplicationDrone.getDroneMover().getMovementTimer(wait[0], wait[1], wait[2], wait[3], 2000, 100,
 
-    // TODO : Mouvement D
+      // Mouvement B
+      // On va du point (0, 12) au point (12,12)
+      // Vecteur de mouvement : (12, 0)
+      // On dépasse le poteau i vers l'Est
+
+      // Le drone doit avancer de 12 pieds en avant
+
+      // Avancer de 1 m/s pendant 4s (4m, environ 12')
+      ApplicationDrone.getDroneMover().getMovementTimer(goForward[0], goForward[1], goForward[2], goForward[3], 4000, 100,
+
+      // On attend 2 secondes
+      ApplicationDrone.getDroneMover().getMovementTimer(wait[0], wait[1], wait[2], wait[3], 2000, 100,
+
+      // Préparation au prochain movement
+      // On tourne le drone de 90° (horaire)
+
+      // Tourner de 15°/s pendant 6s (90°)
+      ApplicationDrone.getDroneMover().getMovementTimer(turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100,
+
+      // On attend 2 secondes
+      ApplicationDrone.getDroneMover().getMovementTimer(wait[0], wait[1], wait[2], wait[3], 2000, 100,
+
+      // Mouvement C
+      // On va du point (12, 12) au point (12, 0)
+      // Vecteur de mouvement : (0, -12)
+      // On dépasse le poteau i vers le Sud
+
+      // Le drone doit avancer de 12 pieds en avant
+
+      // Avancer de 1 m/s pendant 4s (4m, environ 12')
+      ApplicationDrone.getDroneMover().getMovementTimer(goForward[0], goForward[1], goForward[2], goForward[3], 4000, 100,
+
+      // On attend 2 secondes
+      ApplicationDrone.getDroneMover().getMovementTimer(wait[0], wait[1], wait[2], wait[3], 2000, 100,
+
+      // Préparation au prochain movement
+      // On tourne le drone de 90° (horaire)
+
+      // Tourner de 15°/s pendant 6s (90°)
+      ApplicationDrone.getDroneMover().getMovementTimer(turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100,
+
+      // On attend 2 secondes
+      ApplicationDrone.getDroneMover().getMovementTimer(wait[0], wait[1], wait[2], wait[3], 2000, 100,
+
+      // Mouvement D
+      // On va du point (12, 0) au point (32, 0)
+      // Vecteur de mouvement : (20, 0)
+      // On va jusqu'au Sud du poteau ii
+
+      // Le drone doit avancer de 32 pieds en avant
+
+      // Avancer de 1 m/s pendant 11s (11m, environ 32')
+      ApplicationDrone.getDroneMover().getMovementTimer(goForward[0], goForward[1], goForward[2], goForward[3], 11000, 100))))))))))))));
 
     // Mouvement E
     // On va du point (32, 0) au point (32, 12)
@@ -282,8 +337,7 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Mouvement F
     // On va du point (32, 12) au point (6, 18)
     // Vecteur de mouvement : (-24, 6)
-    // On va vers le Sud du poteau iv, tout en passant à côté du poteau iii
-    // TODO : Vérifier qu'il ne faut pas voler plus haut pour ne pas accrocher le poteau iii
+    // On va vers le Sud du poteau iv, tout en passant AU DESSUS du poteau iii
 
     // TODO : Mouvement F
 
@@ -358,13 +412,16 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Le drone doit avancer de 12 pieds en avant
 
     // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(1, 0, 0, 0, 4000, 100,
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goForward[0], goForward[1], goForward[2], goForward[3], 4000, 100,
+
+      // On attend 2 secondes
+      ApplicationDrone.getDroneMover().getMovementTimer(wait[0], wait[1], wait[2], wait[3], 2000, 100,
 
       // Préparation au prochain movement
       // On tourne le drone de 90° (horaire)
 
       // Tourner de 15°/s pendant 6s (90°)
-      ApplicationDrone.getDroneMover().getMovementTimer(0, 0, 15, 0, 6000, 100)));
+      ApplicationDrone.getDroneMover().getMovementTimer(turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100))));
 
     Log.d(TAG, "Fin : Mouvement A");
   }
@@ -380,13 +437,16 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Le drone doit avancer de 12 pieds en avant
 
     // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(1, 0, 0, 0, 4000, 100));
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goForward[0], goForward[1], goForward[2], goForward[3], 4000, 100,
 
-    // Préparation au prochain movement
-    // On tourne le drone de 90° (horaire)
+      // On attend 2 secondes
+      ApplicationDrone.getDroneMover().getMovementTimer(wait[0], wait[1], wait[2], wait[3], 2000, 100,
 
-    // Tourner de 15°/s pendant 6s (90°)
-    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(0, 0, 15, 0, 6000, 100));
+      // Préparation au prochain movement
+      // On tourne le drone de 90° (horaire)
+
+      // Tourner de 15°/s pendant 6s (90°)
+      ApplicationDrone.getDroneMover().getMovementTimer(turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100))));
 
     Log.d(TAG, "Fin : Mouvement B");
   }
@@ -402,13 +462,16 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Le drone doit avancer de 12 pieds en avant
 
     // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(1, 0, 0, 0, 4000, 100));
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goForward[0], goForward[1], goForward[2], goForward[3], 4000, 100,
 
-    // Préparation au prochain movement
-    // On tourne le drone de 90° (antihoraire)
+      // On attend 2 secondes
+      ApplicationDrone.getDroneMover().getMovementTimer(wait[0], wait[1], wait[2], wait[3], 2000, 100,
 
-    // Tourner de -15°/s pendant 6s (90°)
-    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(0, 0, -15, 0, 6000, 100));
+      // Préparation au prochain movement
+      // On tourne le drone de 90° (horaire)
+
+      // Tourner de 15°/s pendant 6s (90°)
+      ApplicationDrone.getDroneMover().getMovementTimer(turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100))));
 
     Log.d(TAG, "Fin : Mouvement C");
   }
@@ -424,7 +487,7 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Le drone doit avancer de 32 pieds en avant
 
     // Avancer de 1 m/s pendant 11s (11m, environ 32')
-    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(1, 0, 0, 0, 11000, 100));
+    ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goForward[0], goForward[1], goForward[2], goForward[3], 11000, 100));
 
     Log.d(TAG, "Fin : Mouvement D");
   }

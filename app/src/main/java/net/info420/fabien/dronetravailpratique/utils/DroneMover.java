@@ -102,22 +102,22 @@ public class DroneMover {
     return new MovementTimer(1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
   }
 
-  public MovementTimer getMovementTimer(int pitch, int roll, int yaw, int throttle) {
+  public MovementTimer getMovementTimer(float pitch, float roll, float yaw, float throttle) {
     Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
     return new MovementTimer(1000, 100, pitch, roll, yaw, throttle);
   }
 
-  public MovementTimer getMovementTimer(int pitch, int roll, int yaw, int throttle, MovementTimer nextMovementTimer) {
+  public MovementTimer getMovementTimer(float pitch, float roll, float yaw, float throttle, MovementTimer nextMovementTimer) {
     Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
     return new MovementTimer(1000, 100, pitch, roll, yaw, throttle, nextMovementTimer);
   }
 
-  public MovementTimer getMovementTimer(int pitch, int roll, int yaw, int throttle, int duration, int frequency) {
+  public MovementTimer getMovementTimer(float pitch, float roll, float yaw, float throttle, int duration, int frequency) {
     Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
     return new MovementTimer(duration, frequency, pitch, roll, yaw, throttle);
   }
 
-  public MovementTimer getMovementTimer(int pitch, int roll, int yaw, int throttle, int duration, int frequency, MovementTimer nextMovementTimer) {
+  public MovementTimer getMovementTimer(float pitch, float roll, float yaw, float throttle, int duration, int frequency, MovementTimer nextMovementTimer) {
     Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
     return new MovementTimer(duration, frequency, pitch, roll, yaw, throttle, nextMovementTimer);
   }

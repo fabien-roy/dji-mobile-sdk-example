@@ -29,7 +29,7 @@
     android:layout_marginTop="37dp"/>
 
   <Button
-    android:id="@+id/btn_obj1_step3_start"
+    android:id="@+id/btn_obj1_step3_takeoff"
     android:layout_width="100dp"
     android:layout_height="50dp"
     android:textAllCaps="false"
