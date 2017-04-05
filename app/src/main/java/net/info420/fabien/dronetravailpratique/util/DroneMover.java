@@ -120,33 +120,44 @@ public class DroneMover {
   }
 
   public MovementTimer getMovementTimer(float[] pitchRollYawThrottle) {
-    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
+    Log.d(TAG, String.format("Creating MovementTimer no name : pitch %s roll %s yaw %s throttle %s", pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
     return new MovementTimer("no_name", 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
   }
 
   public MovementTimer getMovementTimer(float pitch, float roll, float yaw, float throttle) {
-    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
+    Log.d(TAG, String.format("Creating MovementTimer no name : pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
     return new MovementTimer("no_name", 1000, 100, pitch, roll, yaw, throttle);
   }
 
   public MovementTimer getMovementTimer(float pitch, float roll, float yaw, float throttle, int millisInFuture, int countDownInterval) {
-    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
+    Log.d(TAG, String.format("Creating MovementTimer no name : pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
     return new MovementTimer("no_name", millisInFuture, countDownInterval, pitch, roll, yaw, throttle);
   }
 
   public MovementTimer getMovementTimer(String name, float[] pitchRollYawThrottle) {
-    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
+    Log.d(TAG, String.format("Creating MovementTimer %s : pitch %s roll %s yaw %s throttle %s", name, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
     return new MovementTimer(name, 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
   }
 
   public MovementTimer getMovementTimer(String name, float pitch, float roll, float yaw, float throttle) {
-    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
+    Log.d(TAG, String.format("Creating MovementTimer %s : pitch %s roll %s yaw %s throttle %s", name, pitch, roll, yaw, throttle));
     return new MovementTimer(name, 1000, 100, pitch, roll, yaw, throttle);
   }
 
   public MovementTimer getMovementTimer(String name, float pitch, float roll, float yaw, float throttle, int millisInFuture, int countDownInterval) {
-    Log.d(TAG, String.format("Creating MovementTimer with pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
+    Log.d(TAG, String.format("Creating MovementTimer %s : pitch %s roll %s yaw %s throttle %s", name, pitch, roll, yaw, throttle));
     return new MovementTimer(name, millisInFuture, countDownInterval, pitch, roll, yaw, throttle);
+  }
+
+  public MovementTimer getCircularMovementTimer(String name, int radius, int angle, int orientation) {
+    Log.d(TAG, String.format("Creating Circular MovementTimer %s : radius %s angle %s orientation %s", name, radius, angle, orientation));
+    return new MovementTimer(name,                                                          // Nom du timer
+                            (radius * (angle / QUARTER_CIRCLE) * 1000),                     // Temps : rayon * nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)
+                            100,                                                            // Fréquence
+                            0,                                                              // Pitch
+                            1,                                                              // Roll : 1m/s
+                            ((orientation * angle) / (radius * (angle / QUARTER_CIRCLE))),  // Yaw : (orientation (contre la montre, ...) * angle) divisé par (rayon * nombre de quart de tour en seconde) (3m 90° -> (90)/(3*1) = 30°/s, 6m à 90° -> (90)/(6*1) = 15°/s, 3m à 180° -> (180)/(3*2) = 30°/s)
+                            0);                                                             // Throttle
   }
 
   public void enableVirtualStickMode() {

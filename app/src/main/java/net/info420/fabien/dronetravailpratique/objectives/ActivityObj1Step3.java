@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
+import net.info420.fabien.dronetravailpratique.util.DroneMover;
 import net.info420.fabien.dronetravailpratique.util.MovementTimer;
 
 import java.util.ArrayList;
@@ -296,7 +297,8 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // On tourne le drone de 90° (horaire)
 
     // Tourner de 15°/s pendant 6s (90°)
-    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("B3 : turn", turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100));
+    // movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("B3 : turn", turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100));
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("E1 : 90°", 0, DroneMover.QUARTER_CIRCLE, DroneMover.CLOCKWISE));
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("B4 : wait", wait[0], wait[1], wait[2], wait[3], 2000, 100));
@@ -309,7 +311,8 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Le drone doit avancer de 12 pieds en avant
 
     // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("C1 : move", goForward[0], goForward[1], goForward[2], goForward[3], 4000, 100));
+    // movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("C1 : move", goForward[0], goForward[1], goForward[2], goForward[3], 4000, 100));
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("E1 : 90°", 0, DroneMover.QUARTER_CIRCLE, DroneMover.CLOCKWISE));
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("C2 : wait", wait[0], wait[1], wait[2], wait[3], 2000, 100));
@@ -318,7 +321,8 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // On tourne le drone de 90° (horaire)
 
     // Tourner de 15°/s pendant 6s (90°)
-    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("C3 : move", turnLeft[0], turnLeft[1], turnLeft[2], turnLeft[3], 6000, 100));
+    // movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("C3 : move", turnLeft[0], turnLeft[1], turnLeft[2], turnLeft[3], 6000, 100));
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("E1 : 90°", 0, DroneMover.QUARTER_CIRCLE, DroneMover.COUNTER_CLOCKWISE));
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("C4 : wait", wait[0], wait[1], wait[2], wait[3], 2000, 100));
@@ -338,73 +342,75 @@ public class ActivityObj1Step3 extends AppCompatActivity {
 
     // MOUVEMENT E
     // On va du point (32, 0) au point (32, 12)
-    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Ouest
+    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Ouest, rayon de 6' (2m)
     // On fait un arc de 180° vers le Nord du poteau ii. L'arc est concave vers l'Ouest, antihoraire.
 
-    // TODO : Mouvement E
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("E1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.COUNTER_CLOCKWISE));
 
     // MOUVEMENT F
     // On va du point (32, 12) au point (6, 18)
     // Vecteur de mouvement : (-24, 6)
     // On va vers le Sud du poteau iv, tout en passant AU DESSUS du poteau iii
 
-    // TODO : Mouvement F
+    // Puisque le mouvement est en diagonale, je rentre moi-même les données
+    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("F1 : move", (6 / 24), 1, 0, 0, 24000, 100));
 
     // MOUVEMENT G
     // On va du point (6, 18) au point (6, 30)
-    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Est
+    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Est, rayon de 6' (2m)
     // On fait un arc de 180° vers le Nord du poteau iv. L'arc est concave vers l'Est, horaire.
 
-    // TODO : Mouvement G
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("G1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.CLOCKWISE));
 
     // MOUVEMENT H
     // On va du point (6, 30) au point (32, 18)
     // Vecteur de mouvement : (24, -12)
     // On va jusqu'au Sud du poteau v
 
-    // TODO : Mouvement H
+    // Puisque le mouvement est en diagonale, je rentre moi-même les données
+    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("F1 : move", (12 / 24), 1, 0, 0, 24000, 100));
 
     // MOUVEMENT I
     // On va du point (32, 18) au point (32, 30)
-    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Ouest
+    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Ouest, rayon de 6' (2m)
     // On fait un arc de 180° vers le Nord du poteau v. L'arc est concave vers l'Ouest, antihoraire.
 
-    // TODO : Mouvement I
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("I1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.COUNTER_CLOCKWISE));
 
     // MOUVEMENT J
     // On va du point (32, 30) au point (19, 31,6)
     // Vecteur de mouvement : (-13, 1,6)
     // On va jusqu'au Sud du poteau vi
 
-    // TODO : Mouvement J
+    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("F1 : move", (float) (1.6 / 13), 1, 0, 0, 13000, 100));
 
     // MOUVEMENT K
     // On va du point (19, 31,6) au point (25, 37,6)
-    // Vecteur de mouvement : Arc de 270° (6, 6), concave vers le Sud-Est.
+    // Vecteur de mouvement : Arc de 270° (6, 6), concave vers le Sud-Est, rayon de 6' (2m)
     // On fait un arc de 270° vers l'Est du poteau vi. L'arc est concave vers le Sud-Est, horaire.
 
-    // TODO : Mouvement K
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("K1 : 270°", 2, DroneMover.THREE_QUARTER_CIRCLE, DroneMover.CLOCKWISE));
 
     // MOUVEMENT L
     // On va du point (25, 37,6) au point (19, 12)
     // Vecteur de mouvement : (-6, -15,6)
     // On va jusqu'à l'Ouest du poteau iii
 
-    // TODO : Mouvement L
+    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("L1 : move", 1, (float) (6 / 15.6), 0, 0, 15600, 100));
 
     // MOUVEMENT M
     // On va du point (19, 12) au point (19, 12)
-    // Vecteur de mouvement : Arc de 360° (0, 0).
+    // Vecteur de mouvement : Arc de 360° (0, 0), rayon de 6' (2m)
     // On fait un arc de 360° autour du poteau iii. L'arc est antihoraire.
 
-    // TODO : Mouvement M
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("M1 : 360°", 2, DroneMover.FULL_CIRCLE, DroneMover.COUNTER_CLOCKWISE));
 
     // MOUVEMENT N
     // On va du point (19, 12) au point (19, 0)
     // Vecteur de mouvement : (0, -12).
     // On va au Sud
 
-    // TODO : Mouvement N
+    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("N1 : move", goForward[0], goForward[1], goForward[2], goForward[3], 4000, 100));
 
     // Exécution des mouvements
     ApplicationDrone.getDroneMover().moveList(movementTimers);
