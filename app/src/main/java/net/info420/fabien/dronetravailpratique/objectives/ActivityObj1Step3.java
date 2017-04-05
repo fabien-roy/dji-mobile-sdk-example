@@ -275,7 +275,8 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // On tourne le drone de 90° (horaire)
 
     // Tourner de 15°/s pendant 6s (90°)
-    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("A3 : turn", turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100));
+    // movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("A3 : turn", turnRight[0], turnRight[1], turnRight[2], turnRight[3], 6000, 100));
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("E1 : 90°", 0, DroneMover.QUARTER_CIRCLE, DroneMover.CLOCKWISE));
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("A4 : wait", wait[0], wait[1], wait[2], wait[3], 2000, 100));
