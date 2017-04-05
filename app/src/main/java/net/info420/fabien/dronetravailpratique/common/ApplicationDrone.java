@@ -7,7 +7,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import net.info420.fabien.dronetravailpratique.utils.DroneMover;
+import net.info420.fabien.dronetravailpratique.util.DroneMover;
 
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;

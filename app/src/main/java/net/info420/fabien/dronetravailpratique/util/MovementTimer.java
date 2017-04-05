@@ -1,4 +1,4 @@
-package net.info420.fabien.dronetravailpratique.utils;
+package net.info420.fabien.dronetravailpratique.util;
 
 import android.os.CountDownTimer;
 import android.util.Log;

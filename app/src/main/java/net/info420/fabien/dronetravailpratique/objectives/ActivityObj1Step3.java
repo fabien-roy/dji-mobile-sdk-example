@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
-import net.info420.fabien.dronetravailpratique.utils.MovementTimer;
+import net.info420.fabien.dronetravailpratique.util.MovementTimer;
 
 import java.util.ArrayList;
 import java.util.List;
