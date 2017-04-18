@@ -27,6 +27,10 @@ public class DroneMover {
   public static final int HALF_CIRCLE           = 180;
   public static final int THREE_QUARTER_CIRCLE  = 270;
   public static final int FULL_CIRCLE           = 360;
+  public static final int FRONT_ROTATION        = 0;
+  public static final int RIGHT_ROTATION        = 1;
+  public static final int LEFT_ROTATION         = 2;
+  public static final int BACK_ROTATION         = 3;
 
   private int movementTimer_id = 0;
 
@@ -149,6 +153,7 @@ public class DroneMover {
     return new MovementTimer(name, millisInFuture, countDownInterval, pitch, roll, yaw, throttle);
   }
 
+  // Par défaut, de devant
   public MovementTimer getCircularMovementTimer(String name, int radius, int angle, int orientation) {
     Log.d(TAG, String.format("Creating Circular MovementTimer %s : radius %s angle %s orientation %s", name, radius, angle, orientation));
 
@@ -173,6 +178,42 @@ public class DroneMover {
       100,                                                            // Fréquence
       0,                                                              // Pitch
       1,                                                              // Roll : 1m/s
+      ((orientation * angle) / (radius * (angle / QUARTER_CIRCLE))),  // Yaw : (orientation (contre la montre, ...) * angle) divisé par (rayon * nombre de quart de tour en seconde) (3m 90° -> (90)/(3*1) = 30°/s, 6m à 90° -> (90)/(6*1) = 15°/s, 3m à 180° -> (180)/(3*2) = 30°/s)
+      0);                                                             // Throttle
+  }
+
+  // Par défaut, de devant
+  public MovementTimer getCircularMovementTimer(String name, int radius, int angle, int orientation, int rotationSide) {
+    Log.d(TAG, String.format("Creating Circular MovementTimer %s : radius %s angle %s orientation %s rotationSide %s", name, radius, angle, orientation, rotationSide));
+
+    float pitch = 0;
+    float roll  = 0;
+
+    if (radius == 0) {
+      return null;
+    }
+
+    switch (rotationSide) {
+      case FRONT_ROTATION:
+        roll = 1;
+        break;
+      case BACK_ROTATION:
+        roll = -1;
+        break;
+      case RIGHT_ROTATION:
+        pitch = 1;
+        break;
+      case LEFT_ROTATION:
+        pitch = -1;
+        break;
+    }
+
+
+    return new MovementTimer(name,                                    // Nom du timer
+      (radius * (angle / QUARTER_CIRCLE) * 1000),                     // Temps : rayon * nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)
+      100,                                                            // Fréquence
+      pitch,                                                          // Pitch
+      roll,                                                           // Roll
       ((orientation * angle) / (radius * (angle / QUARTER_CIRCLE))),  // Yaw : (orientation (contre la montre, ...) * angle) divisé par (rayon * nombre de quart de tour en seconde) (3m 90° -> (90)/(3*1) = 30°/s, 6m à 90° -> (90)/(6*1) = 15°/s, 3m à 180° -> (180)/(3*2) = 30°/s)
       0);                                                             // Throttle
   }
