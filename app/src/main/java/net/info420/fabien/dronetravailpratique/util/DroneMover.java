@@ -186,6 +186,7 @@ public class DroneMover {
   public MovementTimer getCircularMovementTimer(String name, int radius, int angle, int orientation, int rotationSide) {
     Log.d(TAG, String.format("Creating Circular MovementTimer %s : radius %s angle %s orientation %s rotationSide %s", name, radius, angle, orientation, rotationSide));
 
+    // Données par défaut
     float pitch = 0;
     float roll  = 0;
 
@@ -193,6 +194,8 @@ public class DroneMover {
       return null;
     }
 
+    // On a quatre arguments. Le rayon (2m, 3m), l'angle (90°, 180°), l'orientation (sens des aiguilles d'une montre) et le côté (avant, droite, ...)
+    // La seule différence avec le côté, c'est vers où le drone va se déplacer durant sa rotation.
     switch (rotationSide) {
       case FRONT_ROTATION:
         roll = 1;
@@ -207,7 +210,6 @@ public class DroneMover {
         pitch = -1;
         break;
     }
-
 
     return new MovementTimer(name,                                    // Nom du timer
       (radius * (angle / QUARTER_CIRCLE) * 1000),                     // Temps : rayon * nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)

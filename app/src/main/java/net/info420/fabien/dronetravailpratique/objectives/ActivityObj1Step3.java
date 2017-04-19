@@ -351,10 +351,12 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Ouest, rayon de 6' (2m)
     // On fait un arc de 180° vers le Nord du poteau ii. L'arc est concave vers l'Ouest, antihoraire.
 
-    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("E1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.COUNTER_CLOCKWISE));
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("E1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.COUNTER_CLOCKWISE, DroneMover.RIGHT_ROTATION));
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("E2 : wait", wait[0], wait[1], wait[2], wait[3], waitTime, 100));
+
+    // Le drone pointe désormais vers le Sud
   }
 
   private void addF(List<MovementTimer> movementTimers) {
@@ -365,14 +367,14 @@ public class ActivityObj1Step3 extends AppCompatActivity {
 
     // Puisque le mouvement est en diagonale, je rentre moi-même les données
     // On monte
-    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("F1 : move", (6 / 12), 1, 0, traductMetersToTimeForDumbDrone(1.5), traductMetersToTimeForDumbDrone(12), 100));
+    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("F1 : move", 1, -(3 / 12), 0, traductMetersToTimeForDumbDrone(0.1), traductMetersToTimeForDumbDrone(12), 100));
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("F2 : wait", wait[0], wait[1], wait[2], wait[3], waitTime, 100));
 
     // Puisque le mouvement est en diagonale, je rentre moi-même les données
     // On descends
-    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("F1 : move", (6 / 12), 1, 0, traductMetersToTimeForDumbDrone(1.5), traductMetersToTimeForDumbDrone(12), 100));
+    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("F1 : move", 1, -(3 / 12), 0, traductMetersToTimeForDumbDrone(-0.1), traductMetersToTimeForDumbDrone(12), 100));
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("F2 : wait", wait[0], wait[1], wait[2], wait[3], waitTime, 100));
@@ -384,10 +386,12 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Est, rayon de 6' (2m)
     // On fait un arc de 180° vers le Nord du poteau iv. L'arc est concave vers l'Est, horaire.
 
-    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("G1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.CLOCKWISE));
+    movementTimers.add(ApplicationDrone.getDroneMover().getCircularMovementTimer("G1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.CLOCKWISE, DroneMover.RIGHT_ROTATION));
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("G2 : wait", wait[0], wait[1], wait[2], wait[3], waitTime, 100));
+
+    // Le drone pointe désormais vers le Nord
   }
 
   private void addH(List<MovementTimer> movementTimers) {
