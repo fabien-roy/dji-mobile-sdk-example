@@ -34,7 +34,7 @@ public class MovementTimer extends CountDownTimer {
     mThrottle = throttle;
     mName     = name;
 
-    Log.d(TAG, String.format("MovementTimer #%s : create %s pitch %s roll %s yaw %s throttle : %s %s", mName, pitch, roll, yaw, throttle, millisInFuture, countDownInterval));
+    Log.d(TAG, String.format("MovementTimer %s : create %s pitch %s roll %s yaw %s throttle : %s %s", mName, pitch, roll, yaw, throttle, millisInFuture, countDownInterval));
   }
 
   public void setNextMovementTimers(List<MovementTimer> nextMovementTimers) {
@@ -71,7 +71,7 @@ public class MovementTimer extends CountDownTimer {
     Log.d(TAG, String.format("MovementTimer %s : onFinish", mName));
 
     // Si la List de MovementTimer n'est pas null (le timer actuel n'est pas le dernier d'une liste)
-    if (mNextMovementTimers != null) {
+    if ((mNextMovementTimers != null) && (mNextMovementTimers.size() != 0)) {
       Log.d(TAG, String.format("MovementTimer %s : mNextMovementTimers != null", mName));
       // Prochain timer
       MovementTimer nextMovementTimer = mNextMovementTimers.get(0);
