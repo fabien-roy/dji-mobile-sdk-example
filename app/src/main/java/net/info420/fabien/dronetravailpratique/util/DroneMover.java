@@ -153,6 +153,10 @@ public class DroneMover {
     return new MovementTimer(name, millisInFuture, countDownInterval, pitch, roll, yaw, throttle);
   }
 
+  public MovementTimer getMovementTimer(String name, float x, float y, float elevationPerSecond, int facingDirection) {
+
+  }
+
   // Par défaut, de devant
   public MovementTimer getCircularMovementTimer(String name, int radius, int angle, int orientation) {
     Log.d(TAG, String.format("Creating Circular MovementTimer %s : radius %s angle %s orientation %s", name, radius, angle, orientation));

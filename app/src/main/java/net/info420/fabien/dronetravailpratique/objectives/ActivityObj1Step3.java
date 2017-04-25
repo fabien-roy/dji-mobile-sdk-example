@@ -409,7 +409,7 @@ public class ActivityObj1Step3 extends AppCompatActivity {
     // On va jusqu'au Sud du poteau v
 
     // Puisque le mouvement est en diagonale, je rentre moi-même les données
-    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("H1 : move", (12 / 24), -1, 0, 0, traductMetersToTimeForDumbDrone(24), 100));
+    movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("H1 : move", 1, - (12 / 24), 0, 0, traductMetersToTimeForDumbDrone(24), 100));
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("H2 : wait", wait[0], wait[1], wait[2], wait[3], waitTime, 100));
@@ -426,6 +426,8 @@ public class ActivityObj1Step3 extends AppCompatActivity {
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("I2 : wait", wait[0], wait[1], wait[2], wait[3], waitTime, 100));
+
+    // Le drone pointe désormais vers le Sud
   }
 
   private void addJ(List<MovementTimer> movementTimers) {
@@ -452,6 +454,8 @@ public class ActivityObj1Step3 extends AppCompatActivity {
 
     // On attend 2 secondes
     movementTimers.add(ApplicationDrone.getDroneMover().getMovementTimer("K2 : wait", wait[0], wait[1], wait[2], wait[3], waitTime, 100));
+
+    // Le drone pointe désormais vers l'Est
   }
 
   private void addL(List<MovementTimer> movementTimers) {
