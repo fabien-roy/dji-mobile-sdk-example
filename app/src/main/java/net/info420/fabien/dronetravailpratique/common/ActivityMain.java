@@ -28,6 +28,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
   private TextView mTextModelAvailable;
   private TextView mTextConnectionStatus;
   private Button mBtnOpen;
+  private Button mBtnOpenAnyway; // TODO : Enlever ceci
   private Button mBtnRefresh;
 
   private DJIBaseProduct mProduct;
@@ -41,15 +42,14 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       ActivityCompat.requestPermissions(this,
-        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.VIBRATE,
-          Manifest.permission.INTERNET, Manifest.permission.ACCESS_WIFI_STATE,
-          Manifest.permission.WAKE_LOCK, Manifest.permission.ACCESS_COARSE_LOCATION,
-          Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_FINE_LOCATION,
-          Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
-          Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.SYSTEM_ALERT_WINDOW,
-          Manifest.permission.READ_PHONE_STATE,
-        }
-        , 1);
+                                        new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.VIBRATE,
+                                                      Manifest.permission.INTERNET,               Manifest.permission.ACCESS_WIFI_STATE,
+                                                      Manifest.permission.WAKE_LOCK,              Manifest.permission.ACCESS_COARSE_LOCATION,
+                                                      Manifest.permission.ACCESS_NETWORK_STATE,   Manifest.permission.ACCESS_FINE_LOCATION,
+                                                      Manifest.permission.CHANGE_WIFI_STATE,      Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
+                                                      Manifest.permission.READ_EXTERNAL_STORAGE,  Manifest.permission.SYSTEM_ALERT_WINDOW,
+                                                      Manifest.permission.READ_PHONE_STATE },
+                                        1);
     }
 
     initUI();
@@ -61,15 +61,24 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
 
     setContentView(R.layout.activity_main);
 
-    mTextModelAvailable = (TextView) findViewById(R.id.text_model_available);
-    mTextProduct = (TextView) findViewById(R.id.text_product_info);
+    mTextModelAvailable   = (TextView) findViewById(R.id.text_model_available);
+    mTextProduct          = (TextView) findViewById(R.id.text_product_info);
     mTextConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
-    mBtnOpen = (Button) findViewById(R.id.btn_open);
-    mBtnRefresh = (Button) findViewById(R.id.btn_refresh);
+    mBtnOpen              = (Button)   findViewById(R.id.btn_open);
+    mBtnOpenAnyway        = (Button)   findViewById(R.id.btn_open_anyway);
+    mBtnRefresh           = (Button)   findViewById(R.id.btn_refresh);
 
     mBtnOpen.setEnabled(false);
 
     mBtnOpen.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        // On change d'application
+        startActivity(new Intent(getApplicationContext(), ActivityObjectives.class));
+      }
+    });
+
+    mBtnOpenAnyway.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         // On change d'application

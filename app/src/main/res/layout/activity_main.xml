@@ -58,6 +58,18 @@
     />
 
   <Button
+    android:id="@+id/btn_open_anyway"
+    android:layout_width="150dp"
+    android:layout_height="55dp"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="280dp"
+    android:layout_toRightOf="@id/btn_open"
+    android:backgroundTint="@color/colorAccent"
+    android:text="@string/access_anyway"
+    android:textAllCaps="false"
+    android:textColor="@color/colorTextIcons"/>
+
+  <Button
     android:id="@+id/btn_refresh"
     android:layout_width="150dp"
     android:layout_height="55dp"

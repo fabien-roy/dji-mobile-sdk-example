@@ -101,6 +101,11 @@
       android:label="@string/activity_obj1_step3"
       android:theme="@style/AppTheme">
     </activity>
+    <activity
+      android:name=".objectives.ActivityObj2Step1"
+      android:label="@string/activity_obj2_step1"
+      android:theme="@style/AppTheme">
+    </activity>
   </application>
 
 </manifest>

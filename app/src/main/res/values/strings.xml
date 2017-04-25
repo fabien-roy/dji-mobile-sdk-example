@@ -23,7 +23,12 @@
   <string name="objective1_step3_description">Faire le parcours</string>
   <string name="activity_obj1_step3">ActivityObj1Step3</string>
 
+  <string name="objective2_step1">Objectif #2 Étape #1</string>
+  <string name="objective2_step1_description">Détecter une ligne verte</string>
+  <string name="activity_obj2_step1">ActivityObj2Step1</string>
+
   <string name="access">Accèder</string>
+  <string name="access_anyway">Accèder pareil</string>
   <string name="refresh">Rafraîchir</string>
   <string name="take_off">Décoller</string>
   <string name="landing">Attérir</string>
@@ -37,4 +42,9 @@
   <string name="go_right">Aller à droite</string>
   <string name="turn_left">Tourner à gauche</string>
   <string name="turn_right">Tourner à droite</string>
+
+  <string name="original_image">Image originale</string>
+  <string name="resultat_image">Image résultante</string>
+  <string name="result">Résultat</string>
+  <string name="original">Original</string>
 </resources>

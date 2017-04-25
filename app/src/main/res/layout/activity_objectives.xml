@@ -44,4 +44,15 @@
     android:layout_below="@+id/btn_obj1_step2"
     android:layout_centerHorizontal="true"/>
 
+  <Button
+    android:id="@+id/btn_obj2_step1"
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:textAllCaps="false"
+    android:text="@string/objective2_step1"
+    android:textSize="15dp"
+    android:layout_marginTop="32dp"
+    android:layout_below="@+id/btn_obj1_step3"
+    android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>
