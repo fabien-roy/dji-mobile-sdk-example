@@ -9,10 +9,10 @@
   android:paddingLeft="@dimen/activity_horizontal_margin"
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:paddingTop="@dimen/activity_vertical_margin"
-  tools:context="net.info420.fabien.dronetravailpratique.objectives.ActivityObj1Step2">
+  tools:context="net.info420.fabien.dronetravailpratique.activities.Obj1Etape2Activity">
 
   <TextView
-    android:text="@string/objective1_step2"
+    android:text="@string/objectif1_etape2"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="14dp"
@@ -20,7 +20,7 @@
     android:layout_centerHorizontal="true"/>
 
   <TextView
-    android:text="@string/objective1_step2_description"
+    android:text="@string/objectif1_etape2_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textSize="15dp"
@@ -33,7 +33,7 @@
     android:layout_width="wrap_content"
     android:layout_height="50dp"
     android:textAllCaps="false"
-    android:text="@string/start_motors"
+    android:text="@string/demarrer_moteurs"
     android:textSize="15dp"
     android:layout_marginTop="70dp"
     android:layout_alignParentTop="true"
@@ -44,14 +44,14 @@
     android:layout_width="100dp"
     android:layout_height="50dp"
     android:textAllCaps="false"
-    android:text="@string/landing"
+    android:text="@string/atterir"
     android:textSize="15dp"
     android:layout_marginTop="135dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
 
   <Button
-    android:text="@string/go_forward"
+    android:text="@string/aller_avant"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
@@ -59,7 +59,7 @@
     android:id="@+id/btn_obj1_step2_go_forward"/>
 
   <Button
-    android:text="@string/go_back"
+    android:text="@string/aller_arriere"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_step2_turn_right"
@@ -67,7 +67,7 @@
     android:id="@+id/btn_obj1_step2_go_back"/>
 
   <Button
-    android:text="@string/turn_right"
+    android:text="@string/tourner_droite"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/btn_obj1_step2_turn_right"
@@ -76,7 +76,7 @@
     android:layout_toEndOf="@+id/btn_obj1_step2_go_forward"/>
 
   <Button
-    android:text="@string/turn_left"
+    android:text="@string/tourner_gauche"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_step2_go_forward"
@@ -85,7 +85,7 @@
     android:id="@+id/btn_obj1_step2_turn_left"/>
 
   <Button
-    android:text="@string/go_left"
+    android:text="@string/aller_gaucher"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_step2_go_back"
@@ -94,7 +94,7 @@
     android:id="@+id/btn_obj1_step2_go_left"/>
 
   <Button
-    android:text="@string/go_right"
+    android:text="@string/aller_droite"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_step2_go_back"

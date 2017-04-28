@@ -3,7 +3,7 @@ package net.info420.fabien.dronetravailpratique.util;
 import android.os.CountDownTimer;
 import android.util.Log;
 
-import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
+import net.info420.fabien.dronetravailpratique.application.ApplicationDrone;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package net.info420.fabien.dronetravailpratique.common;
+package net.info420.fabien.dronetravailpratique.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,18 +8,14 @@ import android.view.View;
 import android.widget.Button;
 
 import net.info420.fabien.dronetravailpratique.R;
-import net.info420.fabien.dronetravailpratique.objectives.ActivityObj1Step1;
-import net.info420.fabien.dronetravailpratique.objectives.ActivityObj1Step2;
-import net.info420.fabien.dronetravailpratique.objectives.ActivityObj1Step3;
-import net.info420.fabien.dronetravailpratique.objectives.ActivityObj2Step1;
 
 /**
  * Created by fabien on 17-02-15.
  */
 
-public class ActivityObjectives extends Activity {
+public class ObjectifsActivity extends Activity {
 
-  public static final String TAG = ActivityObjectives.class.getName();
+  public static final String TAG = ObjectifsActivity.class.getName();
 
   private Button mBtnObj1Step1;
   private Button mBtnObj1Step2;
@@ -46,28 +42,28 @@ public class ActivityObjectives extends Activity {
     mBtnObj1Step1.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        startActivity(new Intent(getApplicationContext(), ActivityObj1Step1.class));
+        startActivity(new Intent(getApplicationContext(), Obj1Etape1Activity.class));
       }
     });
 
     mBtnObj1Step2.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        startActivity(new Intent(getApplicationContext(), ActivityObj1Step2.class));
+        startActivity(new Intent(getApplicationContext(), Obj1Etape2Activity.class));
       }
     });
 
     mBtnObj1Step3.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        startActivity(new Intent(getApplicationContext(), ActivityObj1Step3.class));
+        startActivity(new Intent(getApplicationContext(), Obj1Etape3Activity.class));
       }
     });
 
     mBtnObj2Step1.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        startActivity(new Intent(getApplicationContext(), ActivityObj2Step1.class));
+        startActivity(new Intent(getApplicationContext(), Obj2Etape3Activity.class));
       }
     });
   }

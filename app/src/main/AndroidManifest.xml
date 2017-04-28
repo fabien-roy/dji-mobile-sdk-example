@@ -30,7 +30,7 @@
 
   <!-- SDK requirement permission end -->
   <application
-    android:name=".common.ApplicationDrone"
+    android:name=".application.ApplicationDrone"
     android:allowBackup="true"
     android:label="ROYF_Drone"
     android:supportsRtl="true"
@@ -64,7 +64,7 @@
         android:resource="@xml/accessory_filter"/>
     </activity>
     <activity
-      android:name=".common.ActivityMain"
+      android:name=".activities.PrincipaleActivity"
       android:configChanges="orientation|keyboardHidden|screenSize"
       android:label="@string/app_name"
       android:screenOrientation="portrait"
@@ -82,28 +82,28 @@
       <!-- android:resource="@xml/accessory_filter" /> -->
     </activity>
     <activity
-      android:name=".common.ActivityObjectives"
-      android:label="@string/activity_objectives"
+      android:name=".activities.ObjectifsActivity"
+      android:label="@string/objectifs_activity"
       android:theme="@style/AppTheme">
     </activity>
     <activity
-      android:name=".objectives.ActivityObj1Step1"
-      android:label="@string/activity_obj1_step1"
+      android:name=".activities.Obj1Etape1Activity"
+      android:label="@string/obj1_etape1_activity"
       android:theme="@style/AppTheme">
     </activity>
     <activity
-      android:name=".objectives.ActivityObj1Step2"
-      android:label="@string/activity_obj1_step2"
+      android:name=".activities.Obj1Etape2Activity"
+      android:label="@string/obj1_etape2_activity"
       android:theme="@style/AppTheme">
     </activity>
     <activity
-      android:name=".objectives.ActivityObj1Step3"
-      android:label="@string/activity_obj1_step3"
+      android:name=".activities.Obj1Etape3Activity"
+      android:label="@string/obj1_etape3_activity"
       android:theme="@style/AppTheme">
     </activity>
     <activity
-      android:name=".objectives.ActivityObj2Step1"
-      android:label="@string/activity_obj2_step1"
+      android:name=".activities.Obj2Etape3Activity"
+      android:label="@string/obj2_etape3_activity"
       android:theme="@style/AppTheme">
     </activity>
   </application>

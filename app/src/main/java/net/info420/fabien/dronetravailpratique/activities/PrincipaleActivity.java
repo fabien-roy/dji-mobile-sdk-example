@@ -1,4 +1,4 @@
-package net.info420.fabien.dronetravailpratique.common;
+package net.info420.fabien.dronetravailpratique.activities;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -14,15 +14,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import net.info420.fabien.dronetravailpratique.R;
+import net.info420.fabien.dronetravailpratique.application.ApplicationDrone;
 
 import dji.common.error.DJIError;
 import dji.common.util.DJICommonCallbacks;
 import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.products.DJIAircraft;
 
-public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJIVersionCallback {
+public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProduct.DJIVersionCallback {
 
-  public static final String TAG = ActivityMain.class.getName();
+  public static final String TAG = PrincipaleActivity.class.getName();
 
   private TextView mTextProduct;
   private TextView mTextModelAvailable;
@@ -37,8 +38,6 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    Log.d(TAG, "onCreate()");
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       ActivityCompat.requestPermissions(this,
@@ -57,8 +56,6 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
   }
 
   private void initUI() {
-    Log.d(TAG, "initUI()");
-
     setContentView(R.layout.activity_main);
 
     mTextModelAvailable   = (TextView) findViewById(R.id.text_model_available);
@@ -74,7 +71,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
       @Override
       public void onClick(View v) {
         // On change d'application
-        startActivity(new Intent(getApplicationContext(), ActivityObjectives.class));
+        startActivity(new Intent(getApplicationContext(), ObjectifsActivity.class));
       }
     });
 
@@ -82,7 +79,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
       @Override
       public void onClick(View v) {
         // On change d'application
-        startActivity(new Intent(getApplicationContext(), ActivityObjectives.class));
+        startActivity(new Intent(getApplicationContext(), ObjectifsActivity.class));
       }
     });
 
@@ -182,7 +179,7 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
         if (null != mProduct.getModel()) {
           mTextProduct.setText(mProduct.getModel().getDisplayName());
         } else {
-          mTextProduct.setText(R.string.product_information);
+          mTextProduct.setText(R.string.produit_information);
         }
 
         ApplicationDrone.getAircraftInstance().getFlightController();
@@ -197,8 +194,8 @@ public class ActivityMain extends AppCompatActivity implements DJIBaseProduct.DJ
       mBtnOpen.setEnabled(false);
       // mBtnOpen.setEnabled(true);
 
-      mTextProduct.setText(R.string.product_information);
-      mTextConnectionStatus.setText(R.string.connection_loose);
+      mTextProduct.setText(R.string.produit_information);
+      mTextConnectionStatus.setText(R.string.connection_perdue);
     }
   }
 }

@@ -9,7 +9,7 @@
   android:paddingLeft="@dimen/activity_horizontal_margin"
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:paddingTop="@dimen/activity_vertical_margin"
-  tools:context="net.info420.fabien.dronetravailpratique.common.ActivityMain">
+  tools:context="net.info420.fabien.dronetravailpratique.activities.PrincipaleActivity">
 
   <TextView
     android:id="@+id/text_connection_status"
@@ -18,7 +18,7 @@
     android:layout_centerHorizontal="true"
     android:layout_marginTop="100dp"
     android:gravity="center"
-    android:text="@string/connection_loose"
+    android:text="@string/connection_perdue"
     android:textColor="@android:color/black"
     android:textSize="20dp"
     android:textStyle="bold"/>
@@ -29,7 +29,7 @@
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="180dp"
-    android:text="@string/product_information"
+    android:text="@string/produit_information"
     android:textColor="@android:color/black"
     android:textSize="20dp"
     android:gravity="center"
@@ -43,7 +43,7 @@
     android:layout_centerHorizontal="true"
     android:gravity="center"
     android:layout_marginTop="230dp"
-    android:text="@string/model_not_available"
+    android:text="@string/model_non_accessible"
     android:textSize="15dp"/>
 
   <Button
@@ -53,7 +53,7 @@
     android:layout_centerHorizontal="true"
     android:textAllCaps="false"
     android:layout_marginTop="280dp"
-    android:text="@string/access"
+    android:text="@string/acceder"
     android:textSize="15dp"
     />
 
@@ -65,7 +65,7 @@
     android:layout_marginTop="280dp"
     android:layout_toRightOf="@id/btn_open"
     android:backgroundTint="@color/colorAccent"
-    android:text="@string/access_anyway"
+    android:text="@string/acceder_pareil"
     android:textAllCaps="false"
     android:textColor="@color/colorTextIcons"/>
 
@@ -76,7 +76,7 @@
     android:layout_centerHorizontal="true"
     android:textAllCaps="false"
     android:layout_marginTop="330dp"
-    android:text="@string/refresh"
+    android:text="@string/rafraichir"
     android:textSize="15dp"
     />
 

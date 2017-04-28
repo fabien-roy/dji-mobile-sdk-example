@@ -9,10 +9,10 @@
   android:paddingLeft="@dimen/activity_horizontal_margin"
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:paddingTop="@dimen/activity_vertical_margin"
-  tools:context="net.info420.fabien.dronetravailpratique.objectives.ActivityObj1Step3">
+  tools:context="net.info420.fabien.dronetravailpratique.activities.Obj1Etape3Activity">
 
   <TextView
-    android:text="@string/objective1_step3"
+    android:text="@string/objectif1_etape3"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="14dp"
@@ -20,7 +20,7 @@
     android:layout_centerHorizontal="true"/>
 
   <TextView
-    android:text="@string/objective1_step3_description"
+    android:text="@string/objectif1_etape3_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textSize="15dp"
@@ -33,7 +33,7 @@
     android:layout_width="100dp"
     android:layout_height="50dp"
     android:textAllCaps="false"
-    android:text="@string/take_off"
+    android:text="@string/decoller"
     android:textSize="15dp"
     android:layout_marginTop="70dp"
     android:layout_alignParentTop="true"
@@ -44,7 +44,7 @@
     android:layout_width="100dp"
     android:layout_height="50dp"
     android:textAllCaps="false"
-    android:text="@string/landing"
+    android:text="@string/atterir"
     android:textSize="15dp"
     android:layout_marginTop="120dp"
     android:layout_alignParentTop="true"
@@ -55,7 +55,7 @@
     android:layout_width="wrap_content"
     android:layout_height="50dp"
     android:textAllCaps="false"
-    android:text="@string/objective1_step3_description"
+    android:text="@string/objectif1_etape3_description"
     android:textSize="15dp"
     android:layout_marginTop="200dp"
     android:layout_alignParentTop="true"

@@ -1,4 +1,4 @@
-package net.info420.fabien.dronetravailpratique.objectives;
+package net.info420.fabien.dronetravailpratique.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,15 +7,15 @@ import android.view.View;
 import android.widget.Button;
 
 import net.info420.fabien.dronetravailpratique.R;
-import net.info420.fabien.dronetravailpratique.common.ApplicationDrone;
+import net.info420.fabien.dronetravailpratique.application.ApplicationDrone;
 
 /**
  * Created by fabien on 17-02-20.
  */
 
-public class ActivityObj1Step2 extends AppCompatActivity {
+public class Obj1Etape2Activity extends AppCompatActivity {
 
-  public static final String TAG = ActivityObj1Step2.class.getName();
+  public static final String TAG = Obj1Etape2Activity.class.getName();
 
   private Button mBtnStartMotors;
   private Button mBtnLand;

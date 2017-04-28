@@ -1,4 +1,4 @@
-package net.info420.fabien.dronetravailpratique.objectives;
+package net.info420.fabien.dronetravailpratique.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +12,13 @@ import net.info420.fabien.dronetravailpratique.R;
 
 import org.opencv.core.Mat;
 
-public class ActivityObj2Step1 extends AppCompatActivity {
-  public static final String TAG = ActivityObj2Step1.class.getName();
+public class Obj2Etape3Activity extends AppCompatActivity {
+  public static final String TAG = Obj2Etape3Activity.class.getName();
 
-  private TextView tvImage;
+  private TextView  tvImage;
   private ImageView ivImage;
-  private Button btnResultat;
-  private Button btnOriginal;
+  private Button    btnResultat;
+  private Button    btnOriginal;
 
   private Mat image;
 
@@ -32,7 +32,7 @@ public class ActivityObj2Step1 extends AppCompatActivity {
   }
 
   private void initUI(){
-    setContentView(R.layout.activity_obj2_step1);
+    setContentView(R.layout.obj2_etape3_activity);
 
     tvImage = (TextView) findViewById(R.id.tv_image);
     ivImage = (ImageView) findViewById(R.id.iv_image);

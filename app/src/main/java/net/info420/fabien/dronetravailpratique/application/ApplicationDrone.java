@@ -1,4 +1,4 @@
-package net.info420.fabien.dronetravailpratique.common;
+package net.info420.fabien.dronetravailpratique.application;
 
 import android.app.Application;
 import android.content.Intent;
