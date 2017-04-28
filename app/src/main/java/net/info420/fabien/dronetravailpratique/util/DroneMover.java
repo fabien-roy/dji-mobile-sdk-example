@@ -2,7 +2,7 @@ package net.info420.fabien.dronetravailpratique.util;
 
 import android.util.Log;
 
-import net.info420.fabien.dronetravailpratique.application.ApplicationDrone;
+import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 
 import java.util.List;
 
@@ -49,12 +49,12 @@ public class DroneMover {
   }
 
   private void initFlightController() {
-    flightController = ApplicationDrone.getAircraftInstance().getFlightController();
+    flightController = DroneApplication.getAircraftInstance().getFlightController();
   }
 
   public void startMotors() {
     // Il est nécéssaire de démarrer les moteurs. Ceci permet de "tester" le mouvement.
-    ApplicationDrone.getAircraftInstance().getFlightController().turnOnMotors(
+    DroneApplication.getAircraftInstance().getFlightController().turnOnMotors(
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
@@ -68,7 +68,7 @@ public class DroneMover {
 
   public void takeOff() {
     // TAKE OFF
-    ApplicationDrone.getAircraftInstance().getFlightController().takeOff(
+    DroneApplication.getAircraftInstance().getFlightController().takeOff(
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
@@ -87,7 +87,7 @@ public class DroneMover {
     }
 
     // LANDING
-    ApplicationDrone.getAircraftInstance().getFlightController().autoLanding(
+    DroneApplication.getAircraftInstance().getFlightController().autoLanding(
       new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
@@ -298,19 +298,19 @@ public class DroneMover {
     // Mode de base du drone
 
     // Ceci permet de se servir de coordonées x, y, z qui n'utilisent pas le nord magnétique
-    ApplicationDrone.getAircraftInstance().getFlightController().setHorizontalCoordinateSystem(DJIVirtualStickFlightCoordinateSystem.Body);
+    DroneApplication.getAircraftInstance().getFlightController().setHorizontalCoordinateSystem(DJIVirtualStickFlightCoordinateSystem.Body);
 
     // Mise en place du mode de vélocité pour le roll et le pitch (m/s)
-    ApplicationDrone.getAircraftInstance().getFlightController().setRollPitchControlMode(DJIVirtualStickRollPitchControlMode.Velocity);
+    DroneApplication.getAircraftInstance().getFlightController().setRollPitchControlMode(DJIVirtualStickRollPitchControlMode.Velocity);
 
     // Mise en place du mode de vélocité pour le Throttle (m/s)
-    ApplicationDrone.getAircraftInstance().getFlightController().setVerticalControlMode(DJIVirtualStickVerticalControlMode.Velocity);
+    DroneApplication.getAircraftInstance().getFlightController().setVerticalControlMode(DJIVirtualStickVerticalControlMode.Velocity);
 
     // Mise en place du mode de vélocité angulaire pour le Yaw (°/s)
-    ApplicationDrone.getAircraftInstance().getFlightController().setYawControlMode(DJIVirtualStickYawControlMode.AngularVelocity);
+    DroneApplication.getAircraftInstance().getFlightController().setYawControlMode(DJIVirtualStickYawControlMode.AngularVelocity);
 
     // Activation du mode de contrôle par Virtual Stick
-    ApplicationDrone.getAircraftInstance().getFlightController().enableVirtualStickControlMode(
+    DroneApplication.getAircraftInstance().getFlightController().enableVirtualStickControlMode(
       new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
@@ -324,7 +324,7 @@ public class DroneMover {
 
   public void disableVirtualStickMode() {
     // Désactivation du mode de controle par Virtual Stick
-    ApplicationDrone.getAircraftInstance().getFlightController().disableVirtualStickControlMode(
+    DroneApplication.getAircraftInstance().getFlightController().disableVirtualStickControlMode(
       new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {

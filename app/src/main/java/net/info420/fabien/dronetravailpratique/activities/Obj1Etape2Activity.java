@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import net.info420.fabien.dronetravailpratique.R;
-import net.info420.fabien.dronetravailpratique.application.ApplicationDrone;
+import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 
 /**
  * Created by fabien on 17-02-20.
@@ -47,7 +47,7 @@ public class Obj1Etape2Activity extends AppCompatActivity {
 
     Log.d(TAG, "onCreate()");
 
-    ApplicationDrone.getDroneMover().enableVirtualStickMode();
+    DroneApplication.getDroneMover().enableVirtualStickMode();
 
     initUI();
   }
@@ -56,9 +56,9 @@ public class Obj1Etape2Activity extends AppCompatActivity {
   protected void onDestroy() {
     super.onDestroy();
 
-    ApplicationDrone.getDroneMover().land();
+    DroneApplication.getDroneMover().land();
 
-    ApplicationDrone.getDroneMover().disableVirtualStickMode();
+    DroneApplication.getDroneMover().disableVirtualStickMode();
   }
 
   private void initUI(){
@@ -67,7 +67,7 @@ public class Obj1Etape2Activity extends AppCompatActivity {
     mBtnStartMotors = (Button) findViewById(R.id.btn_obj1_step2_start_motors);
     mBtnLand        = (Button) findViewById(R.id.btn_obj1_step2_land);
     mBtnGoForward   = (Button) findViewById(R.id.btn_obj1_step2_go_forward);
-    mBtnGoBack      = (Button) findViewById(R.id.btn_obj2_etape1_aller_haut);
+    mBtnGoBack      = (Button) findViewById(R.id.btn_obj2_etape1_pitch_moins);
     mBtnGoLeft      = (Button) findViewById(R.id.btn_obj1_step2_go_left);
     mBtnGoRight     = (Button) findViewById(R.id.btn_obj1_step2_go_right);
     mBtnTurnRight   = (Button) findViewById(R.id.btn_obj1_step2_turn_right);
@@ -76,56 +76,56 @@ public class Obj1Etape2Activity extends AppCompatActivity {
     mBtnStartMotors.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().startMotors();
+        DroneApplication.getDroneMover().startMotors();
       }
     });
 
     mBtnLand.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().land();
+        DroneApplication.getDroneMover().land();
       }
     });
 
     mBtnGoForward.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goForward));
+        DroneApplication.getDroneMover().move(DroneApplication.getDroneMover().getMovementTimer(goForward));
       }
     });
 
     mBtnGoBack.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goBack));
+        DroneApplication.getDroneMover().move(DroneApplication.getDroneMover().getMovementTimer(goBack));
       }
     });
 
     mBtnGoLeft.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goLeft));
+        DroneApplication.getDroneMover().move(DroneApplication.getDroneMover().getMovementTimer(goLeft));
       }
     });
 
     mBtnGoRight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(goRight));
+        DroneApplication.getDroneMover().move(DroneApplication.getDroneMover().getMovementTimer(goRight));
       }
     });
 
     mBtnTurnLeft.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(turnLeft));
+        DroneApplication.getDroneMover().move(DroneApplication.getDroneMover().getMovementTimer(turnLeft));
       }
     });
 
     mBtnTurnRight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().move(ApplicationDrone.getDroneMover().getMovementTimer(turnRight));
+        DroneApplication.getDroneMover().move(DroneApplication.getDroneMover().getMovementTimer(turnRight));
       }
     });
   }

@@ -28,7 +28,7 @@
   <string name="obj2_etape1_activity">Obj2Etape1Activity</string>
 
   <string name="objectif2_etape2">Objectif #2 Étape #2</string>
-  <string name="objectif2_etape2_description">Détecter une ligne verte</string>
+  <string name="objectif2_etape2_description">Aller chercher l\'image vue par le drone</string>
   <string name="obj2_etape2_activity">Obj2Etape2Activity</string>
 
   <string name="objectif2_etape3">Objectif #2 Étape #3</string>
@@ -54,6 +54,13 @@
   <string name="aller_bas">Descendre</string>
   <string name="tourner_gauche">Tourner à gauche</string>
   <string name="tourner_droite">Tourner à droite</string>
+
+  <string name="pitch_plus">Pitch +</string>
+  <string name="pitch_moins">Pitch -</string>
+  <string name="roll_plus">Roll +</string>
+  <string name="roll_moins">Roll -</string>
+  <string name="yaw_plus">Yaw +</string>
+  <string name="yaw_moins">Yaw -</string>
 
   <string name="original_image">Image originale</string>
   <string name="resultat_image">Image résultante</string>

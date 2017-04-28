@@ -3,7 +3,7 @@ package net.info420.fabien.dronetravailpratique.util;
 import android.os.CountDownTimer;
 import android.util.Log;
 
-import net.info420.fabien.dronetravailpratique.application.ApplicationDrone;
+import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 
 import java.util.List;
 
@@ -44,10 +44,10 @@ public class MovementTimer extends CountDownTimer {
   @Override
   public void onTick(long l) {
     Log.d(TAG, String.format("MovementTimer %s : onTick", mName));
-    if (ApplicationDrone.isFlightControllerAvailable()) {
+    if (DroneApplication.isFlightControllerAvailable()) {
       Log.d(TAG, String.format("MovementTimer %s : Tentative de mouvement avec pitch %s roll %s yaw %s throttle %s", mName, mPitch, mRoll, mYaw, mThrottle));
 
-      ApplicationDrone.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
+      DroneApplication.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
         new DJIVirtualStickFlightControlData(
           mPitch, mRoll, mYaw, mThrottle
         ), new DJICommonCallbacks.DJICompletionCallback() {
@@ -92,8 +92,8 @@ public class MovementTimer extends CountDownTimer {
     } else {
       Log.d(TAG, String.format("MovementTimer %s : dernier lol wut", mName));
       // Sinon, on arrête tout.
-      if (ApplicationDrone.isFlightControllerAvailable()) {
-        ApplicationDrone.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
+      if (DroneApplication.isFlightControllerAvailable()) {
+        DroneApplication.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
           new DJIVirtualStickFlightControlData(
             0, 0, 0, 0
           ), new DJICommonCallbacks.DJICompletionCallback() {

@@ -30,7 +30,7 @@
 
   <!-- SDK requirement permission end -->
   <application
-    android:name=".application.ApplicationDrone"
+    android:name=".application.DroneApplication"
     android:allowBackup="true"
     android:label="ROYF_Drone"
     android:supportsRtl="true"
@@ -99,6 +99,16 @@
     <activity
       android:name=".activities.Obj1Etape3Activity"
       android:label="@string/obj1_etape3_activity"
+      android:theme="@style/AppTheme">
+    </activity>
+    <activity
+      android:name=".activities.Obj2Etape1Activity"
+      android:label="@string/obj2_etape1_activity"
+      android:theme="@style/AppTheme">
+    </activity>
+    <activity
+      android:name=".activities.Obj2Etape2Activity"
+      android:label="@string/obj2_etape2_activity"
       android:theme="@style/AppTheme">
     </activity>
     <activity

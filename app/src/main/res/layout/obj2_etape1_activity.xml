@@ -31,7 +31,7 @@
     android:id="@+id/textView"/>
 
   <Button
-    android:id="@+id/btn_obj2_etape2_connecter"
+    android:id="@+id/btn_obj2_etape1_connecter"
     android:layout_width="wrap_content"
     android:layout_height="50dp"
     android:textAllCaps="false"
@@ -42,56 +42,65 @@
     android:layout_centerHorizontal="true"/>
 
   <Button
-    android:id="@+id/btn_obj2_etape1_deconnecter"
-    android:layout_width="wrap_content"
-    android:layout_height="50dp"
-    android:textAllCaps="false"
-    android:text="@string/deconnecter"
-    android:textSize="15dp"
-    android:layout_marginTop="135dp"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"/>
-
-  <Button
-    android:id="@+id/btn_obj2_etape1_aller_haut"
-    android:text="@string/aller_haut"
+    android:id="@+id/btn_obj2_etape1_pitch_moins"
+    android:text="@string/pitch_moins"
     android:textAllCaps="false"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/btn_obj2_etape1_deconnecter"
-    android:layout_alignLeft="@+id/textView"
-    android:layout_alignStart="@+id/textView"
-    android:layout_marginTop="58dp"/>
+    android:layout_alignBaseline="@+id/btn_obj2_etape1_pitch_plus"
+    android:layout_alignBottom="@+id/btn_obj2_etape1_pitch_plus"
+    android:layout_toLeftOf="@+id/btn_obj2_etape1_pitch_plus"
+    android:layout_toStartOf="@+id/btn_obj2_etape1_pitch_plus"/>
 
   <Button
-    android:id="@+id/btn_obj2_etape1_aller_derriere"
-    android:text="@string/aller_bas"
+    android:id="@+id/btn_obj2_etape1_pitch_plus"
+    android:text="@string/pitch_plus"
     android:layout_width="wrap_content"
+    android:layout_below="@id/btn_obj2_etape1_connecter"
     android:textAllCaps="false"
     android:layout_height="wrap_content"
-    android:layout_alignBaseline="@+id/btn_obj2_etape1_aller_haut"
-    android:layout_alignBottom="@+id/btn_obj2_etape1_aller_haut"
+    android:layout_centerVertical="true"
+    android:layout_alignRight="@+id/textView"
+    android:layout_alignEnd="@+id/textView"/>
+
+  <Button
+    android:id="@+id/btn_obj2_etape1_roll_moins"
+    android:text="@string/roll_moins"
+    android:textAllCaps="false"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj2_etape1_pitch_moins"
+    android:layout_alignLeft="@+id/btn_obj2_etape1_pitch_moins"
+    android:layout_alignStart="@+id/btn_obj2_etape1_pitch_moins"/>
+
+  <Button
+    android:id="@+id/btn_obj2_etape1_roll_plus"
+    android:text="@string/roll_plus"
+    android:textAllCaps="false"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj2_etape1_pitch_plus"
     android:layout_alignRight="@+id/textView2"
     android:layout_alignEnd="@+id/textView2"/>
 
   <Button
-    android:id="@+id/btn_obj2_etape1_tourner_droite"
-    android:text="@string/tourner_droite"
+    android:id="@+id/btn_obj2_etape1_yaw_moins"
+    android:text="@string/yaw_moins"
     android:textAllCaps="false"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/btn_obj2_etape1_aller_derriere"
-    android:layout_alignLeft="@+id/btn_obj2_etape1_aller_derriere"
-    android:layout_alignStart="@+id/btn_obj2_etape1_aller_derriere"/>
+    android:layout_below="@+id/btn_obj2_etape1_roll_moins"
+    android:layout_alignLeft="@+id/btn_obj2_etape1_roll_moins"
+    android:layout_alignStart="@+id/btn_obj2_etape1_roll_moins"/>
 
   <Button
-    android:id="@+id/btn_obj2_etape1_tourner_gauche"
-    android:text="@string/tourner_gauche"
+    android:id="@+id/btn_obj2_etape1_yaw_plus"
+    android:text="@string/yaw_plus"
     android:textAllCaps="false"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/btn_obj2_etape1_aller_haut"
-    android:layout_alignRight="@+id/btn_obj2_etape1_aller_haut"
-    android:layout_alignEnd="@+id/btn_obj2_etape1_aller_haut"/>
+    android:layout_below="@+id/btn_obj2_etape1_roll_plus"
+    android:layout_alignLeft="@+id/btn_obj2_etape1_roll_plus"
+    android:layout_alignStart="@+id/btn_obj2_etape1_roll_plus"/>
 
 </RelativeLayout>

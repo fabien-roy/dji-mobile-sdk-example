@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import net.info420.fabien.dronetravailpratique.R;
-import net.info420.fabien.dronetravailpratique.application.ApplicationDrone;
+import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 
 import dji.common.error.DJIError;
 import dji.common.util.DJICommonCallbacks;
@@ -124,10 +124,10 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
 
     boolean isSafe = true;
 
-    mAircraft = ApplicationDrone.getAircraftInstance();
+    mAircraft = DroneApplication.getAircraftInstance();
 
     // Altitude maximale
-    mAircraft.getFlightController().getFlightLimitation().setMaxFlightHeight(ApplicationDrone.MAX_FLIGHT_HEIGHT, new DJICommonCallbacks.DJICompletionCallback () {
+    mAircraft.getFlightController().getFlightLimitation().setMaxFlightHeight(DroneApplication.MAX_FLIGHT_HEIGHT, new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
           if (djiError != null) {
@@ -140,7 +140,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
       });
 
     // Altiture de retour à la maison
-    mAircraft.getFlightController().setGoHomeAltitude(ApplicationDrone.MAX_GO_HOME_ALTITURE, new DJICommonCallbacks.DJICompletionCallback () {
+    mAircraft.getFlightController().setGoHomeAltitude(DroneApplication.MAX_GO_HOME_ALTITURE, new DJICommonCallbacks.DJICompletionCallback () {
       @Override
       public void onResult(DJIError djiError) {
         if (djiError != null) {
@@ -162,7 +162,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
   // Vérifie si le drone est connecté et active l'interface necéssaire
   private void refreshSDKRelativeUI() {
 
-    mProduct = ApplicationDrone.getProductInstance();
+    mProduct = DroneApplication.getProductInstance();
 
     Log.d(TAG, "mProduct: " + (mProduct == null? "null" : "unnull") );
 
@@ -182,7 +182,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
           mTextProduct.setText(R.string.produit_information);
         }
 
-        ApplicationDrone.getAircraftInstance().getFlightController();
+        DroneApplication.getAircraftInstance().getFlightController();
 
       } else {
 

@@ -13,6 +13,7 @@ import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
 import dji.sdk.base.DJIBaseComponent;
 import dji.sdk.base.DJIBaseProduct;
+import dji.sdk.gimbal.DJIGimbal;
 import dji.sdk.products.DJIAircraft;
 import dji.sdk.sdkmanager.DJISDKManager;
 
@@ -20,18 +21,19 @@ import dji.sdk.sdkmanager.DJISDKManager;
  * Created by fabien on 17-02-10.
  */
 
-public class ApplicationDrone extends Application {
+public class DroneApplication extends Application {
 
-  private static final String TAG = ApplicationDrone.class.getName();
+  private static final String TAG = DroneApplication.class.getName();
 
   public static final String FLAG_CONNECTION_CHANGE = "net_info420_fabien_dronetravailpratique_connection_change";
 
-  public static final int MAX_FLIGHT_HEIGHT = 20;     // 20 mètres du sol (3 mètres = impossible)
-  public static final int MAX_GO_HOME_ALTITURE = 20;  // 20 mètres du sol (3 mètres = impossible)
-  public static final int MAX_ANGLE = 5;              // 5°
-  public static final int MAX_SPEED = 5;              // 5 km/h
+  public static final int MAX_FLIGHT_HEIGHT     = 20; // 20 mètres du sol (3 mètres = impossible)
+  public static final int MAX_GO_HOME_ALTITURE  = 20; // 20 mètres du sol (3 mètres = impossible)
+  public static final int MAX_ANGLE             = 5;  // 5°
+  public static final int MAX_SPEED             = 5;  // 5 km/h
 
   private static DJIBaseProduct mProduct;
+  private static DJIGimbal      mGimbal;
 
   private Handler mHandler;
 
@@ -50,7 +52,13 @@ public class ApplicationDrone extends Application {
     DJISDKManager.getInstance().initSDKManager(this, mDJISDKManagerCallback);
   }
 
-  // Méthode pour avoir l'instance du produit (Singleton)
+  /**
+   * Méthode pour avoir l'instance du produit (Singleton)
+   *
+   * @return le mProduit (DJIBaseProduct)
+   *
+   * @see DJIBaseProduct
+   */
   public static synchronized DJIBaseProduct getProductInstance() {
     if (null == mProduct) {
       mProduct = DJISDKManager.getInstance().getDJIProduct();
@@ -58,7 +66,27 @@ public class ApplicationDrone extends Application {
     return mProduct;
   }
 
-  // Méthode pour avoir l'instance de droneMover (Singleton)
+  /**
+   * Méthode pour avoir l'instance du gimbal (Singleton)
+   *
+   * @return le Gimbal (DJIGimbal)
+   *
+   * @see DJIGimbal
+   */
+  public static synchronized DJIGimbal getGimbal() {
+    if (null == mGimbal) {
+      mGimbal = getProductInstance().getGimbal();
+    }
+    return mGimbal;
+  }
+
+  /**
+   * Méthode pour avoir l'instance de droneMover (Singleton)
+   *
+   * @return le droneMover (DroneMover)
+   *
+   * @see DroneMover
+   */
   public static synchronized DroneMover getDroneMover() {
     if (null == droneMover) {
       droneMover = new DroneMover();

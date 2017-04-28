@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.Button;
 
 import net.info420.fabien.dronetravailpratique.R;
-import net.info420.fabien.dronetravailpratique.application.ApplicationDrone;
+import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 
 public class Obj1Etape1Activity extends AppCompatActivity {
-
   public static final String TAG = Obj1Etape1Activity.class.getName();
 
   private Button mBtnStart;
@@ -29,7 +28,7 @@ public class Obj1Etape1Activity extends AppCompatActivity {
   protected void onDestroy(){
     super.onDestroy();
 
-    ApplicationDrone.getDroneMover().land();
+    DroneApplication.getDroneMover().land();
   }
 
   private void initUI(){
@@ -41,14 +40,14 @@ public class Obj1Etape1Activity extends AppCompatActivity {
     mBtnStart.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().takeOff();
+        DroneApplication.getDroneMover().takeOff();
       }
     });
 
     mBtnStop.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        ApplicationDrone.getDroneMover().land();
+        DroneApplication.getDroneMover().land();
       }
     });
   }
