@@ -62,16 +62,16 @@ public class Obj1Etape2Activity extends AppCompatActivity {
   }
 
   private void initUI(){
-    setContentView(R.layout.activity_obj1_step2);
+    setContentView(R.layout.obj1_etape2_activity);
 
     mBtnStartMotors = (Button) findViewById(R.id.btn_obj1_step2_start_motors);
     mBtnLand        = (Button) findViewById(R.id.btn_obj1_step2_land);
     mBtnGoForward   = (Button) findViewById(R.id.btn_obj1_step2_go_forward);
-    mBtnGoBack      = (Button) findViewById(R.id.btn_obj1_step2_go_back);
+    mBtnGoBack      = (Button) findViewById(R.id.btn_obj2_etape1_aller_haut);
     mBtnGoLeft      = (Button) findViewById(R.id.btn_obj1_step2_go_left);
     mBtnGoRight     = (Button) findViewById(R.id.btn_obj1_step2_go_right);
     mBtnTurnRight   = (Button) findViewById(R.id.btn_obj1_step2_turn_right);
-    mBtnTurnLeft    = (Button) findViewById(R.id.btn_obj1_step2_turn_left);
+    mBtnTurnLeft    = (Button) findViewById(R.id.btn_obj2_etape1_tourner_gauche);
 
     mBtnStartMotors.setOnClickListener(new View.OnClickListener() {
       @Override

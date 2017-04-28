@@ -32,7 +32,7 @@ public class ObjectifsActivity extends Activity {
   }
 
   private void initUI(){
-    setContentView(R.layout.activity_objectives);
+    setContentView(R.layout.objectifs_activity);
 
     mBtnObj1Step1 = (Button) findViewById(R.id.btn_obj1_step1);
     mBtnObj1Step2 = (Button) findViewById(R.id.btn_obj1_step2);

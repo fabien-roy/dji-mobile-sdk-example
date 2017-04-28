@@ -94,7 +94,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   }
 
   private void initUI(){
-    setContentView(R.layout.activity_obj1_step3);
+    setContentView(R.layout.obj1_etape3_activity);
 
     mBtnTakeoff     = (Button) findViewById(R.id.btn_obj1_step3_takeoff);
     mBtnLand        = (Button) findViewById(R.id.btn_obj1_step3_stop);

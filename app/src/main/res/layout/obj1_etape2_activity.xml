@@ -64,7 +64,7 @@
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_step2_turn_right"
     android:layout_centerHorizontal="true"
-    android:id="@+id/btn_obj1_step2_go_back"/>
+    android:id="@+id/btn_obj2_etape1_aller_haut"/>
 
   <Button
     android:text="@string/tourner_droite"
@@ -82,24 +82,24 @@
     android:layout_below="@+id/btn_obj1_step2_go_forward"
     android:layout_toLeftOf="@+id/btn_obj1_step2_go_forward"
     android:layout_toStartOf="@+id/btn_obj1_step2_go_forward"
-    android:id="@+id/btn_obj1_step2_turn_left"/>
+    android:id="@+id/btn_obj2_etape1_tourner_gauche"/>
 
   <Button
     android:text="@string/aller_gaucher"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/btn_obj1_step2_go_back"
-    android:layout_toLeftOf="@+id/btn_obj1_step2_go_back"
-    android:layout_toStartOf="@+id/btn_obj1_step2_go_back"
+    android:layout_below="@+id/btn_obj2_etape1_aller_haut"
+    android:layout_toLeftOf="@+id/btn_obj2_etape1_aller_haut"
+    android:layout_toStartOf="@+id/btn_obj2_etape1_aller_haut"
     android:id="@+id/btn_obj1_step2_go_left"/>
 
   <Button
     android:text="@string/aller_droite"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/btn_obj1_step2_go_back"
-    android:layout_toRightOf="@+id/btn_obj1_step2_go_back"
-    android:layout_toEndOf="@+id/btn_obj1_step2_go_back"
+    android:layout_below="@+id/btn_obj2_etape1_aller_haut"
+    android:layout_toRightOf="@+id/btn_obj2_etape1_aller_haut"
+    android:layout_toEndOf="@+id/btn_obj2_etape1_aller_haut"
     android:id="@+id/btn_obj1_step2_go_right"/>
 
 </RelativeLayout>

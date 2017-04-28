@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/obj2_etape1_activity"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:paddingBottom="@dimen/activity_vertical_margin"
+  android:paddingLeft="@dimen/activity_horizontal_margin"
+  android:paddingRight="@dimen/activity_horizontal_margin"
+  android:paddingTop="@dimen/activity_vertical_margin"
+  tools:context="net.info420.fabien.dronetravailpratique.activities.Obj1Etape1Activity">
+
+  <TextView
+    android:text="@string/objectif2_etape1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="14dp"
+    android:textSize="20dp"
+    android:layout_centerHorizontal="true"
+    android:id="@+id/textView2"/>
+
+  <TextView
+    android:text="@string/objectif2_etape1_description"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="15dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="37dp"
+    android:id="@+id/textView"/>
+
+  <Button
+    android:id="@+id/btn_obj2_etape2_connecter"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"
+    android:textAllCaps="false"
+    android:text="@string/connecter"
+    android:textSize="15dp"
+    android:layout_marginTop="70dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"/>
+
+  <Button
+    android:id="@+id/btn_obj2_etape1_deconnecter"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"
+    android:textAllCaps="false"
+    android:text="@string/deconnecter"
+    android:textSize="15dp"
+    android:layout_marginTop="135dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"/>
+
+  <Button
+    android:id="@+id/btn_obj2_etape1_aller_haut"
+    android:text="@string/aller_haut"
+    android:textAllCaps="false"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj2_etape1_deconnecter"
+    android:layout_alignLeft="@+id/textView"
+    android:layout_alignStart="@+id/textView"
+    android:layout_marginTop="58dp"/>
+
+  <Button
+    android:id="@+id/btn_obj2_etape1_aller_derriere"
+    android:text="@string/aller_bas"
+    android:layout_width="wrap_content"
+    android:textAllCaps="false"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/btn_obj2_etape1_aller_haut"
+    android:layout_alignBottom="@+id/btn_obj2_etape1_aller_haut"
+    android:layout_alignRight="@+id/textView2"
+    android:layout_alignEnd="@+id/textView2"/>
+
+  <Button
+    android:id="@+id/btn_obj2_etape1_tourner_droite"
+    android:text="@string/tourner_droite"
+    android:textAllCaps="false"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj2_etape1_aller_derriere"
+    android:layout_alignLeft="@+id/btn_obj2_etape1_aller_derriere"
+    android:layout_alignStart="@+id/btn_obj2_etape1_aller_derriere"/>
+
+  <Button
+    android:id="@+id/btn_obj2_etape1_tourner_gauche"
+    android:text="@string/tourner_gauche"
+    android:textAllCaps="false"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_obj2_etape1_aller_haut"
+    android:layout_alignRight="@+id/btn_obj2_etape1_aller_haut"
+    android:layout_alignEnd="@+id/btn_obj2_etape1_aller_haut"/>
+
+</RelativeLayout>

@@ -35,6 +35,8 @@
   <string name="objectif2_etape3_description">Détecter une ligne verte</string>
   <string name="obj2_etape3_activity">Obj2Etape3Activity</string>
 
+  <string name="connecter">Connecter</string>
+  <string name="deconnecter">Déconnecter</string>
   <string name="acceder">Accèder</string>
   <string name="acceder_pareil">Accèder pareil</string>
   <string name="rafraichir">Rafraîchir</string>
@@ -48,6 +50,8 @@
   <string name="aller_arriere">Reculer</string>
   <string name="aller_gaucher">Aller à gauche</string>
   <string name="aller_droite">Aller à droite</string>
+  <string name="aller_haut">Monter</string>
+  <string name="aller_bas">Descendre</string>
   <string name="tourner_gauche">Tourner à gauche</string>
   <string name="tourner_droite">Tourner à droite</string>
 
