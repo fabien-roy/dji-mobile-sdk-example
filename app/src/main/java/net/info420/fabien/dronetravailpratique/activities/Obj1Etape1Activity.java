@@ -32,7 +32,7 @@ public class Obj1Etape1Activity extends AppCompatActivity {
   }
 
   private void initUI(){
-    setContentView(R.layout.obj1_etape1_activity);
+    setContentView(R.layout.activity_obj1_etape1);
 
     mBtnStart = (Button) findViewById(R.id.btn_obj1_step1_start);
     mBtnStop = (Button) findViewById(R.id.btn_obj1_step1_stop);

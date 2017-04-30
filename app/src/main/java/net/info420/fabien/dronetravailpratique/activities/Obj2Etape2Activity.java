@@ -29,6 +29,6 @@ public class Obj2Etape2Activity extends AppCompatActivity {
   }
 
   private void initUI(){
-    setContentView(R.layout.obj2_etape2_activity);
+    setContentView(R.layout.activity_obj2_etape2);
   }
 }

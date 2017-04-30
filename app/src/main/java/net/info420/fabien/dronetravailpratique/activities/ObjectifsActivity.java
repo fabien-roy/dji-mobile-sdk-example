@@ -23,7 +23,7 @@ public class ObjectifsActivity extends Activity {
   }
 
   private void initUI(){
-    setContentView(R.layout.objectifs_activity);
+    setContentView(R.layout.activity_objectifs);
 
     findViewById(R.id.btn_obj1_etape1).setOnClickListener(new View.OnClickListener() {
       @Override

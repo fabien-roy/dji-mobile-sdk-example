@@ -62,7 +62,7 @@ public class Obj1Etape2Activity extends AppCompatActivity {
   }
 
   private void initUI(){
-    setContentView(R.layout.obj1_etape2_activity);
+    setContentView(R.layout.activity_obj1_etape2);
 
     mBtnStartMotors = (Button) findViewById(R.id.btn_obj1_step2_start_motors);
     mBtnLand        = (Button) findViewById(R.id.btn_obj1_step2_land);

@@ -32,7 +32,7 @@ public class Obj2Etape3Activity extends AppCompatActivity {
   }
 
   private void initUI(){
-    setContentView(R.layout.obj2_etape3_activity);
+    setContentView(R.layout.activity_obj2_etape3);
 
     tvImage = (TextView) findViewById(R.id.tv_image);
     ivImage = (ImageView) findViewById(R.id.iv_image);

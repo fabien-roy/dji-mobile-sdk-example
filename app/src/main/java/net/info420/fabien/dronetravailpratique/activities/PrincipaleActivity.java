@@ -56,7 +56,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
   }
 
   private void initUI() {
-    setContentView(R.layout.principale_activity);
+    setContentView(R.layout.activity_principale);
 
     mTextModelAvailable   = (TextView) findViewById(R.id.text_model_available);
     mTextProduct          = (TextView) findViewById(R.id.text_product_info);

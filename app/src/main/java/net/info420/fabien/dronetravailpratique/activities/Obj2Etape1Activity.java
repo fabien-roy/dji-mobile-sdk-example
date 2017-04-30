@@ -40,7 +40,7 @@ public class Obj2Etape1Activity extends AppCompatActivity {
   }
 
   private void initUI(){
-    setContentView(R.layout.obj2_etape1_activity);
+    setContentView(R.layout.activity_obj2_etape1);
 
     findViewById(R.id.btn_obj2_etape1_connecter).setOnClickListener(new View.OnClickListener() {
       @Override
