@@ -9,7 +9,7 @@
                 android:orientation="vertical">
 
   <TextureView
-    android:id="@+id/video"
+    android:id="@+id/tv_video"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -103,13 +103,13 @@
   </LinearLayout>
 
   <TextView
-    android:id="@+id/timer"
+    android:id="@+id/tv_timer"
     android:layout_width="150dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:layout_marginTop="23dp"
     android:gravity="center"
     android:textColor="#ffffff"
-    android:layout_alignTop="@+id/video"
+    android:layout_alignTop="@+id/tv_video"
     android:layout_centerHorizontal="true" />
 </RelativeLayout>
