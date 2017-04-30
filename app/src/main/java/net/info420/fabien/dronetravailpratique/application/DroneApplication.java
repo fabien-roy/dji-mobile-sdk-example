@@ -13,6 +13,7 @@ import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
 import dji.sdk.base.DJIBaseComponent;
 import dji.sdk.base.DJIBaseProduct;
+import dji.sdk.camera.DJICamera;
 import dji.sdk.gimbal.DJIGimbal;
 import dji.sdk.products.DJIAircraft;
 import dji.sdk.sdkmanager.DJISDKManager;
@@ -34,6 +35,7 @@ public class DroneApplication extends Application {
 
   private static DJIBaseProduct mProduct;
   private static DJIGimbal      mGimbal;
+  private static DJICamera      mCamera;
 
   private Handler mHandler;
 
@@ -73,11 +75,25 @@ public class DroneApplication extends Application {
    *
    * @see DJIGimbal
    */
-  public static synchronized DJIGimbal getGimbal() {
+  public static synchronized DJIGimbal getGimbalInstance() {
     if (null == mGimbal) {
       mGimbal = getProductInstance().getGimbal();
     }
     return mGimbal;
+  }
+
+  /**
+   * Méthode pour avoir l'instance de la caméra (Singleton)
+   *
+   * @return la Caméra (DJICamera)
+   *
+   * @see dji.sdk.camera.DJICamera
+   */
+  public static synchronized DJICamera getCameraInstance() {
+    if (null == mCamera) {
+      mCamera = getProductInstance().getCamera();
+    }
+    return mCamera;
   }
 
   /**

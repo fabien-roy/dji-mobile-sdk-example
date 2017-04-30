@@ -102,7 +102,7 @@ public class Obj2Etape1Activity extends AppCompatActivity {
    */
   private void setupGimbal() {
     // FreeMode permet de jouer avec le pitch, le roll et le yaw
-    DroneApplication.getGimbal().setGimbalWorkMode(DJIGimbalWorkMode.FreeMode, new DJICommonCallbacks.DJICompletionCallback() {
+    DroneApplication.getGimbalInstance().setGimbalWorkMode(DJIGimbalWorkMode.FreeMode, new DJICommonCallbacks.DJICompletionCallback() {
       @Override
       public void onResult(DJIError djiError) {
         if (djiError == null) {
@@ -127,7 +127,7 @@ public class Obj2Etape1Activity extends AppCompatActivity {
   private void bougerGimbal(DJIGimbalAngleRotation pitch, DJIGimbalAngleRotation roll, DJIGimbalAngleRotation yaw) {
     // RelativeAngle permet d'ajouter l'angle à l'angle actuel du Gimbal
     // AbsoluteAngle permettrait d'ajuster l'angle avec le devant du drone
-    DroneApplication.getGimbal().rotateGimbalByAngle(DJIGimbalRotateAngleMode.RelativeAngle, pitch, roll, yaw, new DJICommonCallbacks.DJICompletionCallback() {
+    DroneApplication.getGimbalInstance().rotateGimbalByAngle(DJIGimbalRotateAngleMode.RelativeAngle, pitch, roll, yaw, new DJICommonCallbacks.DJICompletionCallback() {
       @Override
       public void onResult(DJIError djiError) {
         if (djiError == null) {
