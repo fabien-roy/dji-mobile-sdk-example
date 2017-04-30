@@ -19,6 +19,11 @@ import dji.common.util.DJICommonCallbacks;
  * @author  Fabien Roy
  * @version 1.0
  * @since   17-04-28
+ *
+ * {@link <a href="https://github.com/dji-sdk/Mobile-SDK-Android/blob/master/Sample%20Code/app/src/main/java/com/dji/sdk/sample/demo/gimbal/GimbalCapabilityView.java">
+ *   Bouger le Gimbal</a>}
+ * {@link <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-gimbal.html">
+ *   Informations sur le gimbal</a>}
  */
 public class Obj2Etape1Activity extends AppCompatActivity {
   public static final String TAG = Obj2Etape1Activity.class.getName();

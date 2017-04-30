@@ -66,4 +66,10 @@
   <string name="resultat_image">Image résultante</string>
   <string name="original">Original</string>
   <string name="resultat">Résultat</string>
+
+  <string name="capturer">Capturer</string>
+  <string name="demarrer_enregistrement">Démarrer l\'enregistrement</string>
+  <string name="arreter_enregistrement">Arrêter l\'enregistrement</string>
+  <string name="mode_photo">Mode photo</string>
+  <string name="mode_video">Mode vidéo</string>
 </resources>
