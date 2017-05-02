@@ -41,7 +41,7 @@ public class Obj2Etape1Activity extends AppCompatActivity {
   protected void onDestroy(){
     super.onDestroy();
 
-    DroneApplication.getDroneMover().land();
+    DroneApplication.getDroneBougeur().atterir();
   }
 
   private void initUI(){
@@ -54,7 +54,7 @@ public class Obj2Etape1Activity extends AppCompatActivity {
       }
     });
 
-    findViewById(R.id.btn_obj2_etape1_pitch_moins).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape_2_aller_derriere).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         bougerGimbal(15, 0, 0);

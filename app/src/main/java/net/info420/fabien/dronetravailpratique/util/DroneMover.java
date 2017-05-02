@@ -66,7 +66,7 @@ public class DroneMover {
     );
   }
 
-  public void takeOff() {
+  public void decoller() {
     // TAKE OFF
     DroneApplication.getAircraftInstance().getFlightController().takeOff(
       new DJICommonCallbacks.DJICompletionCallback () {
@@ -80,7 +80,7 @@ public class DroneMover {
     );
   }
 
-  public void land() {
+  public void atterir() {
     if (null != mMovementTimer) {
       mMovementTimer.cancel();
       mMovementTimer = null;
@@ -167,14 +167,11 @@ public class DroneMover {
     if ((x == 0) && (y == 0)) {
       // Élévation avec un x = 0 et y = 0
       if (elevationPerSecond != 0) {
-       return new MovementTimer(name, (long) (elevationPerSecond * 1000), 100, 0, 0, 0, elevationPerSecond);
+       return new MovementTimer(name, (long) elevationPerSecond * 1000, 100, 0, 0, 0, elevationPerSecond);
       }
 
       return getWaitingMovementTimer(name);
     }
-
-    // On ajuste en seconde
-    elevationPerSecond *= 1000;
 
     // On change x et y si le drone ne fais pas face au Nord
     // Si vous voulez une interprêtation simple de ce qui se passe ici, en voici une.
@@ -197,9 +194,9 @@ public class DroneMover {
     // Si un des mouvement est égal à zéro, c'est facile. On va à 1 ou -1 m/s (en fonction du signe de la coordonnée non-nulle).
     // Le temps, c'est simplement la valeur absolue de la coordonnée non-nulle
     if (x == 0) {
-      return new    MovementTimer(name, (long) Math.abs(y), 100, (y > 0) ? 1 : -1,                          0,                                         0, elevationPerSecond); // Le drone ne va qu'en y
+      return new MovementTimer(name, (long) Math.abs(y) * 1000, 100, 0, (y > 0) ? 1 : -1, 0, elevationPerSecond); // Le drone ne va qu'en y
     } else if (y == 0) {
-      return new    MovementTimer(name, (long) Math.abs(x), 100, 0,                                         (x > 0) ? 1 : -1,                          0, elevationPerSecond); // Le drone ne va qu'en x
+      return new MovementTimer(name, (long) Math.abs(x) * 1000, 100, (x > 0) ? 1 : -1, 0, 0, elevationPerSecond); // Le drone ne va qu'en x
     } else {
       // Sinon, c'est soit un mouvement diagonale, soit
 
@@ -209,13 +206,13 @@ public class DroneMover {
       // Sincérement, la meilleur technique pour comprendre ceci c'est de prendre des coordonnées et de calculer avec le if-then-else ci-dessous
       if (Math.abs(x) > Math.abs(y)) {
         // Le vecteur en X est supérieur à celui en Y.
-        return new  MovementTimer(name, (long) Math.abs(x), 100, (y > 0) ? Math.abs(y/x) : - Math.abs(y/x), (x > 0) ? 1 : -1,                          0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
-      } else if (y > x) {
+        return new  MovementTimer(name, (long) Math.abs(x) * 1000, 100, (y > 0) ? Math.abs(y/x) : - Math.abs(y/x), (x > 0) ? 1 : -1, 0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
+      } else if (Math.abs(y) > Math.abs(x)) {
         // Le vecteur en Y est supérieur à celui en X.
-        return new  MovementTimer(name, (long) Math.abs(y), 100, (y > 0) ? 1 : -1,                          (x > 0) ? Math.abs(x/y) : - Math.abs(x/y), 0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
+        return new  MovementTimer(name, (long) Math.abs(y) * 1000, 100, (y > 0) ? 1 : -1, (x > 0) ? Math.abs(x/y) : - Math.abs(x/y), 0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
       } else {
         // Ils sont égaux
-        return new  MovementTimer(name, (long) Math.abs(x), 100, (y > 0) ? 1 : -1,                          (x > 0) ? 1 : -1,                          0, elevationPerSecond); // Le drone va autant en x qu'en y, donc on se sert de x, puisque ça n'a aucune importance
+        return new  MovementTimer(name, (long) Math.abs(x) * 1000, 100, (x > 0) ? 1 : -1, (y > 0) ? 1 : -1,  0, elevationPerSecond); // Le drone va autant en x qu'en y, donc on se sert de x, puisque ça n'a aucune importance
       }
     }
   }

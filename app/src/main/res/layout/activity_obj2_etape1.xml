@@ -42,7 +42,7 @@
     android:layout_centerHorizontal="true"/>
 
   <Button
-    android:id="@+id/btn_obj2_etape1_pitch_moins"
+    android:id="@+id/btn_obj1_etape_2_aller_derriere"
     android:text="@string/pitch_moins"
     android:textAllCaps="false"
     android:layout_width="wrap_content"
@@ -69,9 +69,9 @@
     android:textAllCaps="false"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/btn_obj2_etape1_pitch_moins"
-    android:layout_alignLeft="@+id/btn_obj2_etape1_pitch_moins"
-    android:layout_alignStart="@+id/btn_obj2_etape1_pitch_moins"/>
+    android:layout_below="@+id/btn_obj1_etape_2_aller_derriere"
+    android:layout_alignLeft="@+id/btn_obj1_etape_2_aller_derriere"
+    android:layout_alignStart="@+id/btn_obj1_etape_2_aller_derriere"/>
 
   <Button
     android:id="@+id/btn_obj2_etape1_roll_plus"

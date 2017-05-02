@@ -29,7 +29,7 @@
     android:layout_marginTop="37dp"/>
 
   <Button
-    android:id="@+id/btn_obj1_step1_start"
+    android:id="@+id/btn_obj1_etape1_decoller"
     android:layout_width="100dp"
     android:layout_height="50dp"
     android:textAllCaps="false"
@@ -40,7 +40,7 @@
     android:layout_centerHorizontal="true"/>
 
   <Button
-    android:id="@+id/btn_obj1_step1_stop"
+    android:id="@+id/btn_ob1_etape1_arreter"
     android:layout_width="100dp"
     android:layout_height="50dp"
     android:textAllCaps="false"

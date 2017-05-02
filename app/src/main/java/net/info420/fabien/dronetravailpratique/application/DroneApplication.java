@@ -103,7 +103,7 @@ public class DroneApplication extends Application {
    *
    * @see DroneMover
    */
-  public static synchronized DroneMover getDroneMover() {
+  public static synchronized DroneMover getDroneBougeur() {
     if (null == droneMover) {
       droneMover = new DroneMover();
     }

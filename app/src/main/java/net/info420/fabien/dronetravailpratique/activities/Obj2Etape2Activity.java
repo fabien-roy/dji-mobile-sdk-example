@@ -69,7 +69,7 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
   protected void onDestroy(){
     super.onDestroy();
 
-    DroneApplication.getDroneMover().land();
+    DroneApplication.getDroneBougeur().atterir();
   }
 
   /**

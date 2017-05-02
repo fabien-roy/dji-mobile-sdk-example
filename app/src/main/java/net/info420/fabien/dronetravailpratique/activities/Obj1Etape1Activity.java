@@ -2,52 +2,83 @@ package net.info420.fabien.dronetravailpratique.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
+import net.info420.fabien.dronetravailpratique.util.DroneMover;
 
+/**
+ * {@link android.app.Activity} pour faire décoller et attérir le drone
+ *
+ * @see DroneMover
+ *
+ * @author  Fabien Roy
+ * @version 1.0
+ * @since   ?
+ */
 public class Obj1Etape1Activity extends AppCompatActivity {
   public static final String TAG = Obj1Etape1Activity.class.getName();
 
-  private Button mBtnStart;
-  private Button mBtnStop;
-
+  /**
+   * Exécuté à la création de l'{@link android.app.Activity}
+   *
+   * <ul>
+   *   <li>Appele {@link #initUI()}</li>
+   * </ul>
+   *
+   * @param savedInstanceState {@link Bundle}
+   *
+   * @see #initUI()
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    Log.d(TAG, "onCreate()");
-
     initUI();
   }
 
+  /**
+   * Exécuté à la fermetture de l'{@link android.app.Activity}
+   *
+   * <ul>
+   *   <li>Fait attérir le drone</li>
+   * </ul>
+   *
+   * @see DroneMover#atterir()
+   */
   @Override
   protected void onDestroy(){
     super.onDestroy();
 
-    DroneApplication.getDroneMover().land();
+    DroneApplication.getDroneBougeur().atterir();
   }
 
+  /**
+   * Inialise l'interface
+   *
+   * <ul>
+   *   <li>Ajoute le bon {@link android.text.Layout}</li>
+   *   <li>Met les Listeners</li>
+   * </ul>
+   *
+   * @see DroneMover#decoller()
+   * @see DroneMover#atterir()
+   */
   private void initUI(){
     setContentView(R.layout.activity_obj1_etape1);
 
-    mBtnStart = (Button) findViewById(R.id.btn_obj1_step1_start);
-    mBtnStop = (Button) findViewById(R.id.btn_obj1_step1_stop);
-
-    mBtnStart.setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape1_decoller).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneMover().takeOff();
+        DroneApplication.getDroneBougeur().decoller();
       }
     });
 
-    mBtnStop.setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_ob1_etape1_arreter).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneMover().land();
+        DroneApplication.getDroneBougeur().atterir();
       }
     });
   }
