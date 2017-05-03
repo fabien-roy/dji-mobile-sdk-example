@@ -6,12 +6,12 @@ import android.view.View;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
-import net.info420.fabien.dronetravailpratique.util.DroneMover;
+import net.info420.fabien.dronetravailpratique.util.DroneBougeur;
 
 /**
  * {@link android.app.Activity} pour faire décoller et attérir le drone
  *
- * @see DroneMover
+ * @see DroneBougeur
  *
  * @author  Fabien Roy
  * @version 1.0
@@ -45,7 +45,7 @@ public class Obj1Etape1Activity extends AppCompatActivity {
    *   <li>Fait attérir le drone</li>
    * </ul>
    *
-   * @see DroneMover#atterir()
+   * @see DroneBougeur#atterir()
    */
   @Override
   protected void onDestroy(){
@@ -62,8 +62,8 @@ public class Obj1Etape1Activity extends AppCompatActivity {
    *   <li>Met les Listeners</li>
    * </ul>
    *
-   * @see DroneMover#decoller()
-   * @see DroneMover#atterir()
+   * @see DroneBougeur#decoller()
+   * @see DroneBougeur#atterir()
    */
   private void initUI(){
     setContentView(R.layout.activity_obj1_etape1);

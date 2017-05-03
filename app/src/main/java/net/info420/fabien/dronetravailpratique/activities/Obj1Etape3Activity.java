@@ -6,7 +6,7 @@ import android.view.View;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
-import net.info420.fabien.dronetravailpratique.util.DroneMover;
+import net.info420.fabien.dronetravailpratique.util.DroneBougeur;
 import net.info420.fabien.dronetravailpratique.util.MovementTimer;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
  * @version 1.0
  * @since   17-02-20
  *
- * @see DroneMover
+ * @see DroneBougeur
  * @see MovementTimer
  */
 public class Obj1Etape3Activity extends AppCompatActivity {
@@ -51,13 +51,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param savedInstanceState {@link Bundle}
    *
    * @see #initUI()
-   * @see DroneMover#enableVirtualStickMode()
+   * @see DroneBougeur#setupFlightController()
    */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    DroneApplication.getDroneBougeur().enableVirtualStickMode();
+    DroneApplication.getDroneBougeur().setupFlightController();
 
     initUI();
   }
@@ -70,8 +70,8 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *   <li>Désactive le mode VirtualStick du drone</li>
    * </ul>
    *
-   * @see DroneMover#atterir()
-   * @see DroneMover#disableVirtualStickMode()
+   * @see DroneBougeur#atterir()
+   * @see DroneBougeur#disableVirtualStickMode()
    */
   @Override
   protected void onDestroy() {
@@ -90,9 +90,9 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *   <li>Met les Listeners</li>
    * </ul>
    *
-   * @see #move(char)
-   * @see DroneMover#decoller()
-   * @see DroneMover#atterir()
+   * @see #bouger(char)
+   * @see DroneBougeur#decoller()
+   * @see DroneBougeur#atterir()
    * @see net.info420.fabien.dronetravailpratique.util.MovementTimer
    */
   private void initUI(){
@@ -121,85 +121,85 @@ public class Obj1Etape3Activity extends AppCompatActivity {
     findViewById(R.id.btn_obj1_etape3_a).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('A');
+        bouger('A');
       }
     });
     findViewById(R.id.btn_obj1_etape3_b).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('B');
+        bouger('B');
       }
     });
     findViewById(R.id.btn_obj1_etape3_c).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('C');
+        bouger('C');
       }
     });
     findViewById(R.id.btn_obj1_etape3_d).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('D');
+        bouger('D');
       }
     });
     findViewById(R.id.btn_obj1_etape3_e).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('E');
+        bouger('E');
       }
     });
     findViewById(R.id.btn_obj1_etape3_f).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('F');
+        bouger('F');
       }
     });
     findViewById(R.id.btn_obj1_etape3_g).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('G');
+        bouger('G');
       }
     });
     findViewById(R.id.btn_obj1_etape3_h).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('H');
+        bouger('H');
       }
     });
     findViewById(R.id.btn_obj1_etape3_i).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('I');
+        bouger('I');
       }
     });
     findViewById(R.id.btn_obj1_etape3_j).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('J');
+        bouger('J');
       }
     });
     findViewById(R.id.btn_obj1_etape3_k).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('K');
+        bouger('K');
       }
     });
     findViewById(R.id.btn_obj1_etape3_l).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('L');
+        bouger('L');
       }
     });
     findViewById(R.id.btn_obj1_etape3_m).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('M');
+        bouger('M');
       }
     });
     findViewById(R.id.btn_obj1_etape3_n).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        move('N');
+        bouger('N');
       }
     });
   }
@@ -208,7 +208,6 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * Exécute le parcours
    *
    * <p>Toutes les coordonnées sont en pieds</p>
-   * <p>Nord : y positif. Est : x positif.</p>
    *
    * <p>Coordonnées des poteaux</p>
    * <ul>
@@ -237,38 +236,50 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *   <li>M : ( 19,   12 ) à ( 19,   12 ) : (   0,     0 ), arc 360° antihoraire</li>
    *   <li>N : ( 19,   12 ) à ( 19,    0 ) : (   0,   -12 )</li>
    * </ul>
+   *
+   * <p>Puisqu'on travaille en mode Velocity, Body : </p>
+   * <ul>
+   *   <li>Pitch positif : vers la droite</li>
+   *   <li>Pitch négatif : vers la gauche</li>
+   *   <li>Roll  positif : vers l'avant</li>
+   *   <li>Roll  négatif : vers l'arrière</li>
+   * </ul>
+   *
+   * @see DroneBougeur
+   * @see DroneBougeur#decoller()
+   * @see DroneBougeur#atterir()
+   * @see DroneBougeur#moveList(List)
+   * @see MovementTimer
+   *
+   * {@link <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-flightController.html"
+   *        target="_blank">
+   *        Source : Roll Pitch Control Mode</a>}
    */
   private void go() {
-    // TODO : La doc est rendue là
-    // Puisqu'on travaille en mode Velocity, body :
-    // Pitch positif : vers la droite
-    // Pitch négatif : vers la gauche
-    // Roll  positif : vers l'avant
-    // Roll  négatif : vers l'arrière
-
+    // TODO : Décollage et atterissage
     // Décollage
     // DroneApplication.getDroneBougeur().decoller();
 
     List<MovementTimer> movementTimers = new ArrayList<>();
 
-    // movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("Post-takeoff : wait"));
+    // movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("Post-takeoff : wait"));
 
-    addA(movementTimers);
-    addB(movementTimers);
-    addC(movementTimers);
-    addD(movementTimers);
-    addE(movementTimers);
-    addF(movementTimers);
-    addG(movementTimers);
-    addH(movementTimers);
-    addI(movementTimers);
-    addJ(movementTimers);
-    addK(movementTimers);
-    addL(movementTimers);
-    addM(movementTimers);
-    addN(movementTimers);
+    ajouterA(movementTimers);
+    ajouterB(movementTimers);
+    ajouterC(movementTimers);
+    ajouterD(movementTimers);
+    ajouterE(movementTimers);
+    ajouterF(movementTimers);
+    ajouterG(movementTimers);
+    ajouterH(movementTimers);
+    ajouterI(movementTimers);
+    ajouterJ(movementTimers);
+    ajouterK(movementTimers);
+    ajouterL(movementTimers);
+    ajouterM(movementTimers);
+    ajouterN(movementTimers);
 
-    // movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("Pre-atterir : wait"));
+    // movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("Pre-atterir : wait"));
 
     // Exécution des mouvements
     DroneApplication.getDroneBougeur().moveList(movementTimers);
@@ -277,273 +288,349 @@ public class Obj1Etape3Activity extends AppCompatActivity {
     // DroneApplication.getDroneBougeur().atterir();
   }
 
-  private void addA(List<MovementTimer> movementTimers) {
-    // Test : OK
-    // MOUVEMENT A
-    // On va du point (0, 0) au point (0,12)
-    // Vecteur de mouvement : (0, 12)
-    // On dépasse le poteau i vers le Nord
+  /**
+   * MOUVEMENT A
+   *
+   * <p>On va du point (0, 0) au point (0, 12), vecteur de mouvement : (0, 12)</p>
+   * <p>On dépasse le poteau i vers le Nord</p>
+   *
+   * <p>Au départ, le drone pointe vers le <b>Nord</b></p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getMovementTimer(String, float, float, float, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterA(List<MovementTimer> movementTimers) {
+    // TODO : Test : A : OK
 
-    // Le drone doit avancer de 12 pieds en avant
-
-    // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("A1 : move", goForward[0], goForward[1], goForward[2], goForward[3], traductMetersToTimeForDumbDrone(4), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("A1 : move", MOVE_A[0], MOVE_A[1], 0, DroneMover.FACING_NORTH));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("A2 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("A1 : bouger", MOVE_A[0], MOVE_A[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("A2 : attendre"));
   }
 
-  private void addB(List<MovementTimer> movementTimers) {
-    // Test : OK
-    // MOUVEMENT B
-    // On va du point (0, 12) au point (12,12)
-    // Vecteur de mouvement : (12, 0)
-    // On dépasse le poteau i vers l'Est
+  /**
+   * MOUVEMENT B
+   *
+   * <p>On va du point (0, 12) au point (12, 12), vecteur de mouvement : (12, 0)</p>
+   * <p>On dépasse le poteau i vers l'Est</p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getMovementTimer(String, float, float, float, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterB(List<MovementTimer> movementTimers) {
+    // TODO : Test : B : OK
 
-    // Le drone doit avancer de 12 pieds en à droite
-
-    // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("B1 : move", goRight[0], goRight[1], goRight[2], goRight[3], traductMetersToTimeForDumbDrone(4), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("B1 : move", MOVE_B[0], MOVE_B[1], 0, DroneMover.FACING_NORTH));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("B2 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("B1 : bouger", MOVE_B[0], MOVE_B[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("B2 : attendre"));
   }
 
-  private void addC(List<MovementTimer> movementTimers) {
-    // Test : OK
-    // MOUVEMENT C
-    // On va du point (12, 12) au point (12, 0)
-    // Vecteur de mouvement : (0, -12)
-    // On dépasse le poteau i vers le Sud
+  /**
+   * MOUVEMENT C
+   *
+   * <p>On va du point (12, 12) au point (12, 0), vecteur de mouvement : (0, -12)</p>
+   * <p>On dépasse le poteau i vers le Sud</p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getMovementTimer(String, float, float, float, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterC(List<MovementTimer> movementTimers) {
+    // TODO : Test : C : OK
 
-    // Le drone doit avancer de 12 pieds en arrière
-
-    // Avancer de 1 m/s pendant 4s (4m, environ 12')
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("C1 : move", goBack[0], goBack[1], goBack[2], goBack[3], traductMetersToTimeForDumbDrone(4), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("C1 : move", MOVE_C[0], MOVE_C[1], 0, DroneMover.FACING_NORTH));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("C2 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("C1 : bouger", MOVE_C[0], MOVE_C[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("C2 : attendre"));
   }
 
-  private void addD(List<MovementTimer> movementTimers) {
-    // Test : OK
-    // MOUVEMENT D
-    // On va du point (12, 0) au point (32, 0)
-    // Vecteur de mouvement : (20, 0)
-    // On va jusqu'au Sud du poteau ii
+  /**
+   * MOUVEMENT D
+   *
+   * <p>On va du point (12, 0) au point (32, 0), vecteur de mouvement : (20, 0)</p>
+   * <p>On va jusqu'au Sud du poteau ii</p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getMovementTimer(String, float, float, float, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterD(List<MovementTimer> movementTimers) {
+    // TODO : Test : D : OK
 
-    // Le drone doit avancer de 32 pieds en avant
-
-    // Avancer de 1 m/s pendant 11s (11m, environ 32')
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("D1 : move", goRight[0], goRight[1], goRight[2], goRight[3], traductMetersToTimeForDumbDrone(6), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("D1 : move", MOVE_D[0], MOVE_D[1], 0, DroneMover.FACING_NORTH));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("D2 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("D1 : bouger", MOVE_D[0], MOVE_D[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("D2 : attendre"));
   }
 
-  private void addE(List<MovementTimer> movementTimers) {
-    // Test : OK
-    // MOUVEMENT E
-    // On va du point (32, 0) au point (32, 12)
-    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Ouest, rayon de 6' (2m)
-    // On fait un arc de 180° vers le Nord du poteau ii. L'arc est concave vers l'Ouest, antihoraire.
+  /**
+   * MOUVEMENT E
+   *
+   * <p>On va du point (32, 0) au point (32, 12), vecteur de mouvement : Arc de 180° (0, 12),
+   * concave vers l'Ouest, rayon de 6' (2m)</p>
+   * <p>On fait un arc de 180° vers le Nord du poteau ii. L'arc est concave vers l'Ouest,
+   * antihoraire.</p>
+   *
+   * <p>Après ce mouvement, le drone pointe vers le <b>Sud</b></p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterE(List<MovementTimer> movementTimers) {
+    // TODO : Test : E : OK
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCircularMovementTimer("E1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.COUNTER_CLOCKWISE, DroneMover.RIGHT_ROTATION));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("E2 : wait"));
-
-    // Le drone pointe désormais vers le Sud
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("E1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("E2 : attendre"));
   }
 
-  private void addF(List<MovementTimer> movementTimers) {
-    // Test : Stall?
-    // MOUVEMENT F
-    // On va du point (32, 12) au point (6, 18)
-    // Vecteur de mouvement : (-24, 6)
-    // On va vers le Sud du poteau iv, tout en passant AU DESSUS du poteau iii
+  /**
+   * MOUVEMENT F
+   *
+   * <p>On va du point (32, 12) au point (6, 18), vecteur de mouvement : (-24, 6)</p>
+   * <p>On va vers le Sud du poteau iv, tout en passant <b>AU DESSUS</b> du poteau iii</p>
+   *
+   * <p>Le drone doit d'abord monter, puis descendre. Le mouvement est donc séparé en deux</p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getMovementTimer(String, float, float, float, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterF(List<MovementTimer> movementTimers) {
+    // TODO : Test : F : Stall?
 
-    // Puisque le mouvement est en diagonale, je rentre moi-même les données
-    // On monte
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F1 : move", 1, -(3 / 12), 0, (float) 0.1, traductMetersToTimeForDumbDrone(12), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F1 : move", MOVE_F[0], MOVE_F[1], MOVE_F[2], DroneMover.FACING_SOUTH));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F1 : bouger", MOVE_F[0], MOVE_F[1], MOVE_F[2], DroneBougeur.FACE_SUD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("F2 : attendre"));
 
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("F2 : wait"));
-
-    // Puisque le mouvement est en diagonale, je rentre moi-même les données
-    // On descend
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F1 : move", 1, -(3 / 12), 0, (float) -0.1, traductMetersToTimeForDumbDrone(12), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F3 : move", MOVE_F[0], MOVE_F[1], - MOVE_F[2], DroneMover.FACING_SOUTH));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("F4 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F3 : bouger", MOVE_F[0], MOVE_F[1], - MOVE_F[2], DroneBougeur.FACE_SUD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("F4 : attendre"));
   }
 
-  private void addG(List<MovementTimer> movementTimers) {
-    // Test : À faire
-    // MOUVEMENT G
-    // On va du point (6, 18) au point (6, 30)
-    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Est, rayon de 6' (2m)
-    // On fait un arc de 180° vers le Nord du poteau iv. L'arc est concave vers l'Est, horaire.
+  /**
+   * MOUVEMENT G
+   *
+   * <p>On va du point (6, 18) au point (6, 30), vecteur de mouvement : Arc de 180° (0, 12),
+   * concave vers l'Est, rayon de 6' (2m)</p>
+   * <p>On fait un arc de 180° vers le Nord du poteau iv. L'arc est concave vers l'Est, horaire.</p>
+   *
+   * <p>Après ce mouvement, le drone pointe vers le <b>Nord</b></p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterG(List<MovementTimer> movementTimers) {
+    // TODO : Test : G : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCircularMovementTimer("G1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.CLOCKWISE, DroneMover.RIGHT_ROTATION));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("G2 : wait"));
-
-    // Le drone pointe désormais vers le Nord
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("G1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_HORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("G2 : attendre"));
   }
 
-  private void addH(List<MovementTimer> movementTimers) {
-    // Test : À faire
-    // MOUVEMENT H
-    // On va du point (6, 30) au point (32, 18)
-    // Vecteur de mouvement : (24, -12)
-    // On va jusqu'au Sud du poteau v
+  /**
+   * MOUVEMENT H
+   *
+   * <p>On va du point (6, 30) au point (32, 18), vecteur de mouvement : (24, -12)</p>
+   * <p>On va jusqu'au Sud du poteau v</p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getMovementTimer(String, float, float, float, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterH(List<MovementTimer> movementTimers) {
+    // TODO : Test : H : À faire
 
-    // Puisque le mouvement est en diagonale, je rentre moi-même les données
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("H1 : move", 1, - (12 / 24), 0, 0, traductMetersToTimeForDumbDrone(24), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("H1 : move", MOVE_H[0], MOVE_H[1], 0, DroneMover.FACING_NORTH));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("H2 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("H1 : bouger", MOVE_H[0], MOVE_H[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("H2 : attendre"));
   }
 
-  private void addI(List<MovementTimer> movementTimers) {
-    // Test : À faire
-    // MOUVEMENT I
-    // On va du point (32, 18) au point (32, 30)
-    // Vecteur de mouvement : Arc de 180° (0, 12), concave vers l'Ouest, rayon de 6' (2m)
-    // On fait un arc de 180° vers le Nord du poteau v. L'arc est concave vers l'Ouest, antihoraire.
+  /**
+   * MOUVEMENT I
+   *
+   * <p>On va du point (32, 18) au point (32, 30), vecteur de mouvement : Arc de 180° (0, 12),
+   * concave vers l'Ouest, rayon de 6' (2m)</p>
+   * <p>On fait un arc de 180° vers le Nord du poteau v. L'arc est concave vers l'Ouest, antihoraire.</p>
+   *
+   * <p>Après ce mouvement, le drone pointe vers le <b>Sud</b></p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterI(List<MovementTimer> movementTimers) {
+    // TODO : Test : I : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCircularMovementTimer("I1 : 180°", 2, DroneMover.HALF_CIRCLE, DroneMover.COUNTER_CLOCKWISE, DroneMover.RIGHT_ROTATION));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("I2 : wait"));
-
-    // Le drone pointe désormais vers le Sud
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("I1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("I2 : attendre"));
   }
 
-  private void addJ(List<MovementTimer> movementTimers) {
-    // Test : À faire
-    // MOUVEMENT J
-    // On va du point (32, 30) au point (19, 31,6)
-    // Vecteur de mouvement : (-13, 1,6)
-    // On va jusqu'au Sud du poteau vi
+  /**
+   * MOUVEMENT J
+   *
+   * <p>On va du point (32, 30) au point (19, 31.6), vecteur de mouvement : (-13, 1.6)</p>
+   * <p>On va jusqu'au Sud du poteau vi</p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getMovementTimer(String, float, float, float, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterJ(List<MovementTimer> movementTimers) {
+    // TODO : Test : J : À faire
 
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("J1 : move", (float) (1.6 / 13), -1, 0, 0, traductMetersToTimeForDumbDrone(13), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("J1 : move", MOVE_J[0], MOVE_J[1], 0, DroneMover.FACING_SOUTH));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("J2 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("J1 : bouger", MOVE_J[0], MOVE_J[1], 0, DroneBougeur.FACE_SUD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("J2 : attendre"));
   }
 
-  private void addK(List<MovementTimer> movementTimers) {
-    // Test : À faire
-    // MOUVEMENT K
-    // On va du point (19, 31,6) au point (25, 37,6)
-    // Vecteur de mouvement : Arc de 270° (6, 6), concave vers le Sud-Est, rayon de 6' (2m)
-    // On fait un arc de 270° vers l'Est du poteau vi. L'arc est concave vers le Sud-Est, horaire.
+  /**
+   * MOUVEMENT K
+   *
+   * <p>On va du point (19, 31.6) au point (25, 37.6), vecteur de mouvement : Arc de 270° (6, 6),
+   * concave vers l'Sud-Est, rayon de 6' (2m)</p>
+   * <p>On fait un arc de 270° vers l'Est du poteau vi. L'arc est concave vers l'Sud-Est, horaire.</p>
+   *
+   * <p>Après ce mouvement, le drone pointe vers l'<b>Est</b></p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterK(List<MovementTimer> movementTimers) {
+    // TODO : Test : K : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCircularMovementTimer("K1 : 270°", 2, DroneMover.THREE_QUARTER_CIRCLE, DroneMover.CLOCKWISE, DroneMover.RIGHT_ROTATION));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("K2 : wait"));
-
-    // Le drone pointe désormais vers l'Est
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("K1 : 270°", 2, DroneBougeur.CERCLE_TROIS_QUARTS, DroneBougeur.ORIENTATION_HORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("K2 : attendre"));
   }
 
-  private void addL(List<MovementTimer> movementTimers) {
-    // Test : À faire
-    // MOUVEMENT L
-    // On va du point (25, 37,6) au point (19, 12)
-    // Vecteur de mouvement : (-6, -15,6)
-    // On va jusqu'à l'Ouest du poteau iii
+  /**
+   * MOUVEMENT L
+   *
+   * <p>On va du point (25, 37.6) au point (19, 12), vecteur de mouvement : (-6, -15.6)</p>
+   * <p>On va jusqu'à l'Ouest du poteau iii</p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getMovementTimer(String, float, float, float, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterL(List<MovementTimer> movementTimers) {
+    // TODO : Test : L : À faire
 
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("L1 : move", 1, (float) - (6 / 15.6), 0, 0, traductMetersToTimeForDumbDrone(15.6), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("L1 : move", MOVE_L[0], MOVE_L[1], 0, DroneMover.FACING_EAST));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("L2 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("L1 : bouger", MOVE_L[0], MOVE_L[1], 0, DroneBougeur.FACE_EST));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("L2 : attendre"));
   }
 
-  private void addM(List<MovementTimer> movementTimers) {
-    // Test : À faire
-    // MOUVEMENT M
-    // On va du point (19, 12) au point (19, 12)
-    // Vecteur de mouvement : Arc de 360° (0, 0), rayon de 6' (2m)
-    // On fait un arc de 360° autour du poteau iii. L'arc est antihoraire.
+  /**
+   * MOUVEMENT M
+   *
+   * <p>On va du point (19, 12) au point (19, 12), vecteur de mouvement : Arc de 360° (0, 0),
+   * rayon de 6' (2m)</p>
+   * <p>On fait un arc de 360° autour du poteau iii. L'arc est antihoraire.</p>
+   *
+   * <p>Après ce mouvement, le drone pointe vers l'<b>Est</b></p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterM(List<MovementTimer> movementTimers) {
+    // TODO : Test : M : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCircularMovementTimer("M1 : 360°", 2, DroneMover.FULL_CIRCLE, DroneMover.COUNTER_CLOCKWISE, DroneMover.RIGHT_ROTATION));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("M2 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("M1 : 360°", 2, DroneBougeur.CERCLE_COMPLET, DroneBougeur.ORIENTATION_ANTIHORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("M2 : attendre"));
   }
 
-  private void addN(List<MovementTimer> movementTimers) {
-    // Test : À faire
-    // MOUVEMENT N
-    // On va du point (19, 12) au point (19, 0)
-    // Vecteur de mouvement : (0, -12).
-    // On va au Sud
+  /**
+   * MOUVEMENT N
+   *
+   * <p>On va du point (19, 12) au point (19, 0), vecteur de mouvement : (0, -12)</p>
+   * <p>On va au Sud</p>
+   *
+   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   *
+   * @see DroneApplication#getDroneBougeur()
+   * @see DroneBougeur#getMovementTimer(String, float, float, float, int)
+   * @see DroneBougeur#getAttenteMovementTimer(String)
+   */
+  private void ajouterN(List<MovementTimer> movementTimers) {
+    // TODO : Test : N : À faire
 
-    // movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("N1 : move", goRight[0], goRight[1], goRight[2], goRight[3], traductMetersToTimeForDumbDrone(4), 100));
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("N1 : move", MOVE_N[0], MOVE_N[1], 0, DroneMover.FACING_EAST));
-
-    // On attend 2 secondes
-    movementTimers.add(DroneApplication.getDroneBougeur().getWaitingMovementTimer("N2 : wait"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("N1 : bouger", MOVE_N[0], MOVE_N[1], 0, DroneBougeur.FACE_EST));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("N2 : attendre"));
   }
 
-  private void move(char letter) {
-    List<MovementTimer> movementTimers = new ArrayList<MovementTimer>();
+  /**
+   * Méthode pour n'effectuer qu'un seul mouvement. Sert au développement
+   *
+   * @param lettre  La lettre du mouvement à faire
+   *
+   * @see #ajouterA(List)
+   * @see DroneBougeur
+   * @see MovementTimer
+   */
+  private void bouger(char lettre) {
+    List<MovementTimer> movementTimers = new ArrayList<>();
 
-    switch(letter) {
+    switch(lettre) {
       case 'A':
-        addA(movementTimers);
+        ajouterA(movementTimers);
         break;
       case 'B':
-        addB(movementTimers);
+        ajouterB(movementTimers);
         break;
       case 'C':
-        addC(movementTimers);
+        ajouterC(movementTimers);
         break;
       case 'D':
-        addD(movementTimers);
+        ajouterD(movementTimers);
         break;
       case 'E':
-        addE(movementTimers);
+        ajouterE(movementTimers);
         break;
       case 'F':
-        addF(movementTimers);
+        ajouterF(movementTimers);
         break;
       case 'G':
-        addG(movementTimers);
+        ajouterG(movementTimers);
         break;
       case 'H':
-        addH(movementTimers);
+        ajouterH(movementTimers);
         break;
       case 'I':
-        addI(movementTimers);
+        ajouterI(movementTimers);
         break;
       case 'J':
-        addJ(movementTimers);
+        ajouterJ(movementTimers);
         break;
       case 'K':
-        addK(movementTimers);
+        ajouterK(movementTimers);
         break;
       case 'L':
-        addL(movementTimers);
+        ajouterL(movementTimers);
         break;
       case 'M':
-        addM(movementTimers);
+        ajouterM(movementTimers);
         break;
       case 'N':
-        addN(movementTimers);
+        ajouterN(movementTimers);
         break;
       default:
         break;

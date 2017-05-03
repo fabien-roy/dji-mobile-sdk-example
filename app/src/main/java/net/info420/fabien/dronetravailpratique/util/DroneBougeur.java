@@ -18,33 +18,31 @@ import dji.sdk.flightcontroller.DJIFlightController;
  * Created by fabien on 17-03-22.
  */
 
-public class DroneMover {
-  private static final String TAG = DroneMover.class.getName();
+public class DroneBougeur {
+  private static final String TAG = DroneBougeur.class.getName();
 
-  public static final int CLOCKWISE             = 1;
-  public static final int COUNTER_CLOCKWISE     = -1;
+  public static final int ORIENTATION_HORAIRE     = 1;
+  public static final int ORIENTATION_ANTIHORAIRE = -1;
 
-  public static final int QUARTER_CIRCLE        = 90;
-  public static final int HALF_CIRCLE           = 180;
-  public static final int THREE_QUARTER_CIRCLE  = 270;
-  public static final int FULL_CIRCLE           = 360;
+  public static final int CERCLE_QUART            = 90;
+  public static final int CERCLE_DEMI             = 180;
+  public static final int CERCLE_TROIS_QUARTS     = 270;
+  public static final int CERCLE_COMPLET          = 360;
 
-  public static final int FRONT_ROTATION        = 0;
-  public static final int RIGHT_ROTATION        = 1;
-  public static final int LEFT_ROTATION         = 2;
-  public static final int BACK_ROTATION         = 3;
+  public static final int ROTATION_AVANT          = 0;
+  public static final int ROTATION_DROITE         = 1;
+  public static final int ROTATION_GAUCHE         = 2;
+  public static final int ROTATION_ARRIERE        = 3;
 
-  public static final int FACING_NORTH          = 0;
-  public static final int FACING_EAST           = 1;
-  public static final int FACING_WEST           = 2;
-  public static final int FACING_SOUTH          = 3;
-
-  private int movementTimer_id = 0;
+  public static final int FACE_NORD               = 0;
+  public static final int FACE_EST                = 1;
+  public static final int FACE_OUEST              = 2;
+  public static final int FACE_SUD                = 3;
 
   private DJIFlightController flightController;
   private MovementTimer mMovementTimer;
 
-  public void DroneMover() {
+  public DroneBougeur() {
     initFlightController();
   }
 
@@ -135,31 +133,6 @@ public class DroneMover {
     return new MovementTimer("no_name", 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
   }
 
-  public MovementTimer getMovementTimer(float pitch, float roll, float yaw, float throttle) {
-    Log.d(TAG, String.format("Creating MovementTimer no name : pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
-    return new MovementTimer("no_name", 1000, 100, pitch, roll, yaw, throttle);
-  }
-
-  public MovementTimer getMovementTimer(float pitch, float roll, float yaw, float throttle, int millisInFuture, int countDownInterval) {
-    Log.d(TAG, String.format("Creating MovementTimer no name : pitch %s roll %s yaw %s throttle %s", pitch, roll, yaw, throttle));
-    return new MovementTimer("no_name", millisInFuture, countDownInterval, pitch, roll, yaw, throttle);
-  }
-
-  public MovementTimer getMovementTimer(String name, float[] pitchRollYawThrottle) {
-    Log.d(TAG, String.format("Creating MovementTimer %s : pitch %s roll %s yaw %s throttle %s", name, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
-    return new MovementTimer(name, 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
-  }
-
-  public MovementTimer getMovementTimer(String name, float pitch, float roll, float yaw, float throttle) {
-    Log.d(TAG, String.format("Creating MovementTimer %s : pitch %s roll %s yaw %s throttle %s", name, pitch, roll, yaw, throttle));
-    return new MovementTimer(name, 1000, 100, pitch, roll, yaw, throttle);
-  }
-
-  public MovementTimer getMovementTimer(String name, float pitch, float roll, float yaw, float throttle, int millisInFuture, int countDownInterval) {
-    Log.d(TAG, String.format("Creating MovementTimer %s : pitch %s roll %s yaw %s throttle %s", name, pitch, roll, yaw, throttle));
-    return new MovementTimer(name, millisInFuture, countDownInterval, pitch, roll, yaw, throttle);
-  }
-
   public MovementTimer getMovementTimer(String name, float x, float y, float elevationPerSecond, int facingDirection) {
     Log.d(TAG, String.format("Creating MovementTimer %s : x %s y %s elevationPerSecond %s facingDirection %s", name, x, y, elevationPerSecond, facingDirection));
 
@@ -170,7 +143,7 @@ public class DroneMover {
        return new MovementTimer(name, (long) elevationPerSecond * 1000, 100, 0, 0, 0, elevationPerSecond);
       }
 
-      return getWaitingMovementTimer(name);
+      return getAttenteMovementTimer(name);
     }
 
     // On change x et y si le drone ne fais pas face au Nord
@@ -179,13 +152,13 @@ public class DroneMover {
     // Ainsi, on peut toujours associé un x positif à un pitch positif et un y positif à un roll positif.
     // J'espère que c'est un peu clair.
     switch (facingDirection) {
-      case FACING_EAST:
+      case FACE_EST:
         x = -x;
         break;
-      case FACING_WEST:
+      case FACE_OUEST:
         y = -y;
         break;
-      case FACING_SOUTH:
+      case FACE_SUD:
         x = -x;
         y = -y;
         break;
@@ -217,43 +190,14 @@ public class DroneMover {
     }
   }
 
-  public MovementTimer getWaitingMovementTimer(String name) {
+  public MovementTimer getAttenteMovementTimer(String name) {
     Log.d(TAG, String.format("Creating waiting MovementTimer %s", name));
 
     return new MovementTimer(name, 1000, 100, 0, 0, 0, 0);
   }
 
   // Par défaut, de devant
-  public MovementTimer getCircularMovementTimer(String name, int radius, int angle, int orientation) {
-    Log.d(TAG, String.format("Creating Circular MovementTimer %s : radius %s angle %s orientation %s", name, radius, angle, orientation));
-
-    // TODO : Vérifier si on peut le faire tourner sur lui-même
-
-    // if (radius == 0) {
-    //   return new MovementTimer(name,                         // Nom du timer
-    //     ((angle / QUARTER_CIRCLE) * 1000),                   // Temps : nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)
-    //     100,                                                 // Fréquence
-    //     0,                                                   // Pitch
-    //     1,                                                   // Roll : 1m/s
-    //     ((orientation * angle) / (angle / QUARTER_CIRCLE)),  // Yaw : (orientation (contre la montre, ...) * angle) divisé par nombre de quart de tour en seconde (3m 90° -> (90)/(3*1) = 30°/s, 6m à 90° -> (90)/(6*1) = 15°/s, 3m à 180° -> (180)/(3*2) = 30°/s)
-    //     0);                                                  // Throttle
-    // }
-
-    if (radius == 0) {
-      return null;
-    }
-
-    return new MovementTimer(name,                                    // Nom du timer
-      (radius * (angle / QUARTER_CIRCLE) * 1000),                     // Temps : rayon * nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)
-      100,                                                            // Fréquence
-      0,                                                              // Pitch
-      1,                                                              // Roll : 1m/s
-      ((orientation * angle) / (radius * (angle / QUARTER_CIRCLE))),  // Yaw : (orientation (contre la montre, ...) * angle) divisé par (rayon * nombre de quart de tour en seconde) (3m 90° -> (90)/(3*1) = 30°/s, 6m à 90° -> (90)/(6*1) = 15°/s, 3m à 180° -> (180)/(3*2) = 30°/s)
-      0);                                                             // Throttle
-  }
-
-  // Par défaut, de devant
-  public MovementTimer getCircularMovementTimer(String name, int radius, int angle, int orientation, int rotationSide) {
+  public MovementTimer getCercleMovementTimer(String name, int radius, int angle, int orientation, int rotationSide) {
     Log.d(TAG, String.format("Creating Circular MovementTimer %s : radius %s angle %s orientation %s rotationSide %s", name, radius, angle, orientation, rotationSide));
 
     // Données par défaut
@@ -267,30 +211,30 @@ public class DroneMover {
     // On a quatre arguments. Le rayon (2m, 3m), l'angle (90°, 180°), l'orientation (sens des aiguilles d'une montre) et le côté (avant, droite, ...)
     // La seule différence avec le côté, c'est vers où le drone va se déplacer durant sa rotation.
     switch (rotationSide) {
-      case FRONT_ROTATION:
+      case ROTATION_AVANT:
         roll = 1;
         break;
-      case BACK_ROTATION:
+      case ROTATION_ARRIERE:
         roll = -1;
         break;
-      case RIGHT_ROTATION:
+      case ROTATION_DROITE:
         pitch = 1;
         break;
-      case LEFT_ROTATION:
+      case ROTATION_GAUCHE:
         pitch = -1;
         break;
     }
 
     return new MovementTimer(name,                                    // Nom du timer
-      (radius * (angle / QUARTER_CIRCLE) * 1000),                     // Temps : rayon * nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)
+      (radius * (angle / CERCLE_QUART) * 1000),                     // Temps : rayon * nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)
       100,                                                            // Fréquence
       pitch,                                                          // Pitch
       roll,                                                           // Roll
-      ((orientation * angle) / (radius * (angle / QUARTER_CIRCLE))),  // Yaw : (orientation (contre la montre, ...) * angle) divisé par (rayon * nombre de quart de tour en seconde) (3m 90° -> (90)/(3*1) = 30°/s, 6m à 90° -> (90)/(6*1) = 15°/s, 3m à 180° -> (180)/(3*2) = 30°/s)
+      ((orientation * angle) / (radius * (angle / CERCLE_QUART))),  // Yaw : (orientation (contre la montre, ...) * angle) divisé par (rayon * nombre de quart de tour en seconde) (3m 90° -> (90)/(3*1) = 30°/s, 6m à 90° -> (90)/(6*1) = 15°/s, 3m à 180° -> (180)/(3*2) = 30°/s)
       0);                                                             // Throttle
   }
 
-  public void enableVirtualStickMode() {
+  public void setupFlightController() {
     // Source : https://developer.dji.com/mobile-sdk/documentation/introduction/flightController_concepts.html
     // Mode de base du drone
 

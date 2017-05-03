@@ -7,7 +7,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import net.info420.fabien.dronetravailpratique.util.DroneMover;
+import net.info420.fabien.dronetravailpratique.util.DroneBougeur;
 
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
@@ -39,7 +39,7 @@ public class DroneApplication extends Application {
 
   private Handler mHandler;
 
-  public static DroneMover droneMover;
+  public static DroneBougeur droneBougeur;
 
   @Override
   public void onCreate() {
@@ -47,7 +47,7 @@ public class DroneApplication extends Application {
 
     mHandler = new Handler(Looper.getMainLooper());
 
-    droneMover = new DroneMover();
+    droneBougeur = new DroneBougeur();
 
     // Identification de la clé d'API du SDK
     Log.d(TAG, "onCreate(), initSDKManager...");
@@ -97,17 +97,17 @@ public class DroneApplication extends Application {
   }
 
   /**
-   * Méthode pour avoir l'instance de droneMover (Singleton)
+   * Méthode pour avoir l'instance de droneBougeur (Singleton)
    *
-   * @return le droneMover (DroneMover)
+   * @return le droneBougeur (DroneBougeur)
    *
-   * @see DroneMover
+   * @see DroneBougeur
    */
-  public static synchronized DroneMover getDroneBougeur() {
-    if (null == droneMover) {
-      droneMover = new DroneMover();
+  public static synchronized DroneBougeur getDroneBougeur() {
+    if (null == droneBougeur) {
+      droneBougeur = new DroneBougeur();
     }
-    return droneMover;
+    return droneBougeur;
   }
 
   public static boolean isAircraftConnected() {
