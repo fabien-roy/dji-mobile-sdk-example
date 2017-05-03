@@ -1,8 +1,7 @@
 package net.info420.fabien.dronetravailpratique.activities;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,20 +22,36 @@ import dji.sdk.products.DJIAircraft;
 
 // TODO : Documenter PrincipaleActivity
 
+/**
+ * {@link android.app.Activity} d'entrée à l'{@link android.app.Application}
+ *
+ * @author  Fabien Roy
+ * @version 1.0
+ * @since   ?
+ */
 public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProduct.DJIVersionCallback {
-
   public static final String TAG = PrincipaleActivity.class.getName();
 
-  private TextView mTextProduct;
-  private TextView mTextModelAvailable;
-  private TextView mTextConnectionStatus;
-  private Button mBtnOpen;
-  private Button mBtnOpenAnyway; // TODO : Enlever ceci
-  private Button mBtnRefresh;
+  private TextView tvProduitInfo;
+  private TextView tvModeleAccessible;
+  private TextView tvStatusConnexion;
+  private Button   btnOuvrir;
 
   private DJIBaseProduct mProduct;
-  private DJIAircraft mAircraft;
 
+  /**
+   * Exécuté à la création de l'{@link android.app.Activity}
+   *
+   * <ul>
+   *   <li>Demande les permissions à l'usager</li>
+   *   <li>Initialise l'interface</li>
+   *   <li>Refraîchit l'interface relatif au SDK</li>
+   * </ul>
+   *
+   * @param savedInstanceState {@link Bundle}
+   *
+   * @see ActivityCompat#requestPermissions(Activity, String[], int)
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -57,19 +72,27 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
     refreshSDKRelativeUI();
   }
 
+  /**
+   * Inialise l'interface
+   *
+   * <ul>
+   *   <li>Ajoute le bon {@link android.text.Layout}</li>
+   *   <li>Instancie les {@link View}</li>
+   *   <li>Met les Listeners</li>
+   *   <li>Désactive btnOuvrir</li>
+   * </ul>
+   *
+   * @see ObjectifsActivity
+   */
   private void initUI() {
     setContentView(R.layout.activity_principale);
 
-    mTextModelAvailable   = (TextView) findViewById(R.id.tv_principale_modele_accessible);
-    mTextProduct          = (TextView) findViewById(R.id.tv_principale_produit_info);
-    mTextConnectionStatus = (TextView) findViewById(R.id.tv_principale_status_connexion);
-    mBtnOpen              = (Button)   findViewById(R.id.btn_principale_ouvrir);
-    mBtnOpenAnyway        = (Button)   findViewById(R.id.btn_principale_ouvrir_pareil);
-    mBtnRefresh           = (Button)   findViewById(R.id.btn_principale_rafraichir);
+    tvModeleAccessible  = (TextView) findViewById(R.id.tv_principale_modele_accessible);
+    tvProduitInfo       = (TextView) findViewById(R.id.tv_principale_produit_info);
+    tvStatusConnexion   = (TextView) findViewById(R.id.tv_principale_status_connexion);
+    btnOuvrir           = (Button)   findViewById(R.id.btn_principale_ouvrir);
 
-    mBtnOpen.setEnabled(false);
-
-    mBtnOpen.setOnClickListener(new View.OnClickListener() {
+    btnOuvrir.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         // On change d'application
@@ -77,7 +100,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
       }
     });
 
-    mBtnOpenAnyway.setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_principale_ouvrir_pareil).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         // On change d'application
@@ -85,82 +108,85 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
       }
     });
 
-    mBtnRefresh.setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_principale_rafraichir).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         refreshSDKRelativeUI();
       }
     });
+
+    btnOuvrir.setEnabled(false);
   }
 
-  private void updateVersion() {
+  /**
+   * Met à jour le texte de la version du SDK
+   */
+  private void mettreAJourVersion() {
     String version = null;
+
     if(mProduct != null) {
       version = mProduct.getFirmwarePackageVersion();
     }
 
     if(version == null) {
-      mTextModelAvailable.setText("N/A");
+      tvModeleAccessible.setText("N/A");
     } else {
-      mTextModelAvailable.setText(version);
+      tvModeleAccessible.setText(version);
     }
   }
 
+  /**
+   * Exécuté lorsque la version du {@link DJIBaseProduct} change
+   *
+   * @param vieilleVersion  String de la vieille version du {@link DJIBaseProduct}
+   * @param nouvelleVersion String de la nouvelle version du {@link DJIBaseProduct}
+   *
+   * @see DJIBaseProduct
+   * @see #mettreAJourVersion()
+   */
   @Override
-  public void onProductVersionChange(String oldVersion, String newVersion) {
-    updateVersion();
+  public void onProductVersionChange(String vieilleVersion, String nouvelleVersion) {
+    mettreAJourVersion();
   }
 
-
-  // Revérifier
-  protected BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-      Log.d(TAG, "BroadcastReceiver : onReceive()");
-      refreshSDKRelativeUI();
-    }
-  };
-
-  // Ajuste les limitations de vol
-  protected boolean setFlightLimitation() {
-
-    boolean isSafe = true;
-
-    mAircraft = DroneApplication.getAircraftInstance();
-
-    // Altitude maximale
-    mAircraft.getFlightController().getFlightLimitation().setMaxFlightHeight(DroneApplication.MAX_HAUTEUR_VOL, new DJICommonCallbacks.DJICompletionCallback () {
+  /**
+   * Ajuste les limitations du vol
+   *
+   * <ul>
+   *   <li>Ajoute une altitude maximale</li>
+   *   <li>Ajuste une altitude de retour à la maison</li>
+   *   <li>Ajuste l'inclinaison maximale</li>
+   *   <li>Ajuste la vitesse de déplacement maximale</li>
+   * </ul>
+   *
+   * @see dji.sdk.flightcontroller.DJIFlightLimitation#setMaxFlightHeight(float, DJICommonCallbacks.DJICompletionCallback)
+   * @see dji.sdk.flightcontroller.DJIFlightController#setGoHomeAltitude(float, DJICommonCallbacks.DJICompletionCallback)
+   */
+  protected void setFlightLimitation() {
+    DroneApplication.getAircraftInstance().getFlightController().getFlightLimitation().setMaxFlightHeight(DroneApplication.MAX_HAUTEUR_VOL, new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
           if (djiError != null) {
             Log.e(TAG, String.format("Erreur de limitation : %s", djiError.getDescription()));
           }
-
-          // TODO : isSafe ne marche pas
-          // isSafe = false;
         }
       });
 
-    // Altiture de retour à la maison
-    mAircraft.getFlightController().setGoHomeAltitude(DroneApplication.MAX_GO_HOME_ALTITUDE, new DJICommonCallbacks.DJICompletionCallback () {
+    DroneApplication.getAircraftInstance().getFlightController().setGoHomeAltitude(DroneApplication.MAX_GO_HOME_ALTITUDE, new DJICommonCallbacks.DJICompletionCallback () {
       @Override
       public void onResult(DJIError djiError) {
         if (djiError != null) {
           Log.e(TAG, String.format("Erreur de limitation : %s", djiError.getDescription()));
         }
-
-        // isSafe = false;
       }
     });
 
     // TODO : Inclinaise maximale
 
     // TODO : Vitesse de déplacement maximale
-
-    return isSafe;
   }
 
-
+  // TODO : La doc est rendue là
   // Vérifie si le drone est connecté et active l'interface necéssaire
   private void refreshSDKRelativeUI() {
 
@@ -170,34 +196,28 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
 
     if (null != mProduct && mProduct.isConnected()) {
 
-      if (setFlightLimitation()) {
+       setFlightLimitation();
 
-        mBtnOpen.setEnabled(true);
+      btnOuvrir.setEnabled(true);
 
-        mTextConnectionStatus.setText("Statut : " + (mProduct instanceof DJIAircraft ? "Aéronef DJI" : "Engin DJI") + " connecté");
-        mProduct.setDJIVersionCallback(this);
-        updateVersion();
+      tvStatusConnexion.setText("Statut : " + (mProduct instanceof DJIAircraft ? "Aéronef DJI" : "Engin DJI") + " connecté");
+      mProduct.setDJIVersionCallback(this);
+      mettreAJourVersion();
 
-        if (null != mProduct.getModel()) {
-          mTextProduct.setText(mProduct.getModel().getDisplayName());
-        } else {
-          mTextProduct.setText(R.string.produit_information);
-        }
-
-        DroneApplication.getAircraftInstance().getFlightController();
-
+      if (null != mProduct.getModel()) {
+        tvProduitInfo.setText(mProduct.getModel().getDisplayName());
       } else {
-
-        Log.d(TAG, "Problème avec la sécurité du drone!");
+        tvProduitInfo.setText(R.string.produit_information);
       }
 
+      DroneApplication.getAircraftInstance().getFlightController();
     } else {
 
-      mBtnOpen.setEnabled(false);
-      // mBtnOpen.setEnabled(true);
+      btnOuvrir.setEnabled(false);
+      // btnOuvrir.setEnabled(true);
 
-      mTextProduct.setText(R.string.produit_information);
-      mTextConnectionStatus.setText(R.string.connexion_perdue);
+      tvProduitInfo.setText(R.string.produit_information);
+      tvStatusConnexion.setText(R.string.connexion_perdue);
     }
   }
 }

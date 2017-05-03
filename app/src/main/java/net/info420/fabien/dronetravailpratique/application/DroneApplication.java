@@ -42,11 +42,11 @@ public class DroneApplication extends Application {
   public static final int MAX_ANGLE             = 5;  // 5°
   public static final int MAX_VITESSE           = 5;  // 5 km/h
 
-  private static DJIBaseProduct mProduct;
-  private static DJIGimbal      mGimbal;
-  private static DJICamera      mCamera;
+  private static DJIBaseProduct baseProduct;
+  private static DJIGimbal      gimbal;
+  private static DJICamera      camera;
 
-  private Handler mHandler;
+  private Handler handler;
 
   public static DroneBougeur droneBougeur;
 
@@ -66,7 +66,7 @@ public class DroneApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
-    mHandler = new Handler(Looper.getMainLooper());
+    handler = new Handler(Looper.getMainLooper());
 
     droneBougeur = new DroneBougeur();
 
@@ -81,10 +81,10 @@ public class DroneApplication extends Application {
    * @see DJIBaseProduct
    */
   public static synchronized DJIBaseProduct getProductInstance() {
-    if (null == mProduct) {
-      mProduct = DJISDKManager.getInstance().getDJIProduct();
+    if (null == baseProduct) {
+      baseProduct = DJISDKManager.getInstance().getDJIProduct();
     }
-    return mProduct;
+    return baseProduct;
   }
 
   /**
@@ -95,10 +95,10 @@ public class DroneApplication extends Application {
    * @see DJIGimbal
    */
   public static synchronized DJIGimbal getGimbalInstance() {
-    if (null == mGimbal) {
-      mGimbal = getProductInstance().getGimbal();
+    if (null == gimbal) {
+      gimbal = getProductInstance().getGimbal();
     }
-    return mGimbal;
+    return gimbal;
   }
 
   /**
@@ -109,10 +109,10 @@ public class DroneApplication extends Application {
    * @see dji.sdk.camera.DJICamera
    */
   public static synchronized DJICamera getCameraInstance() {
-    if (null == mCamera) {
-      mCamera = getProductInstance().getCamera();
+    if (null == camera) {
+      camera = getProductInstance().getCamera();
     }
-    return mCamera;
+    return camera;
   }
 
   /**
@@ -219,10 +219,10 @@ public class DroneApplication extends Application {
      */
     @Override
     public void onProductChanged(DJIBaseProduct vieuxProduct, DJIBaseProduct nouveauProduct) {
-      mProduct = nouveauProduct;
+      baseProduct = nouveauProduct;
 
-      if(mProduct != null) {
-        mProduct.setDJIBaseProductListener(mDJIBaseProductListener);
+      if(baseProduct != null) {
+        baseProduct.setDJIBaseProductListener(mDJIBaseProductListener);
       }
 
       notifyStatusChange();
@@ -254,8 +254,8 @@ public class DroneApplication extends Application {
      * @see #updateRunnable
      */
     private void notifyStatusChange() {
-      mHandler.removeCallbacks(updateRunnable);
-      mHandler.postDelayed(updateRunnable, 500);
+      handler.removeCallbacks(updateRunnable);
+      handler.postDelayed(updateRunnable, 500);
     }
 
     /**
