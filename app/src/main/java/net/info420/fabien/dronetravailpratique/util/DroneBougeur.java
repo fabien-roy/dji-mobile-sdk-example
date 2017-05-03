@@ -128,6 +128,8 @@ public class DroneBougeur {
   public MovementTimer getMovementTimer(String name, float x, float y, float elevationPerSecond, int facingDirection) {
     Log.d(TAG, String.format("Creating MovementTimer %s : x %s y %s elevationPerSecond %s facingDirection %s", name, x, y, elevationPerSecond, facingDirection));
 
+    float temp;
+
     // Mouvement nul
     if ((x == 0) && (y == 0)) {
       // Élévation avec un x = 0 et y = 0
@@ -145,10 +147,14 @@ public class DroneBougeur {
     // J'espère que c'est un peu clair.
     switch (facingDirection) {
       case FACE_EST:
-        x = -x;
+        temp = x;
+        x = -y;
+        y = temp;
         break;
       case FACE_OUEST:
-        y = -y;
+        temp = x;
+        x = y;
+        y = -temp;
         break;
       case FACE_SUD:
         x = -x;
@@ -171,10 +177,10 @@ public class DroneBougeur {
       // Sincérement, la meilleur technique pour comprendre ceci c'est de prendre des coordonnées et de calculer avec le if-then-else ci-dessous
       if (Math.abs(x) > Math.abs(y)) {
         // Le vecteur en X est supérieur à celui en Y.
-        return new  MovementTimer(name, (long) Math.abs(x) * 1000, 100, (y > 0) ? Math.abs(y/x) : - Math.abs(y/x), (x > 0) ? 1 : -1, 0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
+        return new  MovementTimer(name, (long) Math.abs(x) * 1000, 100, (x > 0) ? 1 : -1, (y > 0) ? Math.abs(y/x) : - Math.abs(y/x), 0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
       } else if (Math.abs(y) > Math.abs(x)) {
         // Le vecteur en Y est supérieur à celui en X.
-        return new  MovementTimer(name, (long) Math.abs(y) * 1000, 100, (y > 0) ? 1 : -1, (x > 0) ? Math.abs(x/y) : - Math.abs(x/y), 0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
+        return new  MovementTimer(name, (long) Math.abs(y) * 1000, 100, (x > 0) ? Math.abs(x/y) : - Math.abs(x/y), (y > 0) ? 1 : -1, 0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
       } else {
         // Ils sont égaux
         return new  MovementTimer(name, (long) Math.abs(x) * 1000, 100, (x > 0) ? 1 : -1, (y > 0) ? 1 : -1,  0, elevationPerSecond); // Le drone va autant en x qu'en y, donc on se sert de x, puisque ça n'a aucune importance
@@ -195,6 +201,9 @@ public class DroneBougeur {
     // Données par défaut
     float pitch = 0;
     float roll  = 0;
+
+    // Ajustement de l'angle, puisque le drone ne tourne pas assez
+    angle = angle + ((angle / CERCLE_QUART) * 8);
 
     if (radius == 0) {
       return null;

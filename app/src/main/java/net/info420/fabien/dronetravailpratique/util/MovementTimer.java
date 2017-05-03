@@ -79,7 +79,7 @@ public class MovementTimer extends CountDownTimer {
       if (mNextMovementTimers.size() > 1) {
         Log.d(TAG, String.format("MovementTimer %s : pas le dernier", mName));
         // Si le prochain timer n'est pas le dernier, alors on lui envoie la List de MovementTimer, moins lui-même
-        nextMovementTimer.setNextMovementTimers(mNextMovementTimers.subList(1, (mNextMovementTimers.size() - 1)));
+        nextMovementTimer.setNextMovementTimers(mNextMovementTimers.subList(1, mNextMovementTimers.size()));
       }
 
       // On débute le timer

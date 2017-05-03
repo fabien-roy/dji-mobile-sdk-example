@@ -25,14 +25,14 @@ import java.util.List;
 public class Obj1Etape3Activity extends AppCompatActivity {
   public static final String TAG = Obj1Etape2Activity.class.getName();
 
-  private float[] A = { 0,     4};
+  private float[] A = { 0,     3.8F};
   private float[] B = { 3.5F,  0};
-  private float[] C = { 0,     -4};
-  private float[] D = { 6,     0};
+  private float[] C = { 0,     -3.8F};
+  private float[] D = { 5.8F,  0};
   // Mouvement E : 180°
-  private float[] F = {-3,     2.5F,    0.3F};
+  private float[] F = {-3.3F,  2.1F, 0.3F};
   // Mouvement G : 180°
-  private float[] H = { 6,    -4};
+  private float[] H = { 6,    -3};
   // Mouvement I : 180°
   private float[] J = {-3,     3};
   // Mouvement K : 270°
@@ -404,7 +404,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterF(List<MovementTimer> movementTimers) {
-    // TODO : Test : F : Stall?
+    // TODO : Test : F : Mauvais bord?
 
     movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F1 : bouger", F[0], F[1], F[2], DroneBougeur.FACE_SUD));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("F2 : attendre"));
