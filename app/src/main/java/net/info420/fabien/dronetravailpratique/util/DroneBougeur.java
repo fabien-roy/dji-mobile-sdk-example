@@ -18,6 +18,8 @@ import dji.sdk.flightcontroller.DJIFlightController;
  * Created by fabien on 17-03-22.
  */
 
+// TODO : Documenter DroneBougeur
+
 public class DroneBougeur {
   private static final String TAG = DroneBougeur.class.getName();
 

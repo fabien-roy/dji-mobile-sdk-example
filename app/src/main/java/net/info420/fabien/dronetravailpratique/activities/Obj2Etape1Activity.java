@@ -15,6 +15,8 @@ import dji.common.gimbal.DJIGimbalRotateDirection;
 import dji.common.gimbal.DJIGimbalWorkMode;
 import dji.common.util.DJICommonCallbacks;
 
+// TODO : Documenter Obj2Etape1Activity
+
 /**
  * @author  Fabien Roy
  * @version 1.0

@@ -11,6 +11,8 @@ import net.info420.fabien.dronetravailpratique.R;
  * Created by fabien on 17-02-15.
  */
 
+// TODO : Documenter ObjectifsActivity
+
 public class ObjectifsActivity extends Activity {
 
   public static final String TAG = ObjectifsActivity.class.getName();

@@ -25,6 +25,8 @@ import dji.sdk.codec.DJICodecManager;
 import static net.info420.fabien.dronetravailpratique.R.id.tv_obj2_etape2_timer;
 import static net.info420.fabien.dronetravailpratique.application.DroneApplication.getCameraInstance;
 
+// TODO : Documenter Obj2Etape2Activity
+
 /**
  * @author  Fabien Roy
  * @version 1.0

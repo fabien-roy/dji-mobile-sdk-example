@@ -21,6 +21,8 @@ import dji.common.util.DJICommonCallbacks;
 import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.products.DJIAircraft;
 
+// TODO : Documenter PrincipaleActivity
+
 public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProduct.DJIVersionCallback {
 
   public static final String TAG = PrincipaleActivity.class.getName();
@@ -127,7 +129,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
     mAircraft = DroneApplication.getAircraftInstance();
 
     // Altitude maximale
-    mAircraft.getFlightController().getFlightLimitation().setMaxFlightHeight(DroneApplication.MAX_FLIGHT_HEIGHT, new DJICommonCallbacks.DJICompletionCallback () {
+    mAircraft.getFlightController().getFlightLimitation().setMaxFlightHeight(DroneApplication.MAX_HAUTEUR_VOL, new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
           if (djiError != null) {
@@ -140,7 +142,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
       });
 
     // Altiture de retour à la maison
-    mAircraft.getFlightController().setGoHomeAltitude(DroneApplication.MAX_GO_HOME_ALTITURE, new DJICommonCallbacks.DJICompletionCallback () {
+    mAircraft.getFlightController().setGoHomeAltitude(DroneApplication.MAX_GO_HOME_ALTITUDE, new DJICommonCallbacks.DJICompletionCallback () {
       @Override
       public void onResult(DJIError djiError) {
         if (djiError != null) {

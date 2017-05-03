@@ -15,6 +15,8 @@ import dji.common.util.DJICommonCallbacks;
  * Created by fabien on 17-03-22.
  */
 
+// TODO : Documenter MovementTimer
+
 public class MovementTimer extends CountDownTimer {
   private final static String TAG = MovementTimer.class.getName();
 
@@ -43,10 +45,7 @@ public class MovementTimer extends CountDownTimer {
 
   @Override
   public void onTick(long l) {
-    Log.d(TAG, String.format("MovementTimer %s : onTick", mName));
     if (DroneApplication.isFlightControllerAvailable()) {
-      Log.d(TAG, String.format("MovementTimer %s : Tentative de mouvement avec pitch %s roll %s yaw %s throttle %s", mName, mPitch, mRoll, mYaw, mThrottle));
-
       DroneApplication.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
         new DJIVirtualStickFlightControlData(
           mPitch, mRoll, mYaw, mThrottle
@@ -81,16 +80,12 @@ public class MovementTimer extends CountDownTimer {
         Log.d(TAG, String.format("MovementTimer %s : pas le dernier", mName));
         // Si le prochain timer n'est pas le dernier, alors on lui envoie la List de MovementTimer, moins lui-même
         nextMovementTimer.setNextMovementTimers(mNextMovementTimers.subList(1, (mNextMovementTimers.size() - 1)));
-      } else {
-        Log.d(TAG, String.format("MovementTimer %s : CECI NE DOIT JAMAIS ARRIVER dernier", mName));
       }
-
-      // Sinon, sa liste est null
 
       // On débute le timer
       nextMovementTimer.start();
     } else {
-      Log.d(TAG, String.format("MovementTimer %s : dernier lol wut", mName));
+      Log.d(TAG, String.format("MovementTimer %s : dernier", mName));
       // Sinon, on arrête tout.
       if (DroneApplication.isFlightControllerAvailable()) {
         DroneApplication.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
@@ -100,7 +95,7 @@ public class MovementTimer extends CountDownTimer {
             @Override
             public void onResult(DJIError djiError) {
               if (djiError != null) {
-                Log.e(TAG, String.format("MovementTimer %s :Erreur de mouvement à zéro : %s", mName, djiError.getDescription()));
+                Log.e(TAG, String.format("MovementTimer %s : Erreur de mouvement à zéro : %s", mName, djiError.getDescription()));
               } else {
                 Log.d(TAG, String.format("MovementTimer %s : Mouvement à zéro", mName));
               }

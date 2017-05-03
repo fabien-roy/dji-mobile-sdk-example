@@ -2,7 +2,6 @@ package net.info420.fabien.dronetravailpratique.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,6 +10,8 @@ import android.widget.TextView;
 import net.info420.fabien.dronetravailpratique.R;
 
 import org.opencv.core.Mat;
+
+// TODO : Documenter Obj2Etape3Activity
 
 public class Obj2Etape3Activity extends AppCompatActivity {
   public static final String TAG = Obj2Etape3Activity.class.getName();
@@ -25,8 +26,6 @@ public class Obj2Etape3Activity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    Log.d(TAG, "onCreate()");
 
     initUI();
   }
