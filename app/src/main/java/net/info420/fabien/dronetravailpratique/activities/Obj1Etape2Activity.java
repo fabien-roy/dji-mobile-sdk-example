@@ -86,56 +86,56 @@ public class Obj1Etape2Activity extends AppCompatActivity {
   private void initUI(){
     setContentView(R.layout.activity_obj1_etape2);
 
-    findViewById(R.id.btn_obj1_etape_2_demarrer_moteurs).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape2_demarrer_moteurs).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         DroneApplication.getDroneBougeur().startMotors();
       }
     });
 
-    findViewById(R.id.btn_obj1_etape_2_atterir).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape2_atterir).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         DroneApplication.getDroneBougeur().atterir();
       }
     });
 
-    findViewById(R.id.btn_obj1_etape_2_aller_avant).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape2_aller_avant).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         DroneApplication.getDroneBougeur().move(DroneApplication.getDroneBougeur().getMovementTimer(new float[] {0, 1, 0, 0}));
       }
     });
 
-    findViewById(R.id.btn_obj1_etape_2_aller_derriere).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape2_aller_derriere).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         DroneApplication.getDroneBougeur().move(DroneApplication.getDroneBougeur().getMovementTimer(new float[] {0, -1, 0, 0}));
       }
     });
 
-    findViewById(R.id.btn_obj1_etape_2_aller_gauche).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape2_aller_gauche).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         DroneApplication.getDroneBougeur().move(DroneApplication.getDroneBougeur().getMovementTimer(new float[] {-1, 0, 0, 0}));
       }
     });
 
-    findViewById(R.id.btn_obj1_etape_2_aller_droite).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape2_aller_droite).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         DroneApplication.getDroneBougeur().move(DroneApplication.getDroneBougeur().getMovementTimer(new float[] {1, 0, 0, 0}));
       }
     });
 
-    findViewById(R.id.btn_obj1_etape_2_tourner_droite).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape2_tourner_droite).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         DroneApplication.getDroneBougeur().move(DroneApplication.getDroneBougeur().getMovementTimer(new float[] {0, 0, 15, 0}));
       }
     });
 
-    findViewById(R.id.btn_obj1_etape_2_tourner_gauche).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape2_tourner_gauche).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         DroneApplication.getDroneBougeur().move(DroneApplication.getDroneBougeur().getMovementTimer(new float[] {0, 0, -15, 0}));

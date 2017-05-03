@@ -12,7 +12,6 @@ import dji.common.flightcontroller.DJIVirtualStickRollPitchControlMode;
 import dji.common.flightcontroller.DJIVirtualStickVerticalControlMode;
 import dji.common.flightcontroller.DJIVirtualStickYawControlMode;
 import dji.common.util.DJICommonCallbacks;
-import dji.sdk.flightcontroller.DJIFlightController;
 
 /**
  * Created by fabien on 17-03-22.
@@ -41,16 +40,7 @@ public class DroneBougeur {
   public static final int FACE_OUEST              = 2;
   public static final int FACE_SUD                = 3;
 
-  private DJIFlightController flightController;
   private MovementTimer mMovementTimer;
-
-  public DroneBougeur() {
-    initFlightController();
-  }
-
-  private void initFlightController() {
-    flightController = DroneApplication.getAircraftInstance().getFlightController();
-  }
 
   public void startMotors() {
     // Il est nécéssaire de démarrer les moteurs. Ceci permet de "tester" le mouvement.

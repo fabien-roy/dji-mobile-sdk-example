@@ -56,7 +56,7 @@ public class Obj2Etape1Activity extends AppCompatActivity {
       }
     });
 
-    findViewById(R.id.btn_obj1_etape_2_aller_derriere).setOnClickListener(new View.OnClickListener() {
+    findViewById(R.id.btn_obj1_etape2_aller_derriere).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         bougerGimbal(15, 0, 0);
