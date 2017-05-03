@@ -22,7 +22,7 @@ import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.camera.DJICamera;
 import dji.sdk.codec.DJICodecManager;
 
-import static net.info420.fabien.dronetravailpratique.R.id.tv_timer;
+import static net.info420.fabien.dronetravailpratique.R.id.tv_obj2_etape2_timer;
 import static net.info420.fabien.dronetravailpratique.application.DroneApplication.getCameraInstance;
 
 /**
@@ -79,22 +79,22 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
   private void initUI(){
     setContentView(R.layout.activity_obj2_etape2);
 
-    tvTimer = (TextView)    findViewById(tv_timer);
-    tvVideo = (TextureView) findViewById(R.id.tv_video);
+    tvTimer = (TextView)    findViewById(tv_obj2_etape2_timer);
+    tvVideo = (TextureView) findViewById(R.id.tv_obj2_etape2_video);
 
     tvVideo.setSurfaceTextureListener(this);
 
-    findViewById(R.id.btn_pitch_moins).setOnClickListener(this);
-    findViewById(R.id.btn_pitch_plus).setOnClickListener(this);
-    findViewById(R.id.btn_yaw_moins).setOnClickListener(this);
-    findViewById(R.id.btn_yaw_plus).setOnClickListener(this);
+    findViewById(R.id.btn_obj2_etape2_pitch_moins).setOnClickListener(this);
+    findViewById(R.id.btn_obj2_etape2_pitch_plus).setOnClickListener(this);
+    findViewById(R.id.btn_obj2_etape2_yaw_moins).setOnClickListener(this);
+    findViewById(R.id.btn_obj2_etape2_yaw_plus).setOnClickListener(this);
 
-    findViewById(R.id.btn_capturer).setOnClickListener(this);
-    findViewById(R.id.btn_enregistrer).setOnClickListener(this);
-    findViewById(R.id.btn_mode_photo).setOnClickListener(this);
-    findViewById(R.id.btn_mode_video).setOnClickListener(this);
+    findViewById(R.id.btn_obj2_etape2_capturer).setOnClickListener(this);
+    findViewById(R.id.btn_obj2_etape2_enregistrer).setOnClickListener(this);
+    findViewById(R.id.btn_obj2_etape2_mode_photo).setOnClickListener(this);
+    findViewById(R.id.btn_obj2_etape2_mode_video).setOnClickListener(this);
 
-    ((ToggleButton) findViewById(R.id.btn_enregistrer)).setOnCheckedChangeListener(this);
+    ((ToggleButton) findViewById(R.id.btn_obj2_etape2_enregistrer)).setOnCheckedChangeListener(this);
 
     tvTimer.setVisibility(View.INVISIBLE);
   }
@@ -362,23 +362,23 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
   @Override
   public void onClick(View view) {
     switch (view.getId()) {
-      case R.id.btn_pitch_moins:
+      case R.id.btn_obj2_etape2_pitch_moins:
         break;
-      case R.id.btn_pitch_plus:
+      case R.id.btn_obj2_etape2_pitch_plus:
         break;
-      case R.id.btn_yaw_moins:
+      case R.id.btn_obj2_etape2_yaw_moins:
         break;
-      case R.id.btn_yaw_plus:
+      case R.id.btn_obj2_etape2_yaw_plus:
         break;
-      case R.id.btn_capturer:
+      case R.id.btn_obj2_etape2_capturer:
         capturer();
         break;
-      case R.id.btn_enregistrer:
+      case R.id.btn_obj2_etape2_enregistrer:
         break;
-      case R.id.btn_mode_photo:
+      case R.id.btn_obj2_etape2_mode_photo:
         switchCameraMode(DJICameraSettingsDef.CameraMode.ShootPhoto);
         break;
-      case R.id.btn_mode_video:
+      case R.id.btn_obj2_etape2_mode_video:
         switchCameraMode(DJICameraSettingsDef.CameraMode.RecordVideo);
         break;
     }

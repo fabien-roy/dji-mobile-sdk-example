@@ -16,14 +16,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="14dp"
-    android:textSize="20dp"
+    android:textSize="20sp"
     android:layout_centerHorizontal="true"/>
 
   <TextView
     android:text="@string/objectif1_etape2_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="37dp"/>
@@ -34,7 +34,7 @@
     android:layout_height="50dp"
     android:textAllCaps="false"
     android:text="@string/demarrer_moteurs"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:layout_marginTop="70dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
@@ -45,61 +45,62 @@
     android:layout_height="50dp"
     android:textAllCaps="false"
     android:text="@string/atterir"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:layout_marginTop="135dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape_2_aller_avant"
     android:text="@string/aller_avant"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/btn_obj1_etape_2_aller_avant"/>
+    android:layout_centerHorizontal="true"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape_2_aller_derriere"
     android:text="@string/aller_arriere"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/btn_obj1_etape_2_tourner_droite"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/btn_obj1_etape_2_aller_derriere"/>
+    android:layout_below="@+id/btn_obj1_etape_2_tourner_gauche"
+    android:layout_toRightOf="@+id/btn_obj1_etape_2_tourner_gauche"
+    android:layout_toEndOf="@+id/btn_obj1_etape_2_tourner_gauche"/>
 
   <Button
+    android:id="@+id/btn_obj1_step2_turn_right"
     android:text="@string/tourner_droite"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/btn_obj1_step2_turn_right"
     android:layout_below="@+id/btn_obj1_etape_2_aller_avant"
     android:layout_toRightOf="@+id/btn_obj1_etape_2_aller_avant"
     android:layout_toEndOf="@+id/btn_obj1_etape_2_aller_avant"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape_2_tourner_gauche"
     android:text="@string/tourner_gauche"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape_2_aller_avant"
     android:layout_toLeftOf="@+id/btn_obj1_etape_2_aller_avant"
-    android:layout_toStartOf="@+id/btn_obj1_etape_2_aller_avant"
-    android:id="@+id/btn_obj1_etape_2_tourner_gauche"/>
+    android:layout_toStartOf="@+id/btn_obj1_etape_2_aller_avant" />
 
   <Button
+    android:id="@+id/btn_obj1_etape_2_aller_gauche"
     android:text="@string/aller_gaucher"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape_2_aller_derriere"
     android:layout_toLeftOf="@+id/btn_obj1_etape_2_aller_derriere"
-    android:layout_toStartOf="@+id/btn_obj1_etape_2_aller_derriere"
-    android:id="@+id/btn_obj1_etape_2_aller_gauche"/>
+    android:layout_toStartOf="@+id/btn_obj1_etape_2_aller_derriere" />
 
   <Button
+    android:id="@+id/btn_obj1_etape_2_aller_droite"
     android:text="@string/aller_droite"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape_2_aller_derriere"
     android:layout_toRightOf="@+id/btn_obj1_etape_2_aller_derriere"
-    android:layout_toEndOf="@+id/btn_obj1_etape_2_aller_derriere"
-    android:id="@+id/btn_obj1_etape_2_aller_droite"/>
+    android:layout_toEndOf="@+id/btn_obj1_etape_2_aller_derriere" />
 
 </RelativeLayout>

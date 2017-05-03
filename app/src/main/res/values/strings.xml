@@ -3,9 +3,9 @@
   <string name="app_license">CC3.0 Fabien Roy BY-NC-SA</string>
 
   <!-- Interface du PrincipaleActivity -->
-  <string name="model_non_accessible">Drone non-accessible</string>
+  <string name="modele_non_accessible">Drone non-accessible</string>
   <string name="produit_information">Information du produit</string>
-  <string name="connection_perdue">Statut: Aucun produit connecté</string>
+  <string name="connexion_perdue">Statut: Aucun produit connecté</string>
   <string name="sdk_version">Version du DJI SDK : 3.5.1</string>
 
   <!-- Interface du ObjectifsActivity -->

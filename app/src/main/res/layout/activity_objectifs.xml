@@ -20,6 +20,8 @@
     android:layout_alignStart="@+id/btn_obj1_etape2"
     android:backgroundTint="@android:color/holo_blue_bright"
     android:text="@string/objectif1_etape1"
+    android:textAllCaps="false"
+    android:textSize="15sp"
     android:textColor="@color/colorTextIcons"/>
 
   <Button
@@ -32,7 +34,7 @@
     android:backgroundTint="@android:color/holo_blue_light"
     android:text="@string/objectif1_etape2"
     android:textAllCaps="false"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:textColor="@color/colorTextIcons"/>
 
   <Button
@@ -46,7 +48,7 @@
     android:text="@string/objectif1_etape3"
     android:textAllCaps="false"
     android:textColor="@color/colorTextIcons"
-    android:textSize="15dp"/>
+    android:textSize="15sp"/>
 
   <Button
     android:id="@+id/btn_obj2_etape1"
@@ -59,7 +61,7 @@
     android:text="@string/objectif2_etape1"
     android:textAllCaps="false"
     android:textColor="@color/colorTextIcons"
-    android:textSize="15dp"/>
+    android:textSize="15sp"/>
 
   <Button
     android:id="@+id/btn_obj2_etape2"
@@ -72,7 +74,7 @@
     android:text="@string/objectif2_etape2"
     android:textAllCaps="false"
     android:textColor="@color/colorTextIcons"
-    android:textSize="15dp"/>
+    android:textSize="15sp"/>
 
   <Button
     android:id="@+id/btn_obj2_etape3"
@@ -85,6 +87,6 @@
     android:text="@string/objectif2_etape3"
     android:textAllCaps="false"
     android:textColor="@color/colorTextIcons"
-    android:textSize="15dp"/>
+    android:textSize="15sp"/>
 
 </RelativeLayout>

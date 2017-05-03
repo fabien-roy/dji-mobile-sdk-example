@@ -16,14 +16,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="14dp"
-    android:textSize="20dp"
+    android:textSize="20sp"
     android:layout_centerHorizontal="true"/>
 
   <TextView
     android:text="@string/objectif1_etape3_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="37dp"/>
@@ -34,7 +34,7 @@
     android:layout_height="50dp"
     android:textAllCaps="false"
     android:text="@string/decoller"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:layout_marginTop="70dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
@@ -45,7 +45,7 @@
     android:layout_height="50dp"
     android:textAllCaps="false"
     android:text="@string/atterir"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:layout_marginTop="120dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
@@ -56,82 +56,82 @@
     android:layout_height="50dp"
     android:textAllCaps="false"
     android:text="@string/objectif1_etape3_description"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:layout_marginTop="200dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_a"
     android:text="A"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_go"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_a"/>
+    android:layout_marginTop="22dp" />
 
   <Button
+    android:id="@+id/btn_obj1_etape3_b"
     android:text="B"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_go"
     android:layout_toRightOf="@id/btn_obj1_etape3_a"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_b"/>
+    android:layout_marginTop="22dp"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_c"
     android:text="C"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_go"
     android:layout_toRightOf="@id/btn_obj1_etape3_b"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_c"/>
+    android:layout_marginTop="22dp" />
 
   <Button
+    android:id="@+id/btn_obj1_etape3_d"
     android:text="D"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_go"
     android:layout_toRightOf="@id/btn_obj1_etape3_c"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_d"/>
+    android:layout_marginTop="22dp"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_e"
     android:text="E"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_go"
     android:layout_toRightOf="@id/btn_obj1_etape3_d"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_e"/>
+    android:layout_marginTop="22dp" />
 
   <Button
+    android:id="@+id/btn_obj1_etape3_f"
     android:text="F"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_go"
     android:layout_toRightOf="@id/btn_obj1_etape3_e"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_f"/>
+    android:layout_marginTop="22dp"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_g"
     android:text="G"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_a"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_g"/>
+    android:layout_marginTop="22dp"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_h"
     android:text="H"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_a"
     android:layout_toRightOf="@id/btn_obj1_etape3_g"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_h"/>
+    android:layout_marginTop="22dp"/>
 
   <Button
     android:text="I"
@@ -143,47 +143,47 @@
     android:id="@+id/btn_obj1_etape3_i"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_j"
     android:text="J"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_a"
     android:layout_toRightOf="@id/btn_obj1_etape3_i"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_j"/>
+    android:layout_marginTop="22dp"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_k"
     android:text="K"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_a"
     android:layout_toRightOf="@id/btn_obj1_etape3_j"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_k"/>
+    android:layout_marginTop="22dp"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_l"
     android:text="L"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_a"
     android:layout_toRightOf="@id/btn_obj1_etape3_k"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_l"/>
+    android:layout_marginTop="22dp"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_m"
     android:text="M"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_g"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_m"/>
+    android:layout_marginTop="22dp"/>
 
   <Button
+    android:id="@+id/btn_obj1_etape3_n"
     android:text="N"
     android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj1_etape3_g"
     android:layout_toRightOf="@id/btn_obj1_etape3_m"
-    android:layout_marginTop="22dp"
-    android:id="@+id/btn_obj1_etape3_n"/>
+    android:layout_marginTop="22dp"/>
 
 </RelativeLayout>

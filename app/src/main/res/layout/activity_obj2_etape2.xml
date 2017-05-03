@@ -9,21 +9,22 @@
                 android:orientation="vertical">
 
   <TextureView
-    android:id="@+id/tv_video"
+    android:id="@+id/tv_obj2_etape2_video"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_centerHorizontal="true"
-    android:layout_above="@+id/lyt_gimbal" />
+    android:layout_above="@+id/lyt_obj2_etape2_gimbal" />
 
   <LinearLayout
-    android:id="@+id/lyt_gimbal"
+    android:id="@+id/lyt_obj2_etape2_gimbal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_above="@+id/lyt_camera" >
+    android:layout_above="@+id/lyt_obj2_etape2_camera" >
+
     <Button
-      android:id="@+id/btn_pitch_moins"
+      android:id="@+id/btn_obj2_etape2_pitch_moins"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
@@ -31,7 +32,7 @@
       android:text="@string/pitch_moins"
       android:textSize="12sp"/>
     <Button
-      android:id="@+id/btn_pitch_plus"
+      android:id="@+id/btn_obj2_etape2_pitch_plus"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
@@ -39,7 +40,7 @@
       android:text="@string/pitch_plus"
       android:textSize="12sp"/>
     <Button
-      android:id="@+id/btn_yaw_moins"
+      android:id="@+id/btn_obj2_etape2_yaw_moins"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
@@ -47,7 +48,7 @@
       android:text="@string/yaw_moins"
       android:textSize="12sp"/>
     <Button
-      android:id="@+id/btn_yaw_plus"
+      android:id="@+id/btn_obj2_etape2_yaw_plus"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
@@ -57,13 +58,13 @@
   </LinearLayout>
 
   <LinearLayout
-    android:id="@+id/lyt_camera"
+    android:id="@+id/lyt_obj2_etape2_camera"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_alignParentBottom="true" >
     <Button
-      android:id="@+id/btn_capturer"
+      android:id="@+id/btn_obj2_etape2_capturer"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
@@ -72,7 +73,7 @@
       android:textSize="12sp"/>
 
     <ToggleButton
-      android:id="@+id/btn_enregistrer"
+      android:id="@+id/btn_obj2_etape2_enregistrer"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
@@ -84,7 +85,7 @@
       android:checked="false" />
 
     <Button
-      android:id="@+id/btn_mode_photo"
+      android:id="@+id/btn_obj2_etape2_mode_photo"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
@@ -93,7 +94,7 @@
       android:textSize="12sp"/>
 
     <Button
-      android:id="@+id/btn_mode_video"
+      android:id="@+id/btn_obj2_etape2_mode_video"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
@@ -103,13 +104,13 @@
   </LinearLayout>
 
   <TextView
-    android:id="@+id/tv_timer"
+    android:id="@+id/tv_obj2_etape2_timer"
     android:layout_width="150dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:layout_marginTop="23dp"
     android:gravity="center"
     android:textColor="#ffffff"
-    android:layout_alignTop="@+id/tv_video"
+    android:layout_alignTop="@+id/tv_obj2_etape2_video"
     android:layout_centerHorizontal="true" />
 </RelativeLayout>

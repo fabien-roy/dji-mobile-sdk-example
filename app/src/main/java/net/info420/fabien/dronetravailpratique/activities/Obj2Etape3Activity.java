@@ -34,10 +34,10 @@ public class Obj2Etape3Activity extends AppCompatActivity {
   private void initUI(){
     setContentView(R.layout.activity_obj2_etape3);
 
-    tvImage = (TextView) findViewById(R.id.tv_image);
-    ivImage = (ImageView) findViewById(R.id.iv_image);
-    btnResultat = (Button) findViewById(R.id.btn_resultat);
-    btnOriginal = (Button) findViewById(R.id.btn_original);
+    tvImage = (TextView) findViewById(R.id.tv_obj2_etape3_image);
+    ivImage = (ImageView) findViewById(R.id.iv_obj2_etape3_image);
+    btnResultat = (Button) findViewById(R.id.btn_obj2_etape3_resultat);
+    btnOriginal = (Button) findViewById(R.id.btn_obj2_etape3_original);
 
     btnResultat.setOnClickListener(new View.OnClickListener() {
       @Override

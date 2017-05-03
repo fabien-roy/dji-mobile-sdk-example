@@ -12,62 +12,62 @@
   tools:context="net.info420.fabien.dronetravailpratique.activities.Obj2Etape3Activity">
 
   <TextView
-    android:id="@+id/tv_obj2_step1_title"
+    android:id="@+id/tv_obj2_etape3_titre"
     android:text="@string/objectif2_etape3"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="14dp"
-    android:textSize="20dp"
+    android:textSize="20sp"
     android:layout_centerHorizontal="true"/>
 
   <TextView
-    android:id="@+id/tv_obj2_step1_desc"
+    android:id="@+id/tv_obj2_etape3_desc"
     android:text="@string/objectif2_etape3_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@id/tv_obj2_step1_title"
-    android:textSize="15dp"
+    android:layout_below="@id/tv_obj2_etape3_titre"
+    android:textSize="15sp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="37dp"/>
 
   <TextView
+    android:id="@+id/tv_obj2_etape3_image"
     android:text="@string/original_image"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
-    android:layout_below="@id/tv_obj2_step1_desc"
-    android:layout_marginTop="20dp"
-    android:id="@+id/tv_image"/>
+    android:layout_below="@id/tv_obj2_etape3_desc"
+    android:layout_marginTop="20dp"/>
 
   <ImageView
+    android:id="@+id/iv_obj2_etape3_image"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:adjustViewBounds="true"
     android:scaleType="centerCrop"
     android:layout_marginTop="20dp"
-    android:id="@+id/iv_image"
-    android:layout_below="@+id/btn_resultat"
+    android:layout_below="@+id/btn_obj2_etape3_resultat"
     android:layout_centerHorizontal="true"/>
 
   <Button
+    android:id="@+id/btn_obj2_etape3_original"
     android:text="@string/original"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="26dp"
-    android:id="@+id/btn_original"
-    android:layout_below="@+id/tv_obj2_step1_title"
-    android:layout_alignLeft="@+id/iv_image"
-    android:layout_alignStart="@+id/iv_image"/>
+    android:layout_below="@+id/tv_obj2_etape3_titre"
+    android:layout_alignLeft="@+id/iv_obj2_etape3_image"
+    android:layout_alignStart="@+id/iv_obj2_etape3_image"/>
 
   <Button
+    android:id="@+id/btn_obj2_etape3_resultat"
     android:text="@string/resultat"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="26dp"
-    android:id="@+id/btn_resultat"
-    android:layout_below="@+id/tv_obj2_step1_title"
-    android:layout_alignRight="@+id/iv_image"
-    android:layout_alignEnd="@+id/iv_image"/>
+    android:layout_below="@+id/tv_obj2_etape3_titre"
+    android:layout_alignRight="@+id/iv_obj2_etape3_image"
+    android:layout_alignEnd="@+id/iv_obj2_etape3_image"/>
 
 </RelativeLayout>

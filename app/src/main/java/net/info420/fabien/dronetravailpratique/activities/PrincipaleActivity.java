@@ -58,12 +58,12 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
   private void initUI() {
     setContentView(R.layout.activity_principale);
 
-    mTextModelAvailable   = (TextView) findViewById(R.id.text_model_available);
-    mTextProduct          = (TextView) findViewById(R.id.text_product_info);
-    mTextConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
-    mBtnOpen              = (Button)   findViewById(R.id.btn_open);
-    mBtnOpenAnyway        = (Button)   findViewById(R.id.btn_open_anyway);
-    mBtnRefresh           = (Button)   findViewById(R.id.btn_refresh);
+    mTextModelAvailable   = (TextView) findViewById(R.id.tv_principale_modele_accessible);
+    mTextProduct          = (TextView) findViewById(R.id.tv_principale_produit_info);
+    mTextConnectionStatus = (TextView) findViewById(R.id.tv_principale_status_connexion);
+    mBtnOpen              = (Button)   findViewById(R.id.btn_principale_ouvrir);
+    mBtnOpenAnyway        = (Button)   findViewById(R.id.btn_principale_ouvrir_pareil);
+    mBtnRefresh           = (Button)   findViewById(R.id.btn_principale_rafraichir);
 
     mBtnOpen.setEnabled(false);
 
@@ -195,7 +195,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
       // mBtnOpen.setEnabled(true);
 
       mTextProduct.setText(R.string.produit_information);
-      mTextConnectionStatus.setText(R.string.connection_perdue);
+      mTextConnectionStatus.setText(R.string.connexion_perdue);
     }
   }
 }

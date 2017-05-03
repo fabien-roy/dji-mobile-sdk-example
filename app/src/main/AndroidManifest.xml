@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="net.info420.fabien.dronetravailpratique">
 
-  <!-- SDK permission requirement -->
+  <!-- Permissions requises au SDK -->
   <uses-permission android:name="android.permission.BLUETOOTH"/>
   <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
   <uses-permission android:name="android.permission.VIBRATE"/>
@@ -28,7 +28,6 @@
     android:name="android.hardware.usb.accessory"
     android:required="true"/>
 
-  <!-- SDK requirement permission end -->
   <application
     android:name=".application.DroneApplication"
     android:allowBackup="true"

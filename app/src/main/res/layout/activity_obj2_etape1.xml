@@ -16,19 +16,18 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="14dp"
-    android:textSize="20dp"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/textView2"/>
+    android:textSize="20sp"
+    android:layout_centerHorizontal="true"/>
 
   <TextView
+    android:id="@+id/tv_obj2_etape1_desc"
     android:text="@string/objectif2_etape1_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="37dp"
-    android:id="@+id/textView"/>
+    android:layout_marginTop="37dp"/>
 
   <Button
     android:id="@+id/btn_obj2_etape1_connecter"
@@ -36,7 +35,7 @@
     android:layout_height="50dp"
     android:textAllCaps="false"
     android:text="@string/connecter"
-    android:textSize="15dp"
+    android:textSize="15sp"
     android:layout_marginTop="70dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
@@ -60,8 +59,8 @@
     android:textAllCaps="false"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:layout_alignRight="@+id/textView"
-    android:layout_alignEnd="@+id/textView"/>
+    android:layout_alignRight="@+id/tv_obj2_etape1_desc"
+    android:layout_alignEnd="@+id/tv_obj2_etape1_desc"/>
 
   <Button
     android:id="@+id/btn_obj2_etape1_roll_moins"
@@ -80,8 +79,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/btn_obj2_etape1_pitch_plus"
-    android:layout_alignRight="@+id/textView2"
-    android:layout_alignEnd="@+id/textView2"/>
+    android:layout_alignRight="@+id/tv_obj2_etape1_desc"
+    android:layout_alignEnd="@+id/tv_obj2_etape1_desc"/>
 
   <Button
     android:id="@+id/btn_obj2_etape1_yaw_moins"

@@ -12,72 +12,72 @@
   tools:context="net.info420.fabien.dronetravailpratique.activities.PrincipaleActivity">
 
   <TextView
-    android:id="@+id/text_connection_status"
+    android:id="@+id/tv_principale_status_connexion"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="100dp"
     android:gravity="center"
-    android:text="@string/connection_perdue"
+    android:text="@string/connexion_perdue"
     android:textColor="@android:color/black"
-    android:textSize="20dp"
+    android:textSize="20sp"
     android:textStyle="bold"/>
 
   <TextView
-    android:id="@+id/text_product_info"
+    android:id="@+id/tv_principale_produit_info"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="180dp"
     android:text="@string/produit_information"
     android:textColor="@android:color/black"
-    android:textSize="20dp"
+    android:textSize="20sp"
     android:gravity="center"
     android:textStyle="bold"
     />
 
   <TextView
-    android:id="@+id/text_model_available"
+    android:id="@+id/tv_principale_modele_accessible"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:gravity="center"
     android:layout_marginTop="230dp"
-    android:text="@string/model_non_accessible"
-    android:textSize="15dp"/>
+    android:text="@string/modele_non_accessible"
+    android:textSize="15sp"/>
 
   <Button
-    android:id="@+id/btn_open"
+    android:id="@+id/btn_principale_ouvrir"
     android:layout_width="150dp"
     android:layout_height="55dp"
     android:layout_centerHorizontal="true"
     android:textAllCaps="false"
     android:layout_marginTop="280dp"
     android:text="@string/acceder"
-    android:textSize="15dp"
+    android:textSize="15sp"
     />
 
   <Button
-    android:id="@+id/btn_open_anyway"
+    android:id="@+id/btn_principale_ouvrir_pareil"
     android:layout_width="150dp"
     android:layout_height="55dp"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="280dp"
-    android:layout_toRightOf="@id/btn_open"
+    android:layout_toRightOf="@id/btn_principale_ouvrir"
     android:backgroundTint="@color/colorAccent"
     android:text="@string/acceder_pareil"
     android:textAllCaps="false"
     android:textColor="@color/colorTextIcons"/>
 
   <Button
-    android:id="@+id/btn_refresh"
+    android:id="@+id/btn_principale_rafraichir"
     android:layout_width="150dp"
     android:layout_height="55dp"
     android:layout_centerHorizontal="true"
     android:textAllCaps="false"
     android:layout_marginTop="330dp"
     android:text="@string/rafraichir"
-    android:textSize="15dp"
+    android:textSize="15sp"
     />
 
   <TextView
@@ -86,16 +86,17 @@
     android:layout_centerHorizontal="true"
     android:layout_marginTop="425dp"
     android:text="@string/sdk_version"
-    android:textSize="15dp"
+    android:textSize="15sp"
     />
 
+  <!-- TODO : Enlever la license? -->
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="450dp"
     android:text="@string/app_license"
-    android:textSize="10dp"
+    android:textSize="10sp"
     />
 
 </RelativeLayout>
