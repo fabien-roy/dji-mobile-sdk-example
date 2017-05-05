@@ -7,7 +7,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-import net.info420.fabien.dronetravailpratique.util.DroneBougeur;
+import net.info420.fabien.dronetravailpratique.helpers.DroneHelper;
+import net.info420.fabien.dronetravailpratique.helpers.GimbalHelper;
 
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
@@ -26,7 +27,7 @@ import dji.sdk.sdkmanager.DJISDKManager;
  * @since   17-02-10
  *
  * @see DJIBaseProduct
- * @see DroneBougeur
+ * @see DroneHelper
  *
  * {@link <a href="https://github.com/dji-sdk/Mobile-SDK-Android/blob/master/Sample%20Code/app/src/main/java/com/dji/sdk/sample/internal/controller/DJISampleApplication.java"
  *        target="_blank">
@@ -48,18 +49,19 @@ public class DroneApplication extends Application {
 
   private Handler handler;
 
-  public static DroneBougeur droneBougeur;
+  public static DroneHelper   droneHelper;
+  public static GimbalHelper gimbalHelper;
 
   /**
    * Exécuté à la création de l'{@link Application}
    *
    * <ul>
    *   <li>Instancie le {@link Handler}</li>
-   *   <li>Instancie le {@link DroneBougeur}</li>
+   *   <li>Instancie le {@link DroneHelper}</li>
    *   <li>Identifie la clée de l'API du SDK</li>
    * </ul>
    *
-   * @see DroneBougeur
+   * @see DroneHelper
    * @see DJISDKManager#initSDKManager(Context, DJISDKManager.DJISDKManagerCallback)
    */
   @Override
@@ -67,8 +69,6 @@ public class DroneApplication extends Application {
     super.onCreate();
 
     handler = new Handler(Looper.getMainLooper());
-
-    droneBougeur = new DroneBougeur();
 
     DJISDKManager.getInstance().initSDKManager(this, mDJISDKManagerCallback);
   }
@@ -116,17 +116,31 @@ public class DroneApplication extends Application {
   }
 
   /**
-   * Méthode pour avoir l'instance de droneBougeur (Singleton)
+   * Méthode pour avoir l'instance de droneHelper (Singleton)
    *
-   * @return le droneBougeur (DroneBougeur)
+   * @return le droneHelper (DroneHelper)
    *
-   * @see DroneBougeur
+   * @see DroneHelper
    */
-  public static synchronized DroneBougeur getDroneBougeur() {
-    if (null == droneBougeur) {
-      droneBougeur = new DroneBougeur();
+  public static synchronized DroneHelper getDroneHelper() {
+    if (null == droneHelper) {
+      droneHelper = new DroneHelper();
     }
-    return droneBougeur;
+    return droneHelper;
+  }
+
+  /**
+   * Méthode pour avoir l'instance de gimbalHelper (Singleton)
+   *
+   * @return le gimbalHelper ({@link GimbalHelper})
+   *
+   * @see GimbalHelper
+   */
+  public static synchronized GimbalHelper getGimbalHelper() {
+    if (null == gimbalHelper) {
+      gimbalHelper = new GimbalHelper();
+    }
+    return gimbalHelper;
   }
 
   /**

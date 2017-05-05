@@ -71,7 +71,7 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
   protected void onDestroy(){
     super.onDestroy();
 
-    DroneApplication.getDroneBougeur().atterir();
+    DroneApplication.getDroneHelper().atterir();
   }
 
   /**
@@ -196,8 +196,6 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
       getCameraInstance().setDJICameraReceivedVideoDataCallback(cameraReceivedVideoDataCallback);
     }
   }
-
-  // TODO : Affiche la photo
 
   /**
    * Capture une photo
@@ -365,17 +363,22 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.btn_obj2_etape2_pitch_moins:
+        DroneApplication.getGimbalHelper().bougerGimbal(-15, 0, 0);
         break;
       case R.id.btn_obj2_etape2_pitch_plus:
+        DroneApplication.getGimbalHelper().bougerGimbal(15, 0, 0);
         break;
       case R.id.btn_obj2_etape2_yaw_moins:
+        DroneApplication.getGimbalHelper().bougerGimbal(0, 0, -15);
         break;
       case R.id.btn_obj2_etape2_yaw_plus:
+        DroneApplication.getGimbalHelper().bougerGimbal(0, 0, 15);
         break;
       case R.id.btn_obj2_etape2_capturer:
         capturer();
         break;
       case R.id.btn_obj2_etape2_enregistrer:
+        demarrerEnregistrement();
         break;
       case R.id.btn_obj2_etape2_mode_photo:
         switchCameraMode(DJICameraSettingsDef.CameraMode.ShootPhoto);

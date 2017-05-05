@@ -41,7 +41,7 @@
     android:layout_centerHorizontal="true"/>
 
   <Button
-    android:id="@+id/btn_obj1_etape2_aller_derriere"
+    android:id="@+id/btn_obj2_etape1_pitch_moins"
     android:text="@string/pitch_moins"
     android:textAllCaps="false"
     android:layout_width="wrap_content"

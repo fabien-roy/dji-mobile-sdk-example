@@ -6,12 +6,12 @@ import android.view.View;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
-import net.info420.fabien.dronetravailpratique.util.DroneBougeur;
+import net.info420.fabien.dronetravailpratique.helpers.DroneHelper;
 
 /**
  * {@link android.app.Activity} pour faire décoller et attérir le drone
  *
- * @see DroneBougeur
+ * @see DroneHelper
  *
  * @author  Fabien Roy
  * @version 1.0
@@ -45,13 +45,13 @@ public class Obj1Etape1Activity extends AppCompatActivity {
    *   <li>Fait attérir le drone</li>
    * </ul>
    *
-   * @see DroneBougeur#atterir()
+   * @see DroneHelper#atterir()
    */
   @Override
   protected void onDestroy(){
     super.onDestroy();
 
-    DroneApplication.getDroneBougeur().atterir();
+    DroneApplication.getDroneHelper().atterir();
   }
 
   /**
@@ -62,8 +62,8 @@ public class Obj1Etape1Activity extends AppCompatActivity {
    *   <li>Met les Listeners</li>
    * </ul>
    *
-   * @see DroneBougeur#decoller()
-   * @see DroneBougeur#atterir()
+   * @see DroneHelper#decoller()
+   * @see DroneHelper#atterir()
    */
   private void initUI(){
     setContentView(R.layout.activity_obj1_etape1);
@@ -71,14 +71,14 @@ public class Obj1Etape1Activity extends AppCompatActivity {
     findViewById(R.id.btn_obj1_etape1_decoller).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneBougeur().decoller();
+        DroneApplication.getDroneHelper().decoller();
       }
     });
 
     findViewById(R.id.btn_ob1_etape1_arreter).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneBougeur().atterir();
+        DroneApplication.getDroneHelper().atterir();
       }
     });
   }

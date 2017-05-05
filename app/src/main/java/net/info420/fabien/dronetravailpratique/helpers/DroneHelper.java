@@ -1,8 +1,9 @@
-package net.info420.fabien.dronetravailpratique.util;
+package net.info420.fabien.dronetravailpratique.helpers;
 
 import android.util.Log;
 
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
+import net.info420.fabien.dronetravailpratique.util.MovementTimer;
 
 import java.util.List;
 
@@ -17,10 +18,10 @@ import dji.common.util.DJICommonCallbacks;
  * Created by fabien on 17-03-22.
  */
 
-// TODO : Documenter DroneBougeur
+// TODO : Documenter DroneHelper
 
-public class DroneBougeur {
-  private static final String TAG = DroneBougeur.class.getName();
+public class DroneHelper {
+  private static final String TAG = DroneHelper.class.getName();
 
   public static final int ORIENTATION_HORAIRE     = 1;
   public static final int ORIENTATION_ANTIHORAIRE = -1;
