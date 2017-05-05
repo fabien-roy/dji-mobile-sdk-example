@@ -195,17 +195,17 @@ public class DroneBougeur {
   }
 
   // Par défaut, de devant
-  public MovementTimer getCercleMovementTimer(String name, int radius, int angle, int orientation, Integer ajoutOrientation, int rotationSide) {
+  public MovementTimer getCercleMovementTimer(String name, float radius, int angle, int orientation, Float ajoutOrientation, int rotationSide) {
     Log.d(TAG, String.format("Creating Circular MovementTimer %s : radius %s angle %s orientation %s ajoutOrientation %s rotationSide %s", name, radius, angle, orientation, ajoutOrientation, rotationSide));
 
     // Données par défaut
     float pitch = 0;
     float roll  = 0;
 
-    if (ajoutOrientation == null) ajoutOrientation = 9;
+    if (ajoutOrientation == null) ajoutOrientation = 9F;
 
     // Ajustement de l'angle, puisque le drone ne tourne pas assez
-    angle = angle + ((angle / CERCLE_QUART) * ajoutOrientation);
+    angle = angle + (int) ((angle / CERCLE_QUART) * ajoutOrientation);
 
     if (radius == 0) {
       return null;
@@ -229,7 +229,7 @@ public class DroneBougeur {
     }
 
     return new MovementTimer(name,                                    // Nom du timer
-      (radius * (angle / CERCLE_QUART) * 1000),                     // Temps : rayon * nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)
+      (long) (radius * (angle / CERCLE_QUART) * 1000),                     // Temps : rayon * nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)
       100,                                                            // Fréquence
       pitch,                                                          // Pitch
       roll,                                                           // Roll

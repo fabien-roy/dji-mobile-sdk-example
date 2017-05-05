@@ -12,6 +12,8 @@ import net.info420.fabien.dronetravailpratique.util.MovementTimer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.data;
+
 /**
  * {@link android.app.Activity} qui fait le parcours prédéfinit
  *
@@ -25,20 +27,20 @@ import java.util.List;
 public class Obj1Etape3Activity extends AppCompatActivity {
   public static final String TAG = Obj1Etape2Activity.class.getName();
 
-  private float[] dataA = { 0,     3.8F };
-  private float[] dataB = { 3.5F,  0 };
-  private float[] dataC = { 0,     -3.8F };
-  private float[] dataD = { 5.9F,  0 };
-  private Integer dataE = 9;
-  private float[] dataF = {-3.3F,  1.8F, 0.3F };
-  private Integer dataG = 15;
-  private float[] dataH = { 5.8F,  -2.8F };
-  private Integer dataI = 9;
-  private float[] dataJ = {-3,     3 };
-  private Integer dataK = 9;
-  private float[] dataL = {-3,    -6 };
-  private Integer dataM = 9;
-  private float[] dataN = { 0,    -4 };
+  private float[] dataA = { 0,      3.8F  };        // OK
+  private float[] dataB = { 3.5F,   0     };        // OK
+  private float[] dataC = { 0,      -3.8F };        // OK
+  private float[] dataD = { 5.95F,  0     };        // OK
+  private float[] dataE = { 2,      9     };        // OK 180
+  private float[] dataF = {-3.35F,  1.95F, 0.4F };  // OK
+  private float[] dataG = { 2.5F,   13.5F };        // OK 180
+  private float[] dataH = { 6.1F,   -1.6F };        // 0-
+  private float[] dataI = { 2,      9     };        // 180
+  private float[] dataJ = {-2.5F,   2.5F  };        // --
+  private float[] dataK = { 2,      9     };        // 270
+  private float[] dataL = {-3,      -6    };        //
+  private float[] dataM = { 2,      9     };        // 360
+  private float[] dataN = { 0,      -4    };        //
 
   /**
    * Exécuté à la création de l'{@link android.app.Activity}
@@ -379,13 +381,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Float, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterE(List<MovementTimer> movementTimers) {
     // TODO : Test : E : OK
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("E1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, dataE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("E1 : 180°", dataE[0], DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, dataE[1], DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("E2 : attendre"));
   }
 
@@ -423,13 +425,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Float, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterG(List<MovementTimer> movementTimers) {
     // TODO : Test : G : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("G1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_HORAIRE, dataG, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("G1 : 180°", dataG[0], DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_HORAIRE, dataG[1], DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("G2 : attendre"));
   }
 
@@ -464,13 +466,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Float, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterI(List<MovementTimer> movementTimers) {
     // TODO : Test : I : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("I1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, dataI, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("I1 : 180°", dataI[0], DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, dataI[1], DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("I2 : attendre"));
   }
 
@@ -505,13 +507,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Float, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterK(List<MovementTimer> movementTimers) {
     // TODO : Test : K : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("K1 : 270°", 2, DroneBougeur.CERCLE_TROIS_QUARTS, DroneBougeur.ORIENTATION_HORAIRE, dataK, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("K1 : 270°", dataK[0], DroneBougeur.CERCLE_TROIS_QUARTS, DroneBougeur.ORIENTATION_HORAIRE, dataK[1], DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("K2 : attendre"));
   }
 
@@ -546,13 +548,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Float, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterM(List<MovementTimer> movementTimers) {
     // TODO : Test : M : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("M1 : 360°", 2, DroneBougeur.CERCLE_COMPLET, DroneBougeur.ORIENTATION_ANTIHORAIRE, dataM, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("M1 : 360°", dataM[0], DroneBougeur.CERCLE_COMPLET, DroneBougeur.ORIENTATION_ANTIHORAIRE, dataM[1], DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("M2 : attendre"));
   }
 
