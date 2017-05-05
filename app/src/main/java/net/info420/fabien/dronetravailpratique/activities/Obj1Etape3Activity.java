@@ -25,20 +25,20 @@ import java.util.List;
 public class Obj1Etape3Activity extends AppCompatActivity {
   public static final String TAG = Obj1Etape2Activity.class.getName();
 
-  private float[] A = { 0,     3.8F};
-  private float[] B = { 3.5F,  0};
-  private float[] C = { 0,     -3.8F};
-  private float[] D = { 5.8F,  0};
-  // Mouvement E : 180°
-  private float[] F = {-3.3F,  2.1F, 0.3F};
-  // Mouvement G : 180°
-  private float[] H = { 6,    -3};
-  // Mouvement I : 180°
-  private float[] J = {-3,     3};
-  // Mouvement K : 270°
-  private float[] L = {-3,    -6};
-  // Mouvement N : 360°
-  private float[] N = { 0,    -4};
+  private float[] dataA = { 0,     3.8F };
+  private float[] dataB = { 3.5F,  0 };
+  private float[] dataC = { 0,     -3.8F };
+  private float[] dataD = { 5.9F,  0 };
+  private Integer dataE = 9;
+  private float[] dataF = {-3.3F,  1.8F, 0.3F };
+  private Integer dataG = 15;
+  private float[] dataH = { 5.8F,  -2.8F };
+  private Integer dataI = 9;
+  private float[] dataJ = {-3,     3 };
+  private Integer dataK = 9;
+  private float[] dataL = {-3,    -6 };
+  private Integer dataM = 9;
+  private float[] dataN = { 0,    -4 };
 
   /**
    * Exécuté à la création de l'{@link android.app.Activity}
@@ -305,7 +305,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private void ajouterA(List<MovementTimer> movementTimers) {
     // TODO : Test : A : OK
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("A1 : bouger", A[0], A[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("A1 : bouger", dataA[0], dataA[1], 0, DroneBougeur.FACE_NORD));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("A2 : attendre"));
   }
 
@@ -324,7 +324,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private void ajouterB(List<MovementTimer> movementTimers) {
     // TODO : Test : B : OK
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("B1 : bouger", B[0], B[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("B1 : bouger", dataB[0], dataB[1], 0, DroneBougeur.FACE_NORD));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("B2 : attendre"));
   }
 
@@ -343,7 +343,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private void ajouterC(List<MovementTimer> movementTimers) {
     // TODO : Test : C : OK
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("C1 : bouger", C[0], C[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("C1 : bouger", dataC[0], dataC[1], 0, DroneBougeur.FACE_NORD));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("C2 : attendre"));
   }
 
@@ -362,7 +362,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private void ajouterD(List<MovementTimer> movementTimers) {
     // TODO : Test : D : OK
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("D1 : bouger", D[0], D[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("D1 : bouger", dataD[0], dataD[1], 0, DroneBougeur.FACE_NORD));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("D2 : attendre"));
   }
 
@@ -379,13 +379,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterE(List<MovementTimer> movementTimers) {
     // TODO : Test : E : OK
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("E1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("E1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, dataE, DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("E2 : attendre"));
   }
 
@@ -406,11 +406,9 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private void ajouterF(List<MovementTimer> movementTimers) {
     // TODO : Test : F : Mauvais bord?
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F1 : bouger", F[0], F[1], F[2], DroneBougeur.FACE_SUD));
-    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("F2 : attendre"));
-
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F3 : bouger", F[0], F[1], - F[2], DroneBougeur.FACE_SUD));
-    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("F4 : attendre"));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F1 : bouger", dataF[0], dataF[1], dataF[2], DroneBougeur.FACE_SUD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("F2 : bouger", dataF[0], dataF[1], - dataF[2], DroneBougeur.FACE_SUD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("F3 : attendre"));
   }
 
   /**
@@ -425,13 +423,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterG(List<MovementTimer> movementTimers) {
     // TODO : Test : G : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("G1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_HORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("G1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_HORAIRE, dataG, DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("G2 : attendre"));
   }
 
@@ -450,7 +448,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private void ajouterH(List<MovementTimer> movementTimers) {
     // TODO : Test : H : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("H1 : bouger", H[0], H[1], 0, DroneBougeur.FACE_NORD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("H1 : bouger", dataH[0], dataH[1], 0, DroneBougeur.FACE_NORD));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("H2 : attendre"));
   }
 
@@ -466,13 +464,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterI(List<MovementTimer> movementTimers) {
     // TODO : Test : I : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("I1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("I1 : 180°", 2, DroneBougeur.CERCLE_DEMI, DroneBougeur.ORIENTATION_ANTIHORAIRE, dataI, DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("I2 : attendre"));
   }
 
@@ -491,7 +489,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private void ajouterJ(List<MovementTimer> movementTimers) {
     // TODO : Test : J : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("J1 : bouger", J[0], J[1], 0, DroneBougeur.FACE_SUD));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("J1 : bouger", dataJ[0], dataJ[1], 0, DroneBougeur.FACE_SUD));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("J2 : attendre"));
   }
 
@@ -507,13 +505,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterK(List<MovementTimer> movementTimers) {
     // TODO : Test : K : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("K1 : 270°", 2, DroneBougeur.CERCLE_TROIS_QUARTS, DroneBougeur.ORIENTATION_HORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("K1 : 270°", 2, DroneBougeur.CERCLE_TROIS_QUARTS, DroneBougeur.ORIENTATION_HORAIRE, dataK, DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("K2 : attendre"));
   }
 
@@ -532,12 +530,12 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private void ajouterL(List<MovementTimer> movementTimers) {
     // TODO : Test : L : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("L1 : bouger", L[0], L[1], 0, DroneBougeur.FACE_EST));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("L1 : bouger", dataL[0], dataL[1], 0, DroneBougeur.FACE_EST));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("L2 : attendre"));
   }
 
   /**
-   * MOUVEMENT N
+   * MOUVEMENT M
    *
    * <p>On va du point (19, 12) au point (19, 12), vecteur de mouvement : Arc de 360° (0, 0),
    * rayon de 6' (2m)</p>
@@ -548,13 +546,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
    *
    * @see DroneApplication#getDroneBougeur()
-   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, int)
+   * @see DroneBougeur#getCercleMovementTimer(String, int, int, int, Integer, int)
    * @see DroneBougeur#getAttenteMovementTimer(String)
    */
   private void ajouterM(List<MovementTimer> movementTimers) {
-    // TODO : Test : N : À faire
+    // TODO : Test : M : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("M1 : 360°", 2, DroneBougeur.CERCLE_COMPLET, DroneBougeur.ORIENTATION_ANTIHORAIRE, DroneBougeur.ROTATION_DROITE));
+    movementTimers.add(DroneApplication.getDroneBougeur().getCercleMovementTimer("M1 : 360°", 2, DroneBougeur.CERCLE_COMPLET, DroneBougeur.ORIENTATION_ANTIHORAIRE, dataM, DroneBougeur.ROTATION_DROITE));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("M2 : attendre"));
   }
 
@@ -573,7 +571,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private void ajouterN(List<MovementTimer> movementTimers) {
     // TODO : Test : N : À faire
 
-    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("N1 : bouger", N[0], N[1], 0, DroneBougeur.FACE_EST));
+    movementTimers.add(DroneApplication.getDroneBougeur().getMovementTimer("N1 : bouger", dataN[0], dataN[1], 0, DroneBougeur.FACE_EST));
     movementTimers.add(DroneApplication.getDroneBougeur().getAttenteMovementTimer("N2 : attendre"));
   }
 
