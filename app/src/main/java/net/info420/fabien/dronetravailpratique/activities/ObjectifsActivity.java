@@ -8,15 +8,27 @@ import android.view.View;
 import net.info420.fabien.dronetravailpratique.R;
 
 /**
- * Created by fabien on 17-02-15.
+ * {@link Activity} où tous les Objectifs et leurs étapes sont listés
+ *
+ * @author  Fabien Roy
+ * @version 1.0
+ * @since   17-02-15
  */
-
-// TODO : Documenter ObjectifsActivity
-
 public class ObjectifsActivity extends Activity {
 
   public static final String TAG = ObjectifsActivity.class.getName();
 
+  /**
+   * Exécuté à la création de l'{@link android.app.Activity}
+   *
+   * <ul>
+   *   <li>Initialise l'interface</li>
+   * </ul>
+   *
+   * @param savedInstanceState {@link Bundle}
+   *
+   * @see #initUI()
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -24,6 +36,14 @@ public class ObjectifsActivity extends Activity {
     initUI();
   }
 
+  /**
+   * Inialise l'interface
+   *
+   * <ul>
+   *   <li>Ajoute le bon {@link android.text.Layout}</li>
+   *   <li>Met les Listeners</li>
+   * </ul>
+   */
   private void initUI(){
     setContentView(R.layout.activity_objectifs);
 

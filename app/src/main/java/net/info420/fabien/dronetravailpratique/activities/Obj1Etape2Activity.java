@@ -79,9 +79,9 @@ public class Obj1Etape2Activity extends AppCompatActivity {
    * @see DroneHelper#getMovementTimer(float[])
    * @see net.info420.fabien.dronetravailpratique.util.MovementTimer
    *
-   * {@link <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-flightController.html"
-   *        target="_blank">
-   *        Source : Roll Pitch Control Mode</a>}
+   * @see <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-flightController.html"
+   *      target="_blank">
+   *      Source : Roll Pitch Control Mode</a>
    */
   private void initUI(){
     setContentView(R.layout.activity_obj1_etape2);

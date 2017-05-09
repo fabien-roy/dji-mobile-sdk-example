@@ -1,89 +1,120 @@
 package net.info420.fabien.dronetravailpratique.helpers;
 
-// TODO : Documenter GimbalHelper
+// TODO : Documenter CameraHelper
 
 import android.util.Log;
 
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 
+import dji.sdk.camera.DJICamera;
+import dji.common.camera.DJICameraSettingsDef;
 import dji.common.error.DJIError;
-import dji.common.gimbal.DJIGimbalAngleRotation;
-import dji.common.gimbal.DJIGimbalRotateAngleMode;
-import dji.common.gimbal.DJIGimbalRotateDirection;
-import dji.common.gimbal.DJIGimbalWorkMode;
 import dji.common.util.DJICommonCallbacks;
 
 /**
- * {@link GimbalHelper}
+ * {@link CameraHelper}
  *
  * @author  Fabien Roy
  * @version 1.0
- * @since   17-05-05
+ * @since   17-05-09
  */
-public class GimbalHelper {
-  private static final String TAG = GimbalHelper.class.getName();
+public class CameraHelper {
+  private static final String TAG = CameraHelper.class.getName();
 
-  public GimbalHelper() {
-    initGimbal();
-  }
+  public CameraHelper() { }
 
   /**
-   * Arrange le Gimbal afin de pouvoir le bouger
+   * Capture une photo
+   *
+   * Vérifie l'instance de la {@link DJICamera}
+   * Démarre une photo shoot avec mode une seule photo (Single)
+   * Affiche un log en fonction du succès de l'opération
+   *
+   * @see DJICamera
    */
-  private void initGimbal() {
-    // FreeMode permet de jouer avec le pitch, le roll et le yaw
-    DroneApplication.getGimbalInstance().setGimbalWorkMode(DJIGimbalWorkMode.FreeMode, new DJICommonCallbacks.DJICompletionCallback() {
-      @Override
-      public void onResult(DJIError djiError) {
-        if (djiError == null) {
-          Log.d(TAG, "Set Gimbal Work Mode success");
-        } else {
-          Log.d(TAG, "Set Gimbal Work Mode failed" + djiError);
+  public void capturer() {
+    if (DroneApplication.getCameraInstance() != null) {
+      DroneApplication.getCameraInstance().startShootPhoto(DJICameraSettingsDef.CameraShootPhotoMode.Single, new DJICommonCallbacks.DJICompletionCallback() {
+        @Override
+        public void onResult(DJIError djiError) {
+          if (djiError == null) {
+            Log.d(TAG, "Succès de la capture de photo");
+          } else {
+            Log.d(TAG, djiError.getDescription());
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   /**
-   * Reçoit trois paramètres {@link DJIGimbalAngleRotation} et bouge le {@link dji.sdk.gimbal.DJIGimbal}
+   * Démarre l'enregistrement vidéo du {@link DJICamera}
    *
-   * @param pitch {@link DJIGimbalAngleRotation} de pitch
-   * @param roll  {@link DJIGimbalAngleRotation} de roll
-   * @param yaw   {@link DJIGimbalAngleRotation} de yaw
-   *
-   * @see DJIGimbalAngleRotation
-   * @see dji.sdk.gimbal.DJIGimbal
+   * Vérifie l'instance de la {@link DJICamera}
+   * Démarre l'enregistrement vidéo du {@link DJICamera}
+   * Affiche un log en fonction du succès de l'opération
    */
-   public void bougerGimbal(DJIGimbalAngleRotation pitch, DJIGimbalAngleRotation roll, DJIGimbalAngleRotation yaw) {
-    // RelativeAngle permet d'ajouter l'angle à l'angle actuel du Gimbal
-    // AbsoluteAngle permettrait d'ajuster l'angle avec le devant du drone
-    DroneApplication.getGimbalInstance().rotateGimbalByAngle(DJIGimbalRotateAngleMode.RelativeAngle, pitch, roll, yaw, new DJICommonCallbacks.DJICompletionCallback() {
-      @Override
-      public void onResult(DJIError djiError) {
-        if (djiError == null) {
-          Log.d(TAG, "Rotate Gimbal Success");
-        } else {
-          Log.d(TAG, "Rotate Gimbal Fail" + djiError);
+  public void demarrerEnregistrement(){
+    if (DroneApplication.getCameraInstance() != null) {
+      DroneApplication.getCameraInstance().startRecordVideo(new DJICommonCallbacks.DJICompletionCallback(){
+        @Override
+        public void onResult(DJIError djiError) {
+          if (djiError == null) {
+            Log.d(TAG, "Succès du démarrage de l'enregistrement");
+          } else {
+            Log.d(TAG, djiError.getDescription());
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   /**
-   * Appeler bougerGimbal en construisant des {@link DJIGimbalAngleRotation} fait des int reçus
+   * Arrête l'enregistrement vidéo du {@link DJICamera}
    *
-   * @param pitch int permettant de construire le {@link DJIGimbalAngleRotation} de pitch
-   * @param roll  int permettant de construire le {@link DJIGimbalAngleRotation} de roll
-   * @param yaw   int permettant de construire le {@link DJIGimbalAngleRotation} de yaw
-   *
-   * @see DJIGimbalAngleRotation
-   * @see dji.sdk.gimbal.DJIGimbal
+   * Vérifie l'instance de la {@link DJICamera}
+   * Arrête l'enregistrement vidéo du {@link DJICamera}
+   * Affiche un log en fonction du succès de l'opération
    */
-  public void bougerGimbal(int pitch, int roll, int yaw) {
-    DJIGimbalAngleRotation angleRotationPitch = new DJIGimbalAngleRotation(true, pitch, DJIGimbalRotateDirection.Clockwise);
-    DJIGimbalAngleRotation angleRotationRoll  = new DJIGimbalAngleRotation(true, roll,  DJIGimbalRotateDirection.Clockwise);
-    DJIGimbalAngleRotation angleRotationYaw   = new DJIGimbalAngleRotation(true, yaw,   DJIGimbalRotateDirection.Clockwise);
+  public void arreterEnregistrement(){
+    if (DroneApplication.getCameraInstance() != null) {
+      DroneApplication.getCameraInstance().stopRecordVideo(new DJICommonCallbacks.DJICompletionCallback(){
+        @Override
+        public void onResult(DJIError djiError) {
+          if (djiError == null) {
+            Log.d(TAG, "Succès de l'arrêt de l'enregistrement");
+          } else {
+            Log.d(TAG, djiError.getDescription());
+          }
+        }
+      });
+    }
+  }
 
-    bougerGimbal(angleRotationPitch, angleRotationRoll, angleRotationYaw);
+  /**
+   * Change le mode de la {@link DJICamera}
+   *
+   * Vérifie l'instance de la {@link DJICamera}
+   * Change le mode de la {@link DJICamera}
+   * Affiche un log en fonction du succès de l'opération
+   *
+   * @param cameraMode  {@link DJICameraSettingsDef} à mettre sur la {@link DJICamera}
+   *
+   * @see DJICamera
+   * @see DJICameraSettingsDef
+   */
+  public void switchCameraMode(DJICameraSettingsDef.CameraMode cameraMode){
+    if (DroneApplication.getCameraInstance()!= null) {
+      DroneApplication.getCameraInstance().setCameraMode(cameraMode, new DJICommonCallbacks.DJICompletionCallback() {
+        @Override
+        public void onResult(DJIError djiError) {
+          if (djiError == null) {
+            Log.d(TAG, "Succès du changement de mode de caméra");
+          } else {
+            Log.d(TAG, djiError.getDescription());
+          }
+        }
+      });
+    }
   }
 }

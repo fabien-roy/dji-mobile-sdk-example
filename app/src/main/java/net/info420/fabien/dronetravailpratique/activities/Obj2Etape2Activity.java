@@ -12,20 +12,17 @@ import android.widget.ToggleButton;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
+import net.info420.fabien.dronetravailpratique.helpers.CameraHelper;
 
 import dji.common.camera.CameraSystemState;
 import dji.common.camera.DJICameraSettingsDef;
-import dji.common.error.DJIError;
 import dji.common.product.Model;
-import dji.common.util.DJICommonCallbacks;
 import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.camera.DJICamera;
 import dji.sdk.codec.DJICodecManager;
 
 import static net.info420.fabien.dronetravailpratique.R.id.tv_obj2_etape2_timer;
 import static net.info420.fabien.dronetravailpratique.application.DroneApplication.getCameraInstance;
-
-// TODO : Documenter Obj2Etape2Activity
 
 /**
  * @author  Fabien Roy
@@ -35,19 +32,21 @@ import static net.info420.fabien.dronetravailpratique.application.DroneApplicati
  * @see DJICamera
  * @see dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback
  *
- * {@link <a href="https://github.com/dji-sdk/Mobile-SDK-Android/blob/master/Sample%20Code/app/src/main/java/com/dji/sdk/sample/demo/camera/FetchMediaView.java">
- *   Aller chercher le media de la caméra (vidéo/photo)</a>}
- * {@link <a href="https://github.com/dji-sdk/Mobile-SDK-Android/blob/master/Sample%20Code/app/src/main/java/com/dji/sdk/sample/demo/camera/ShootSinglePhotoView.java">
- *   Mode SHOOT_PHOTO</a>}
- * {@link <a href="https://developer.dji.com/mobile-sdk/documentation/android-tutorials/FPVDemo.html">
- *   Tutoriel pour aller chercher les images de la caméra</a>}
- * {@link <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-camera.html">
- *   Informations sur la caméra</a>}
+ * @see <a href="https://github.com/dji-sdk/Mobile-SDK-Android/blob/master/Sample%20Code/app/src/main/java/com/dji/sdk/sample/demo/camera/FetchMediaView.java"
+ *      target="_blank">
+ *      Source : Aller chercher le media de la caméra (vidéo/photo)</a>
+ * @see <a href="https://github.com/dji-sdk/Mobile-SDK-Android/blob/master/Sample%20Code/app/src/main/java/com/dji/sdk/sample/demo/camera/ShootSinglePhotoView.java"
+ *      target="_blank">
+ *      Source : Mode SHOOT_PHOTO</a>
+ * @see <a href="https://developer.dji.com/mobile-sdk/documentation/android-tutorials/FPVDemo.html"
+ *      target="_blank">
+ *      Source : Tutoriel pour aller chercher les images de la caméra</a>
+ * @see <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-camera.html"
+ *      target="_blank">
+ *      Source : Informations sur la caméra</a>
  */
 public class Obj2Etape2Activity extends AppCompatActivity implements TextureView.SurfaceTextureListener, View.OnClickListener, CompoundButton.OnCheckedChangeListener{
   public static final String TAG = Obj1Etape2Activity.class.getName();
-
-  // protected VideoFeeder.VideoDataCallback mReceivedVideoDataCallBack = null;
 
   TextView tvTimer;
   TextureView tvVideo;
@@ -55,6 +54,18 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
   protected DJICamera.CameraReceivedVideoDataCallback mReceivedVideoDataCallBack = null;
   protected DJICodecManager mCodecManager;
 
+  /**
+   * Exécuté à la création de l'{@link android.app.Activity}
+   *
+   * <ul>
+   *   <li>Appelle {@link #initUI()}</li>
+   *   <li>Instancie le callback d</li>
+   * </ul>
+   *
+   * @param savedInstanceState {@link Bundle}
+   *
+   * @see #initUI()
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -65,18 +76,21 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
   }
 
   /**
-   * Par mesure de sécurité, on fait attérir le drone à la fermetture de l'{@link android.app.Activity}
-   */
-  @Override
-  protected void onDestroy(){
-    super.onDestroy();
-
-    DroneApplication.getDroneHelper().atterir();
-  }
-
-  /**
-   * Initialise les composants
-   * Mets en place les Listeners
+   * Inialise l'interface
+   *
+   * <ul>
+   *   <li>Ajoute le bon {@link android.text.Layout}</li>
+   *   <li>Instancie les composants</li>
+   *   <li>Met le Listener de texture au tvVideo</li>
+   *   <li>Met les Listeners</li>
+   *   <li>Cache tvTimer</li>
+   * </ul>
+   *
+   * <p>Les seuls composants instanciés sont tvTimer et tvVideo, puisque ce sont les seuls dont
+   * on a besoin dans les autres méthodes de l'{@link android.app.Activity}</p>
+   *
+   * @see android.view.TextureView.SurfaceTextureListener
+   * @see #onSurfaceTextureUpdated(SurfaceTexture)
    */
   private void initUI(){
     setContentView(R.layout.activity_obj2_etape2);
@@ -96,55 +110,32 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
     findViewById(R.id.btn_obj2_etape2_mode_photo).setOnClickListener(this);
     findViewById(R.id.btn_obj2_etape2_mode_video).setOnClickListener(this);
 
+    // Listener spécial pour un ToggleButton
     ((ToggleButton) findViewById(R.id.btn_obj2_etape2_enregistrer)).setOnCheckedChangeListener(this);
 
     tvTimer.setVisibility(View.INVISIBLE);
   }
 
   /**
-   * Initialise la vidéo
-   *
-   * Vérifie que le {@link DJIBaseProduct} est connecté
-   * Place le bon Listener sur la {@link TextureView}
-   * Place le bon {@link DJICamera.CameraReceivedVideoDataCallback} sur l'instance de la {@link DJICamera}
-   *
-   * @see DJIBaseProduct
-   * @see DJICamera
-   * @see dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback
-   */
-  private void initVideo() {
-    DJIBaseProduct product = DroneApplication.getProductInstance();
-
-    if (product == null || !product.isConnected()) {
-      Log.e(TAG, "Le produit est déconnecté!");
-    } else {
-      if (null != tvVideo) tvVideo.setSurfaceTextureListener(this);
-
-      if (!product.getModel().equals(Model.UnknownAircraft)) {
-        setCameraCallback(mReceivedVideoDataCallBack);
-      }
-    }
-  }
-
-  /**
-   * Enlève le {@link dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback} de la {@link DJICamera}
-   */
-  private void uninitVideo() {
-    setCameraCallback(null);
-  }
-
-  /**
    * Instancie le {@link dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback}
+   *
+   * <ul>
+   *   <li>Instancie mReceivedVideoDataCallBack</li>
+   *   <li>Lorsque du data est reçu, vérifie si le {@link DJICodecManager} n'est pas null</li>
+   *   <li>S'il ne l'est pas, décode la vidéo</li>
+   * </ul>
+   *
+   * @see dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback
+   * @see dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback#onResult(byte[], int)
+   * @see DJICodecManager
+   * @see DJICodecManager#sendDataToDecoder(byte[], int)
    */
   private void initCallback() {
     mReceivedVideoDataCallBack = new DJICamera.CameraReceivedVideoDataCallback() {
       @Override
       public void onResult(byte[] videoBuffer, int size) {
         if(mCodecManager != null){
-          // Décoder la vidéo reçue
           mCodecManager.sendDataToDecoder(videoBuffer, size);
-        }else {
-          Log.e(TAG, "mCodecManager = null");
         }
       }
     };
@@ -153,12 +144,17 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
   /**
    * Affiche correctement le {@link android.widget.TextView} du timer
    *
-   * Vérifie l'instance de la {@link DJICamera}
-   * Ajoute un {@link dji.sdk.camera.DJICamera.CameraUpdatedSystemStateCallback} à la {@link DJICamera}
-   * Va chercher les données du temps d'enregistrement
-   * Démarre un {@link Thread} pour le temps de la vidéo
+   * <ul>
+   *   <li>Vérifie l'instance de la {@link DJICamera}</li>
+   *   <li>Ajoute un {@link dji.sdk.camera.DJICamera.CameraUpdatedSystemStateCallback} à la
+   *   {@link DJICamera}</li>
+   *   <li>Va chercher les données du temps d'enregistrement</li>
+   *   <li>Démarre un {@link Thread} pour le temps de la vidéo</li>
+   * </ul>
    *
+   * @see DJICamera#setDJICameraUpdatedSystemStateCallback(DJICamera.CameraUpdatedSystemStateCallback)
    * @see dji.sdk.camera.DJICamera.CameraUpdatedSystemStateCallback
+   * @see dji.sdk.camera.DJICamera.CameraUpdatedSystemStateCallback#onResult(CameraSystemState)
    */
   private void initTvTimer() {
     if (DroneApplication.getCameraInstance() != null) {
@@ -173,7 +169,6 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
                                                             tempsEnregistrement % 60);
             final boolean isVideoRecording  = cameraSystemState.isRecording();
 
-            // Thread pour le timer
             Obj2Etape2Activity.this.runOnUiThread(new Runnable() {
               @Override
               public void run() {
@@ -191,118 +186,59 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    * Ajoute un {@link dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback} à la {@link DJICamera}
    */
   private void setCameraCallback(DJICamera.CameraReceivedVideoDataCallback cameraReceivedVideoDataCallback) {
-    if (getCameraInstance()!= null) {
+    if (getCameraInstance() != null) {
       // Reset du callback
       getCameraInstance().setDJICameraReceivedVideoDataCallback(cameraReceivedVideoDataCallback);
     }
   }
 
   /**
-   * Capture une photo
+   * Initialise la vidéo
    *
-   * Vérifie l'instance de la {@link DJICamera}
-   * Démarre une photo shoot avec mode une seule photo (Single)
-   * Affiche un log en fonction du succès de l'opération
+   * <ul>
+   *   <li>Vérifie que le {@link DJIBaseProduct} est connecté</li>
+   *   <li>Place le bon Listener sur la {@link TextureView}</li>
+   *   <li>Place le bon {@link DJICamera.CameraReceivedVideoDataCallback} sur l'instance de la
+   *   {@link DJICamera}</li>
+   * </ul>
    *
+   * @see DJIBaseProduct
    * @see DJICamera
+   * @see dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback
    */
-  private void capturer() {
-    if (DroneApplication.getCameraInstance() != null) {
-      DroneApplication.getCameraInstance().startShootPhoto(DJICameraSettingsDef.CameraShootPhotoMode.Single, new DJICommonCallbacks.DJICompletionCallback() {
-        @Override
-        public void onResult(DJIError djiError) {
-          if (djiError == null) {
-            Log.d(TAG, "Succès de la capture de photo");
-          } else {
-            Log.d(TAG, djiError.getDescription());
-          }
-        }
-      });
+  private void initVideo() {
+    DJIBaseProduct product = DroneApplication.getProductInstance();
+
+    if (product == null || !product.isConnected()) {
+      Log.e(TAG, "Le drone est déconnecté!");
+    } else {
+      if (null != tvVideo) tvVideo.setSurfaceTextureListener(this);
+
+      if (!product.getModel().equals(Model.UnknownAircraft)) {
+        setCameraCallback(mReceivedVideoDataCallBack);
+      }
     }
   }
 
   /**
-   * Démarre l'enregistrement vidéo du {@link DJICamera}
+   * Lorsque le {@link DJIBaseProduct} change, on appelle {@link #initVideo()}
    *
-   * Vérifie l'instance de la {@link DJICamera}
-   * Démarre l'enregistrement vidéo du {@link DJICamera}
-   * Affiche un log en fonction du succès de l'opération
+   * @see #initVideo()
    */
-  private void demarrerEnregistrement(){
-    if (DroneApplication.getCameraInstance() != null) {
-      DroneApplication.getCameraInstance().startRecordVideo(new DJICommonCallbacks.DJICompletionCallback(){
-        @Override
-        public void onResult(DJIError djiError) {
-          if (djiError == null) {
-            Log.d(TAG, "Succès du démarrage de l'enregistrement");
-          } else {
-            Log.d(TAG, djiError.getDescription());
-          }
-        }
-      });
-    }
-  }
-
-  /**
-   * Arrête l'enregistrement vidéo du {@link DJICamera}
-   *
-   * Vérifie l'instance de la {@link DJICamera}
-   * Arrête l'enregistrement vidéo du {@link DJICamera}
-   * Affiche un log en fonction du succès de l'opération
-   */
-  private void arreterEnregistrement(){
-    if (DroneApplication.getCameraInstance() != null) {
-      DroneApplication.getCameraInstance().stopRecordVideo(new DJICommonCallbacks.DJICompletionCallback(){
-        @Override
-        public void onResult(DJIError djiError) {
-          if (djiError == null) {
-            Log.d(TAG, "Succès de l'arrêt de l'enregistrement");
-          } else {
-            Log.d(TAG, djiError.getDescription());
-          }
-        }
-      });
-    }
-  }
-
-  /**
-   * Change le mode de la {@link DJICamera}
-   *
-   * Vérifie l'instance de la {@link DJICamera}
-   * Change le mode de la {@link DJICamera}
-   * Affiche un log en fonction du succès de l'opération
-   *
-   * @param cameraMode  {@link DJICameraSettingsDef} à mettre sur la {@link DJICamera}
-   *
-   * @see DJICamera
-   * @see DJICameraSettingsDef
-   */
-  private void switchCameraMode(DJICameraSettingsDef.CameraMode cameraMode){
-    if (DroneApplication.getCameraInstance()!= null) {
-      DroneApplication.getCameraInstance().setCameraMode(cameraMode, new DJICommonCallbacks.DJICompletionCallback() {
-        @Override
-        public void onResult(DJIError djiError) {
-          if (djiError == null) {
-            Log.d(TAG, "Succès du changement de mode de caméra");
-          } else {
-            Log.d(TAG, djiError.getDescription());
-          }
-        }
-      });
-    }
-  }
-
   protected void onProductChange() {
     initVideo();
   }
 
+  /**
+   * Lorsqu'on revient sur l'{@link android.app.Activity}, appelle {@link #onProductChange()}
+   *
+   * @see #onProductChange()
+   */
   @Override
   public void onResume() {
     super.onResume();
 
     onProductChange();
-
-    if(tvVideo == null) Log.e(TAG, "tvVideo est null");
   }
 
   /**
@@ -313,6 +249,7 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    * @param height  La hauteur du {@link SurfaceTexture}
    *
    * @see SurfaceTexture
+   * @see android.view.TextureView.SurfaceTextureListener#onSurfaceTextureAvailable(SurfaceTexture, int, int)
    */
   @Override
   public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
@@ -329,6 +266,7 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    * @param height  La hauteur du {@link SurfaceTexture}
    *
    * @see SurfaceTexture
+   * @see android.view.TextureView.SurfaceTextureListener#onSurfaceTextureSizeChanged(SurfaceTexture, int, int)
    */
   @Override
   public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) { }
@@ -339,6 +277,8 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    * @param surface La {@link SurfaceTexture}, en occurance, tvVideo
    *
    * @see SurfaceTexture
+   * @see android.view.TextureView.SurfaceTextureListener#onSurfaceTextureDestroyed(SurfaceTexture)
+   * @see DJICodecManager#cleanSurface()
    */
   @Override
   public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
@@ -355,10 +295,21 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    * @param surface La {@link SurfaceTexture}, en occurance, tvVideo
    *
    * @see SurfaceTexture
+   * @see android.view.TextureView.SurfaceTextureListener#onSurfaceTextureUpdated(SurfaceTexture)
    */
   @Override
   public void onSurfaceTextureUpdated(SurfaceTexture surface) { }
 
+  /**
+   * Exécuté lorsqu'un {@link View} est cliqué dans l'{@link android.app.Activity}
+   *
+   * @param view  Le {@link View} qui a été cliqué
+   *
+   * @see net.info420.fabien.dronetravailpratique.helpers.GimbalHelper#bougerGimbal(int, int, int)
+   * @see CameraHelper#capturer()
+   * @see CameraHelper#demarrerEnregistrement()
+   * @see CameraHelper#switchCameraMode(DJICameraSettingsDef.CameraMode)
+   */
   @Override
   public void onClick(View view) {
     switch (view.getId()) {
@@ -375,16 +326,16 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
         DroneApplication.getGimbalHelper().bougerGimbal(0, 0, 15);
         break;
       case R.id.btn_obj2_etape2_capturer:
-        capturer();
+        DroneApplication.getCameraHelper().capturer();
         break;
       case R.id.btn_obj2_etape2_enregistrer:
-        demarrerEnregistrement();
+        DroneApplication.getCameraHelper().demarrerEnregistrement();
         break;
       case R.id.btn_obj2_etape2_mode_photo:
-        switchCameraMode(DJICameraSettingsDef.CameraMode.ShootPhoto);
+        DroneApplication.getCameraHelper().switchCameraMode(DJICameraSettingsDef.CameraMode.ShootPhoto);
         break;
       case R.id.btn_obj2_etape2_mode_video:
-        switchCameraMode(DJICameraSettingsDef.CameraMode.RecordVideo);
+        DroneApplication.getCameraHelper().switchCameraMode(DJICameraSettingsDef.CameraMode.RecordVideo);
         break;
     }
   }
@@ -396,15 +347,17 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    * @param isChecked       boolean signifiant le toggle du {@link ToggleButton}
    *
    * @see ToggleButton
+   * @see CameraHelper#demarrerEnregistrement()
+   * @see CameraHelper#arreterEnregistrement()
    */
   @Override
   public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
     if (isChecked) {
       tvTimer.setVisibility(View.VISIBLE);
-      demarrerEnregistrement();
+      DroneApplication.getCameraHelper().demarrerEnregistrement();
     } else {
       tvTimer.setVisibility(View.INVISIBLE);
-      arreterEnregistrement();
+      DroneApplication.getCameraHelper().arreterEnregistrement();
     }
   }
 }

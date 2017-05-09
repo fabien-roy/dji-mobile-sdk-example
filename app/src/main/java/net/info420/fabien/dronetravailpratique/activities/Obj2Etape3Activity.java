@@ -11,6 +11,8 @@ import net.info420.fabien.dronetravailpratique.R;
 
 import org.opencv.core.Mat;
 
+// TODO : Aller chercher la vidéo du drone dans Obj2Etape3Activity
+// TODO : Faire un traitement OpenCV de la vidéo du drone
 // TODO : Documenter Obj2Etape3Activity
 
 public class Obj2Etape3Activity extends AppCompatActivity {

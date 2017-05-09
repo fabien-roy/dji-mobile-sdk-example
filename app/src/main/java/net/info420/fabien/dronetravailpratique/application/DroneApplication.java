@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import net.info420.fabien.dronetravailpratique.helpers.CameraHelper;
 import net.info420.fabien.dronetravailpratique.helpers.DroneHelper;
 import net.info420.fabien.dronetravailpratique.helpers.GimbalHelper;
 
@@ -18,6 +19,8 @@ import dji.sdk.camera.DJICamera;
 import dji.sdk.gimbal.DJIGimbal;
 import dji.sdk.products.DJIAircraft;
 import dji.sdk.sdkmanager.DJISDKManager;
+
+// TODO : Construire une Activity pour montrer l'objectif 3
 
 /**
  * {@link Application} contenant des méthodes et variables utilisées dans toute l'application
@@ -50,7 +53,8 @@ public class DroneApplication extends Application {
   private Handler handler;
 
   public static DroneHelper   droneHelper;
-  public static GimbalHelper gimbalHelper;
+  public static GimbalHelper  gimbalHelper;
+  public static CameraHelper  cameraHelper;
 
   /**
    * Exécuté à la création de l'{@link Application}
@@ -141,6 +145,20 @@ public class DroneApplication extends Application {
       gimbalHelper = new GimbalHelper();
     }
     return gimbalHelper;
+  }
+
+  /**
+   * Méthode pour avoir l'instance de cameraHelper (Singleton)
+   *
+   * @return le cameraHelper ({@link CameraHelper})
+   *
+   * @see CameraHelper
+   */
+  public static synchronized CameraHelper getCameraHelper() {
+    if (null == cameraHelper) {
+      cameraHelper = new CameraHelper();
+    }
+    return cameraHelper;
   }
 
   /**
