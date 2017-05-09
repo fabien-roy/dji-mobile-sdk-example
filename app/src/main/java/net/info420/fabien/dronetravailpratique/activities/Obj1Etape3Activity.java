@@ -32,13 +32,13 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private float[] dataE = { 2,      9     };        // OK 180
   private float[] dataF = {-3.35F,  1.95F, 0.4F };  // OK
   private float[] dataG = { 2.5F,   13.5F };        // OK 180
-  private float[] dataH = { 6.1F,   -1.6F };        // 0-
-  private float[] dataI = { 2,      9     };        // 180
-  private float[] dataJ = {-2.5F,   2.5F  };        // --
+  private float[] dataH = { 7.2F,   -1.6F };        // +0
+  private float[] dataI = { 2,      9     };        // OK 180
+  private float[] dataJ = {-2.5F,   1     };        // 0-
   private float[] dataK = { 2,      9     };        // 270
-  private float[] dataL = {-3,      -6    };        //
+  private float[] dataL = {-3,      -4    };        // 0+
   private float[] dataM = { 2,      9     };        // 360
-  private float[] dataN = { 0,      -4    };        //
+  private float[] dataN = { 0,      -5    };        //
 
   /**
    * Exécuté à la création de l'{@link android.app.Activity}
