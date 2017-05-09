@@ -58,18 +58,24 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       ActivityCompat.requestPermissions(this,
-                                        new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.VIBRATE,
-                                                      Manifest.permission.INTERNET,               Manifest.permission.ACCESS_WIFI_STATE,
-                                                      Manifest.permission.WAKE_LOCK,              Manifest.permission.ACCESS_COARSE_LOCATION,
-                                                      Manifest.permission.ACCESS_NETWORK_STATE,   Manifest.permission.ACCESS_FINE_LOCATION,
-                                                      Manifest.permission.CHANGE_WIFI_STATE,      Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
-                                                      Manifest.permission.READ_EXTERNAL_STORAGE,  Manifest.permission.SYSTEM_ALERT_WINDOW,
+                                        new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                                      Manifest.permission.VIBRATE,
+                                                      Manifest.permission.INTERNET,
+                                                      Manifest.permission.ACCESS_WIFI_STATE,
+                                                      Manifest.permission.WAKE_LOCK,
+                                                      Manifest.permission.ACCESS_COARSE_LOCATION,
+                                                      Manifest.permission.ACCESS_NETWORK_STATE,
+                                                      Manifest.permission.ACCESS_FINE_LOCATION,
+                                                      Manifest.permission.CHANGE_WIFI_STATE,
+                                                      Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
+                                                      Manifest.permission.READ_EXTERNAL_STORAGE,
+                                                      Manifest.permission.SYSTEM_ALERT_WINDOW,
                                                       Manifest.permission.READ_PHONE_STATE },
                                         1);
     }
 
     initUI();
-    refreshSDKRelativeUI();
+    rafrachirUI();
   }
 
   /**
@@ -83,6 +89,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
    * </ul>
    *
    * @see ObjectifsActivity
+   * @see #rafrachirUI()
    */
   private void initUI() {
     setContentView(R.layout.activity_principale);
@@ -111,7 +118,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
     findViewById(R.id.btn_principale_rafraichir).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        refreshSDKRelativeUI();
+        rafrachirUI();
       }
     });
 
@@ -120,6 +127,13 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
 
   /**
    * Met à jour le texte de la version du SDK
+   *
+   * <ul>
+   *   <li>Va chercher la version du produit</li>
+   *   <li>Affiche la version du produit</li>
+   * </ul>
+   *
+   * @see DJIBaseProduct#getFirmwarePackageVersion()
    */
   private void mettreAJourVersion() {
     String version = null;
@@ -128,11 +142,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
       version = mProduct.getFirmwarePackageVersion();
     }
 
-    if(version == null) {
-      tvModeleAccessible.setText("N/A");
-    } else {
-      tvModeleAccessible.setText(version);
-    }
+    tvModeleAccessible.setText(version == null ? "N/A" : version);
   }
 
   /**
@@ -188,7 +198,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
 
   // TODO : La doc est rendue là
   // Vérifie si le drone est connecté et active l'interface necéssaire
-  private void refreshSDKRelativeUI() {
+  private void rafrachirUI() {
 
     mProduct = DroneApplication.getProductInstance();
 
