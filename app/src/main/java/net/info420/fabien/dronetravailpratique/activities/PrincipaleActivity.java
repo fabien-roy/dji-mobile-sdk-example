@@ -20,8 +20,6 @@ import dji.common.util.DJICommonCallbacks;
 import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.products.DJIAircraft;
 
-// TODO : Documenter PrincipaleActivity
-
 /**
  * {@link android.app.Activity} d'entrée à l'{@link android.app.Application}
  *
@@ -37,7 +35,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
   private TextView tvStatusConnexion;
   private Button   btnOuvrir;
 
-  private DJIBaseProduct mProduct;
+  private DJIBaseProduct product;
 
   /**
    * Exécuté à la création de l'{@link android.app.Activity}
@@ -126,6 +124,53 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
   }
 
   /**
+   * Vérifie si le drone est connecté et active l'interface necéssaire
+   *
+   * <ul>
+   *   <li>Vérifie si le drone est connecté. Si oui :
+   *   <ul>
+   *     <li>Ajuste les limitations de vols</li>
+   *     <li>Ajoute le callback au produit</li>
+   *     <li>Active le bouton pour accèder au reste de l'{@link android.app.Application}</li>
+   *     <li>Remplit les textes des informations du drone</li>
+   *   </ul></li>
+   *   <li>Sinon :
+   *   <ul>
+   *     <li>Désactive le bouton pour accèder au reste de l'{@link android.app.Application}</li>
+   *     <li>Remplit les textes des informations du drone</li>
+   *   </ul></li>
+   * </ul>
+   *
+   * @see #ajusterLimitesVol()
+   * @see dji.sdk.base.DJIBaseProduct.DJIVersionCallback
+   * @see #mettreAJourVersion()
+   */
+  private void rafrachirUI() {
+    product = DroneApplication.getProductInstance();
+
+    if (null != product && product.isConnected()) {
+      ajusterLimitesVol();
+      product.setDJIVersionCallback(this);
+
+      btnOuvrir.setEnabled(true);
+      tvStatusConnexion.setText("Statut : " + (product instanceof DJIAircraft ? "Aéronef DJI" : "Engin DJI") + " connecté");
+      mettreAJourVersion();
+
+      // On vérifie si le nom du modèle du drone est présent
+      if (null != product.getModel()) {
+        tvProduitInfo.setText(product.getModel().getDisplayName());
+      } else {
+        tvProduitInfo.setText(R.string.produit_information);
+      }
+    } else {
+      btnOuvrir.setEnabled(false);
+
+      tvProduitInfo.setText(R.string.produit_information);
+      tvStatusConnexion.setText(R.string.connexion_perdue);
+    }
+  }
+
+  /**
    * Met à jour le texte de la version du SDK
    *
    * <ul>
@@ -138,8 +183,8 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
   private void mettreAJourVersion() {
     String version = null;
 
-    if(mProduct != null) {
-      version = mProduct.getFirmwarePackageVersion();
+    if(product != null) {
+      version = product.getFirmwarePackageVersion();
     }
 
     tvModeleAccessible.setText(version == null ? "N/A" : version);
@@ -172,7 +217,7 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
    * @see dji.sdk.flightcontroller.DJIFlightLimitation#setMaxFlightHeight(float, DJICommonCallbacks.DJICompletionCallback)
    * @see dji.sdk.flightcontroller.DJIFlightController#setGoHomeAltitude(float, DJICommonCallbacks.DJICompletionCallback)
    */
-  protected void setFlightLimitation() {
+  protected void ajusterLimitesVol() {
     DroneApplication.getAircraftInstance().getFlightController().getFlightLimitation().setMaxFlightHeight(DroneApplication.MAX_HAUTEUR_VOL, new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
@@ -194,40 +239,5 @@ public class PrincipaleActivity extends AppCompatActivity implements DJIBaseProd
     // TODO : Inclinaise maximale
 
     // TODO : Vitesse de déplacement maximale
-  }
-
-  // TODO : La doc est rendue là
-  // Vérifie si le drone est connecté et active l'interface necéssaire
-  private void rafrachirUI() {
-
-    mProduct = DroneApplication.getProductInstance();
-
-    Log.d(TAG, "mProduct: " + (mProduct == null? "null" : "unnull") );
-
-    if (null != mProduct && mProduct.isConnected()) {
-
-       setFlightLimitation();
-
-      btnOuvrir.setEnabled(true);
-
-      tvStatusConnexion.setText("Statut : " + (mProduct instanceof DJIAircraft ? "Aéronef DJI" : "Engin DJI") + " connecté");
-      mProduct.setDJIVersionCallback(this);
-      mettreAJourVersion();
-
-      if (null != mProduct.getModel()) {
-        tvProduitInfo.setText(mProduct.getModel().getDisplayName());
-      } else {
-        tvProduitInfo.setText(R.string.produit_information);
-      }
-
-      DroneApplication.getAircraftInstance().getFlightController();
-    } else {
-
-      btnOuvrir.setEnabled(false);
-      // btnOuvrir.setEnabled(true);
-
-      tvProduitInfo.setText(R.string.produit_information);
-      tvStatusConnexion.setText(R.string.connexion_perdue);
-    }
   }
 }

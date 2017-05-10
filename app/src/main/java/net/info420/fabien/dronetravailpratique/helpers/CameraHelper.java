@@ -1,15 +1,13 @@
 package net.info420.fabien.dronetravailpratique.helpers;
 
-// TODO : Documenter CameraHelper
-
 import android.util.Log;
 
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 
-import dji.sdk.camera.DJICamera;
 import dji.common.camera.DJICameraSettingsDef;
 import dji.common.error.DJIError;
 import dji.common.util.DJICommonCallbacks;
+import dji.sdk.camera.DJICamera;
 
 /**
  * {@link CameraHelper}
@@ -26,22 +24,21 @@ public class CameraHelper {
   /**
    * Capture une photo
    *
-   * Vérifie l'instance de la {@link DJICamera}
-   * Démarre une photo shoot avec mode une seule photo (Single)
-   * Affiche un log en fonction du succès de l'opération
+   * <ul>
+   *   <li>Vérifie l'instance de la {@link DJICamera}</li>
+   *   <li>Démarre une photo shoot avec mode une seule photo (Single)</li>
+   *   <li>Affiche un log en fonction du succès de l'opération</li>
+   * </ul>
    *
    * @see DJICamera
+   * @see DJICamera#startShootPhoto(DJICameraSettingsDef.CameraShootPhotoMode, DJICommonCallbacks.DJICompletionCallback)
    */
   public void capturer() {
     if (DroneApplication.getCameraInstance() != null) {
       DroneApplication.getCameraInstance().startShootPhoto(DJICameraSettingsDef.CameraShootPhotoMode.Single, new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          if (djiError == null) {
-            Log.d(TAG, "Succès de la capture de photo");
-          } else {
-            Log.d(TAG, djiError.getDescription());
-          }
+          Log.d(TAG, djiError == null ? "Succès de la capture de photo" : djiError.getDescription());
         }
       });
     }
@@ -50,20 +47,21 @@ public class CameraHelper {
   /**
    * Démarre l'enregistrement vidéo du {@link DJICamera}
    *
-   * Vérifie l'instance de la {@link DJICamera}
-   * Démarre l'enregistrement vidéo du {@link DJICamera}
-   * Affiche un log en fonction du succès de l'opération
+   * <ul>
+   *   <li>Vérifie l'instance de la {@link DJICamera}</li>
+   *   <li>Démarre l'enregistrement vidéo du {@link DJICamera}</li>
+   *   <li>Affiche un log en fonction du succès de l'opération</li>
+   * </ul>
+   *
+   * @see DJICamera
+   * @see DJICamera#startRecordVideo(DJICommonCallbacks.DJICompletionCallback)
    */
   public void demarrerEnregistrement(){
     if (DroneApplication.getCameraInstance() != null) {
       DroneApplication.getCameraInstance().startRecordVideo(new DJICommonCallbacks.DJICompletionCallback(){
         @Override
         public void onResult(DJIError djiError) {
-          if (djiError == null) {
-            Log.d(TAG, "Succès du démarrage de l'enregistrement");
-          } else {
-            Log.d(TAG, djiError.getDescription());
-          }
+          Log.d(TAG, djiError == null ? "Succès du démarrage de l'enregistrement" : djiError.getDescription());
         }
       });
     }
@@ -72,20 +70,21 @@ public class CameraHelper {
   /**
    * Arrête l'enregistrement vidéo du {@link DJICamera}
    *
-   * Vérifie l'instance de la {@link DJICamera}
-   * Arrête l'enregistrement vidéo du {@link DJICamera}
-   * Affiche un log en fonction du succès de l'opération
+   * <ul>
+   *   <li>Vérifie l'instance de la {@link DJICamera}</li>
+   *   <li>Arrête l'enregistrement vidéo du {@link DJICamera}</li>
+   *   <li>Affiche un log en fonction du succès de l'opération</li>
+   * </ul>
+   *
+   * @see DJICamera
+   * @see DJICamera#stopRecordVideo(DJICommonCallbacks.DJICompletionCallback)
    */
   public void arreterEnregistrement(){
     if (DroneApplication.getCameraInstance() != null) {
       DroneApplication.getCameraInstance().stopRecordVideo(new DJICommonCallbacks.DJICompletionCallback(){
         @Override
         public void onResult(DJIError djiError) {
-          if (djiError == null) {
-            Log.d(TAG, "Succès de l'arrêt de l'enregistrement");
-          } else {
-            Log.d(TAG, djiError.getDescription());
-          }
+          Log.d(TAG, djiError == null ? "Succès de l'arrêt de l'enregistrement" : djiError.getDescription());
         }
       });
     }
@@ -94,13 +93,16 @@ public class CameraHelper {
   /**
    * Change le mode de la {@link DJICamera}
    *
-   * Vérifie l'instance de la {@link DJICamera}
-   * Change le mode de la {@link DJICamera}
-   * Affiche un log en fonction du succès de l'opération
+   * <ul>
+   *   <li>Vérifie l'instance de la {@link DJICamera}</li>
+   *   <li>Change le mode de la {@link DJICamera}</li>
+   *   <li>Affiche un log en fonction du succès de l'opération</li>
+   * </ul>
    *
    * @param cameraMode  {@link DJICameraSettingsDef} à mettre sur la {@link DJICamera}
    *
    * @see DJICamera
+   * @see DJICamera#setCameraMode(DJICameraSettingsDef.CameraMode, DJICommonCallbacks.DJICompletionCallback)
    * @see DJICameraSettingsDef
    */
   public void switchCameraMode(DJICameraSettingsDef.CameraMode cameraMode){
@@ -108,11 +110,7 @@ public class CameraHelper {
       DroneApplication.getCameraInstance().setCameraMode(cameraMode, new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          if (djiError == null) {
-            Log.d(TAG, "Succès du changement de mode de caméra");
-          } else {
-            Log.d(TAG, djiError.getDescription());
-          }
+          Log.d(TAG, djiError == null ? "Succès du changement de mode de caméra" : djiError.getDescription());
         }
       });
     }

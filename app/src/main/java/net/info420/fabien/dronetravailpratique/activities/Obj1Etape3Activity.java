@@ -12,6 +12,8 @@ import net.info420.fabien.dronetravailpratique.util.MovementTimer;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO : Prod : Enlever les noms des Timers
+
 /**
  * {@link android.app.Activity} qui fait le parcours prédéfinit
  *
@@ -25,6 +27,7 @@ import java.util.List;
 public class Obj1Etape3Activity extends AppCompatActivity {
   public static final String TAG = Obj1Etape2Activity.class.getName();
 
+  // Variables des mouvements du drone
   private float[] dataA = { 0,      3.8F  };        // OK
   private float[] dataB = { 3.5F,   0     };        // OK
   private float[] dataC = { 0,      -3.8F };        // OK
@@ -248,7 +251,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @see DroneHelper
    * @see DroneHelper#decoller()
    * @see DroneHelper#atterir()
-   * @see DroneHelper#moveList(List)
+   * @see DroneHelper#sendMovementTimerList(List)
    * @see MovementTimer
    *
    * @see <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-flightController.html"
@@ -282,7 +285,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
     // movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("Pre-atterir : wait"));
 
     // Exécution des mouvements
-    DroneApplication.getDroneHelper().moveList(movementTimers);
+    DroneApplication.getDroneHelper().sendMovementTimerList(movementTimers);
 
     // Atterrissage
     // DroneApplication.getDroneHelper().atterir();
@@ -606,6 +609,6 @@ public class Obj1Etape3Activity extends AppCompatActivity {
         break;
     }
 
-    DroneApplication.getDroneHelper().moveList(movementTimers);
+    DroneApplication.getDroneHelper().sendMovementTimerList(movementTimers);
   }
 }

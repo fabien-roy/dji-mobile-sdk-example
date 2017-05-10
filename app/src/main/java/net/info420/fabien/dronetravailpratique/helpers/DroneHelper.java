@@ -14,139 +14,274 @@ import dji.common.flightcontroller.DJIVirtualStickVerticalControlMode;
 import dji.common.flightcontroller.DJIVirtualStickYawControlMode;
 import dji.common.util.DJICommonCallbacks;
 
-/**
- * Created by fabien on 17-03-22.
- */
-
 // TODO : Documenter DroneHelper
+// TODO : Prod : Enlever les noms des Timers
 
+/**
+ * Classe permettant d'interragir avec le Drone et de lui donner des instructions pour bouger
+ *
+ * @author  Fabien Roy
+ * @version 1.0
+ * @since   17-03-22
+ */
 public class DroneHelper {
   private static final String TAG = DroneHelper.class.getName();
 
-  public static final int ORIENTATION_HORAIRE     = 1;
-  public static final int ORIENTATION_ANTIHORAIRE = -1;
-
-  public static final int CERCLE_QUART            = 90;
-  public static final int CERCLE_DEMI             = 180;
-  public static final int CERCLE_TROIS_QUARTS     = 270;
-  public static final int CERCLE_COMPLET          = 360;
-
-  public static final int ROTATION_AVANT          = 0;
-  public static final int ROTATION_DROITE         = 1;
-  public static final int ROTATION_GAUCHE         = 2;
-  public static final int ROTATION_ARRIERE        = 3;
-
+  // Variables statiques pour le calcul de mouvement par vecteurs (x, y)
   public static final int FACE_NORD               = 0;
   public static final int FACE_EST                = 1;
   public static final int FACE_OUEST              = 2;
   public static final int FACE_SUD                = 3;
 
-  private MovementTimer mMovementTimer;
+  // Variables statiques pour la rotation (sens horaire ou antihoraire)
+  public static final int ORIENTATION_HORAIRE     = 1;
+  public static final int ORIENTATION_ANTIHORAIRE = -1;
 
-  public void startMotors() {
-    // Il est nécéssaire de démarrer les moteurs. Ceci permet de "tester" le mouvement.
+  // Variables statiques pour la rotation (quarts de cercle à faire)
+  public static final int CERCLE_QUART            = 90;
+  public static final int CERCLE_DEMI             = 180;
+  public static final int CERCLE_TROIS_QUARTS     = 270;
+  public static final int CERCLE_COMPLET          = 360;
+
+  // Variables statiques pour la rotation (côté du drone où débute la rotation)
+  public static final int ROTATION_AVANT          = 0;
+  public static final int ROTATION_DROITE         = 1;
+  public static final int ROTATION_GAUCHE         = 2;
+  public static final int ROTATION_ARRIERE        = 3;
+
+  private MovementTimer movementTimer;
+
+  /**
+   * Démarre les moteurs du drone
+   *
+   * @see dji.sdk.flightcontroller.DJIFlightController#turnOnMotors(DJICommonCallbacks.DJICompletionCallback)
+   */
+  public void demarrerMoteurs() {
     DroneApplication.getAircraftInstance().getFlightController().turnOnMotors(
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          if (djiError != null) {
-            Log.e(TAG, String.format("Erreur de démarrage des moteurs : %s", djiError.getDescription()));
-          }
+          Log.d(TAG, djiError == null ? "Succès du démarrage des moteurs" : djiError.getDescription());
         }
       }
     );
   }
 
+  /**
+   * Fait décoller le drone
+   *
+   * @see dji.sdk.flightcontroller.DJIFlightController#takeOff(DJICommonCallbacks.DJICompletionCallback)
+   */
   public void decoller() {
-    // TAKE OFF
     DroneApplication.getAircraftInstance().getFlightController().takeOff(
       new DJICommonCallbacks.DJICompletionCallback () {
         @Override
         public void onResult(DJIError djiError) {
-          if (djiError != null) {
-            Log.e(TAG, String.format("Erreur de décollage : %s", djiError.getDescription()));
-          }
+          Log.d(TAG, djiError == null ? "Succès du décollage" : djiError.getDescription());
         }
       }
     );
   }
 
+  /**
+   * Fais attérir le drone
+   *
+   * <p>Avant de faire attérir le drone, vérifie si le {@link MovementTimer} existe. Si oui,
+   * l'arrête.</p>
+   *
+   * @see dji.sdk.flightcontroller.DJIFlightController#autoLanding(DJICommonCallbacks.DJICompletionCallback)
+   * @see MovementTimer
+   */
   public void atterir() {
-    if (null != mMovementTimer) {
-      mMovementTimer.cancel();
-      mMovementTimer = null;
+    if (null != movementTimer) {
+      movementTimer.cancel();
+      movementTimer = null;
     }
 
-    // LANDING
     DroneApplication.getAircraftInstance().getFlightController().autoLanding(
       new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          if (djiError != null) {
-            Log.e(TAG, String.format("Erreur d'atterissage : %s", djiError.getDescription()));
-          }
+          Log.d(TAG, djiError == null ? "Succès de l'atterissage" : djiError.getDescription());
         }
       }
     );
   }
 
-  public void move(MovementTimer movementTimer) {
-    if (null != mMovementTimer) {
-      Log.d(TAG, "mMovementTimer is not null : cancelling");
-      mMovementTimer.cancel();
-      mMovementTimer = null;
+  /**
+   * Fais bouger le drone avec un {@link MovementTimer}
+   *
+   * <p>Avant de faire bouger le drone, vérifie si le {@link MovementTimer} existe. Si oui,
+   * l'arrête.</p>
+   *
+   * @param movementTimer le {@link MovementTimer}
+   *
+   * @see MovementTimer
+   */
+  public void sendMovementTimer(MovementTimer movementTimer) {
+    if (null != this.movementTimer) {
+      this.movementTimer.cancel();
+      this.movementTimer = null;
     }
 
-    if (null == mMovementTimer) {
-      mMovementTimer = movementTimer;
-      mMovementTimer.start();
+    // Vérification de sécurité
+    if (null == this.movementTimer) {
+      this.movementTimer = movementTimer;
+      this.movementTimer.start();
     }
   }
 
-  public void moveList(List<MovementTimer> movementTimers) {
-    if (null != mMovementTimer) {
-      Log.d(TAG, "mMovementTimer is not null : cancelling");
-      mMovementTimer.cancel();
-      mMovementTimer = null;
+  /**
+   * Fais bouger le drone avec une {@link List} de {@link MovementTimer}
+   *
+   * <p>Avant de faire bouger le drone, vérifie si le {@link MovementTimer} existe. Si oui,
+   * l'arrête.</p>
+   *
+   * <p>Petite particularité ici : il faut ajouter la liste des prochains {@link MovementTimer}
+   * au premier {@link MovementTimer} avec {@link MovementTimer#setNextMovementTimers(List)}</p>
+   *
+   * @param  movementTimers {@link List} de {@link MovementTimer}
+   *
+   * @see MovementTimer
+   * @see MovementTimer#setNextMovementTimers(List)
+   */
+  public void sendMovementTimerList(List<MovementTimer> movementTimers) {
+    if (null != movementTimer) {
+      movementTimer.cancel();
+      movementTimer = null;
     }
 
-    if (null == mMovementTimer) {
-      // Premier timer
-      mMovementTimer = movementTimers.get(0);
+    // Vérification de sécurité
+    if (null == movementTimer) {
+      movementTimer = movementTimers.get(0); // Premier timer
 
       // On change le premier timer, afin qu'il ait la liste des prochain timers
-      mMovementTimer.setNextMovementTimers(movementTimers.subList(1, (movementTimers.size() - 1)));
+      movementTimer.setNextMovementTimers(movementTimers.subList(1, (movementTimers.size() - 1)));
 
-      mMovementTimer.start();
+      movementTimer.start();
     }
   }
 
-  public MovementTimer getMovementTimer(float[] pitchRollYawThrottle) {
-    Log.d(TAG, String.format("Creating MovementTimer no name : pitch %s roll %s yaw %s throttle %s", pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]));
-    return new MovementTimer("no_name", 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
+  /**
+   * Crée et retourne un {@link MovementTimer} avec un tableau représentation le pitch, roll, yaw
+   * et throttle du mouvement.
+   *
+   * @param   nom                   Nom à donner au {@link MovementTimer}
+   * @param   pitchRollYawThrottle  Tableau de float des données pitch, roll, yaw et throttle du
+   *                                mouvement
+   * @return  Un {@link MovementTimer} avec les données envoyées
+   *
+   * @see MovementTimer
+   */
+  public MovementTimer getMovementTimer(String nom, float[] pitchRollYawThrottle) {
+    return new MovementTimer(nom, 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
   }
 
-  public MovementTimer getMovementTimer(String name, float x, float y, float elevationPerSecond, int facingDirection) {
-    Log.d(TAG, String.format("Creating MovementTimer %s : x %s y %s elevationPerSecond %s facingDirection %s", name, x, y, elevationPerSecond, facingDirection));
-
+  /**
+   * Crée et retourne un {@link MovementTimer} avec des coordonées (x, y) et la direction à laquelle
+   * le drone fait face
+   *
+   * <p>Le code est assez complexe. <b>Je recommande de se fier au commentaires présents dans le
+   * JavaDoc et d'observer le code en même temps afin de mieux la comprendre.</b> Je vais essayer de
+   * faire un petit topo : </p>
+   *
+   * <ul>
+   *   <li>On vérifie si le mouvement est nul (x, y) == (0, 0). Si c'est le cas, on vérifie s'il
+   *   y a une élévation par seconde. Si c'est le cas, on fait monter le drone, tout en gardant un
+   *   vecteur de mouvement en (x, y) nul. Sinon, on envoie simplement un {@link MovementTimer} nul
+   *   servant à l'attente (voir {@link #getAttenteMovementTimer(String)}).</li>
+   *
+   *   <li>Ceci est l'étape cruciale. Afin que le système de mouvement du drone par coordonées
+   *   (x, y) soit fonctionnel, il est nécéssaire de vérifier la direction à laquelle le drone
+   *   fait face. C'est ici que la magie opère : plutôt que de modifier les valeurs de pitch et roll
+   *   qui seront envoyées au drone, on rotate plutôt le plan.
+   *
+   *   Je m'explique : Si le drone fait face au Sud, alors il suffit de faire x = -x et y = -y. De
+   *   cette manière, les calculs du mouvements en pitch et en roll restent les mêmes. On a
+   *   simplement « rotater » le plan. Il en va de même lorsque le drone fait face à l'Est. On rend
+   *   alors x = -y et y = x. Lorsqu'il fait face à l'Ouest, on rend x = y et y = -x.</li>
+   *
+   *   <li>Ensuite, on peut créer un {@link MovementTimer} avec des données de pitch et de roll, en
+   *   fonction des coordonées (x, y) résultantes de l'opération précédente.</li>
+   *
+   *   <li>D'abord, on vérifie si une des coordonées (x ou y) est nulle. Ceci représente un
+   *   mouvement « droit », soit non-diagonal. Si c'est le cas, on fait un {@link MovementTimer}
+   *   avec comme données :
+   *
+   *   <ul>
+   *     <li>Temps                : En secondes, le nombre de mètres de la coordonées non-nulles;
+   *     </li>
+   *     <li>Coordonée nulle      : 0;</li>
+   *     <li>Coordonée non-nulle  : 1 ou -1, en fonction de si la coordonée non-nulle est plus
+   *     grande que 0.</li>
+   *   </ul>
+   *
+   *   Par exemple, disons qu'on a le vecteur de mouvement (4, 0) avec un drone qui fait face au
+   *   Nord. Dans ce cas, on fait un {@link MovementTimer} de 4 secondes avec un pitch de 1 m/s et
+   *   un roll de 0 m/s.
+   *
+   *   Un autre exemple : le vecteur (0, -2). On fait un {@link MovementTimer} de 2 secondes (valeur
+   *   absolue de -2), avec un pitch de 0 et un roll de -1 (-2 est négatif).</li>
+   *
+   *   <li>C'est ici que ça se corse. D'abord on vérifie quelle coordonées (x ou y) a la plus grande
+   *   valeur absolue. On fait ensuite un {@link MovementTimer} avec comme données :
+   *
+   *   <ul>
+   *     <li>Temps                                        : En secondes, le nombre de mètres de la
+   *                                                        coordonées avec la plus grande valeur
+   *                                                        absolue;</li>
+   *     <li>Coordonée avec la plus petite valeur absolue : La valeur absolue de la division entre
+   *                                                        la coordonées avec la plus petite valeur
+   *                                                        absolue et celle qui a la plus grande.
+   *                                                        Cette valeur est positive ou négative en
+   *                                                        fonction de si la coordonée est plus
+   *                                                        grande que 0;</li>
+   *     <li>Coordonée avec la plus grande valeur absolue : 1 ou -1, en fonction de si la coordonée
+   *                                                        est plus grande que 0.</li>
+   *   </ul>
+   *
+   *   Par exemple, disons qu'on a le vecteur de mouvement (7, 4) avec un drone qui fait face au
+   *   Nord. Dans ce cas, on fait un {@link MovementTimer} de 7 secondes, avec un pitch de 1 m/s et
+   *   un roll de 4/7 m/s.
+   *
+   *   Un autre exemple : le vecteur (3, -5). On fait un {@link MovementTimer} de 5 secondes (valeur
+   *   absolue de -5), avec un pitch de 3/5 m/s (3 est positif) et un roll de -1 (-5 est négatif).
+   *   </li>
+   *
+   *   <li>Dans le cas où les deux coordonées sont non-nulles, on fait un {@link MovementTimer}
+   *   d'une durée en secondes du nombre de mètres d'une des coordonées. Le pitch et le roll sont
+   *   de 1 ou -1 en fonction de la positivité de la coordonée appropriée.</li>
+   * </ul>
+   *
+   * <p>Je tiens quand même à mettre l'accent sur une chose : <b>regarder le code en lisant la liste
+   * ci-dessus de ce qui se passe dans la méthode aide fortement à la compréhension de ladite
+   * méthode.</b></p>
+   *
+   * @param   nom                 Nom à donner au {@link MovementTimer}
+   * @param   x                   Coordonée x du vecteur de mouvement
+   * @param   y                   Coordonée y du vecteur de mouvement
+   * @param   elevationParSeconde Élévation par seconde du drone (throttle en m/s)
+   * @param   directionFace       Direction à laquelle le drone fait face
+   * @return  Un {@link MovementTimer} avec les données envoyées
+   *
+   * @see #getAttenteMovementTimer(String)
+   * @see MovementTimer
+   */
+  public MovementTimer getMovementTimer(String nom, float x, float y, float elevationParSeconde, int directionFace) {
     float temp;
 
     // Mouvement nul
     if ((x == 0) && (y == 0)) {
       // Élévation avec un x = 0 et y = 0
-      if (elevationPerSecond != 0) {
-       return new MovementTimer(name, (long) elevationPerSecond * 1000, 100, 0, 0, 0, elevationPerSecond);
+      if (elevationParSeconde != 0) {
+       return new MovementTimer(nom, (long) elevationParSeconde * 1000, 100, 0, 0, 0, elevationParSeconde);
       }
 
-      return getAttenteMovementTimer(name);
+      return getAttenteMovementTimer(nom);
     }
 
-    // On change x et y si le drone ne fais pas face au Nord
-    // Si vous voulez une interprêtation simple de ce qui se passe ici, en voici une.
-    // Le switch-case plus haut "flip" le plan. On peut ici considéré que le drone fait face au Nord, que le plan a "flippé" afin que +x soit toujours au Nord et +y toujours à l'Est.
-    // Ainsi, on peut toujours associé un x positif à un pitch positif et un y positif à un roll positif.
-    // J'espère que c'est un peu clair.
-    switch (facingDirection) {
+    // Rotation du plan lorsque le drone ne fait pas face au Nord
+    switch (directionFace) {
       case FACE_EST:
         temp = x;
         x = -y;
@@ -163,58 +298,146 @@ public class DroneHelper {
         break;
     }
 
-    // Si un des mouvement est égal à zéro, c'est facile. On va à 1 ou -1 m/s (en fonction du signe de la coordonnée non-nulle).
-    // Le temps, c'est simplement la valeur absolue de la coordonnée non-nulle
+    // Vérification si le mouvement est « droit », soit non-diagonal
     if (x == 0) {
-      return new MovementTimer(name, (long) Math.abs(y) * 1000, 100, 0, (y > 0) ? 1 : -1, 0, elevationPerSecond); // Le drone ne va qu'en y
+      // Le drone ne va qu'en y
+      return new MovementTimer( nom,
+                                (long) Math.abs(y) * 1000,
+                                100,
+                                0,
+                                (y > 0) ? 1 : -1,
+                                0,
+                                elevationParSeconde);
     } else if (y == 0) {
-      return new MovementTimer(name, (long) Math.abs(x) * 1000, 100, (x > 0) ? 1 : -1, 0, 0, elevationPerSecond); // Le drone ne va qu'en x
+      // Le drone ne va qu'en x
+      return new MovementTimer( nom,
+                                (long) Math.abs(x) * 1000,
+                                100,
+                                (x > 0) ? 1 : -1,
+                                0,
+                                0,
+                                elevationParSeconde);
     } else {
-      // Sinon, c'est soit un mouvement diagonale, soit
+      // Sinon, c'est un mouvement diagonal
 
-      // Aussi, il est nécéssaire de vérifier si le mouvement (x et/ou y) est supérieur à 0.
-      // Par exemple, si on bouge de (-2, 3), alors il va falloir bouger pendant 3 secondes en (- (2/3), 1)
-      // Pour faire cela, je dois calculer le "2/3" avec les valeurs absolues, puis donner un résultat négatif ou positif en fonction de x (-2).
-      // Sincérement, la meilleur technique pour comprendre ceci c'est de prendre des coordonnées et de calculer avec le if-then-else ci-dessous
       if (Math.abs(x) > Math.abs(y)) {
         // Le vecteur en X est supérieur à celui en Y.
-        return new  MovementTimer(name, (long) Math.abs(x) * 1000, 100, (x > 0) ? 1 : -1, (y > 0) ? Math.abs(y/x) : - Math.abs(y/x), 0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
+        // Le drone va plus en x qu'en y, donc on se sert de x pour le temps
+        return new  MovementTimer(nom,
+                                  (long) Math.abs(x) * 1000,
+                                  100,
+                                  (x > 0) ? 1 : -1,
+                                  (y > 0) ? Math.abs(y/x) : - Math.abs(y/x),
+                                  0,
+                                  elevationParSeconde);
       } else if (Math.abs(y) > Math.abs(x)) {
         // Le vecteur en Y est supérieur à celui en X.
-        return new  MovementTimer(name, (long) Math.abs(y) * 1000, 100, (x > 0) ? Math.abs(x/y) : - Math.abs(x/y), (y > 0) ? 1 : -1, 0, elevationPerSecond); // Le drone va plus en x qu'en y, donc on se sert de x
+        // Le drone va plus en y qu'en x, donc on se sert de y pour le temps
+        return new  MovementTimer(nom,
+                                  (long) Math.abs(y) * 1000,
+                                  100,
+                                  (x > 0) ? Math.abs(x/y) : - Math.abs(x/y),
+                                  (y > 0) ? 1 : -1,
+                                  0,
+                                  elevationParSeconde);
       } else {
-        // Ils sont égaux
-        return new  MovementTimer(name, (long) Math.abs(x) * 1000, 100, (x > 0) ? 1 : -1, (y > 0) ? 1 : -1,  0, elevationPerSecond); // Le drone va autant en x qu'en y, donc on se sert de x, puisque ça n'a aucune importance
+        // Ils sont égaux.
+        // Le drone va autant en x qu'en y, donc on se sert de x pour le temps, puisque ça n'a
+        // aucune importance.
+        return new  MovementTimer(nom,
+                                  (long) Math.abs(x) * 1000,
+                                  100,
+                                  (x > 0) ? 1 : -1,
+                                  (y > 0) ? 1 : -1,
+                                  0,
+                                  elevationParSeconde);
       }
     }
   }
 
-  public MovementTimer getAttenteMovementTimer(String name) {
-    Log.d(TAG, String.format("Creating waiting MovementTimer %s", name));
-
-    return new MovementTimer(name, 1000, 100, 0, 0, 0, 0);
+  /**
+   * Retourne un {@link MovementTimer} nul (qui ne bouge pas)
+   *
+   * @param   nom                 Nom à donner au {@link MovementTimer}
+   * @return  Un {@link MovementTimer} nul
+   */
+  public MovementTimer getAttenteMovementTimer(String nom) {
+    return new MovementTimer(nom, 1000, 100, 0, 0, 0, 0);
   }
 
-  // Par défaut, de devant
-  public MovementTimer getCercleMovementTimer(String name, float radius, int angle, int orientation, Float ajoutOrientation, int rotationSide) {
-    Log.d(TAG, String.format("Creating Circular MovementTimer %s : radius %s angle %s orientation %s ajoutOrientation %s rotationSide %s", name, radius, angle, orientation, ajoutOrientation, rotationSide));
+  // TODO : rendre DroneHelper#getCercleMovementTimer fonctionnel pour tourner sur soi-même
 
+  /**
+   * Renvoie un {@link MovementTimer} circulaire, en fonction du rayon, des quarts de cercles, de
+   * l'orientation et du sens de rotation.
+   *
+   * <p>Le code est assez complexe. <b>Je recommande de se fier au commentaires présents dans le
+   * JavaDoc et d'observer le code en même temps afin de mieux la comprendre.</b> Je vais essayer de
+   * faire un petit topo : </p>
+   *
+   * <ul>
+   *   <li>Par défaut, on met un pitch et un roll de 0. Si aucun degré d'ajout à l'orientation n'a
+   *   été spécifié, on lui donne une valeur de 9. Ceci sert à recalibrer l'angle du mouvement,
+   *   puisque la précision du drone ne peut pas être parfaite.</li>
+   *
+   *   <li>On ajoute ensuite à l'angle de rotation les degrés de recalibration.</li>
+   *
+   *   <li>Si le rayon est égal à 0, on ne retourne rien. Présentement, cette fonction ne sert pas
+   *   à rotater le drone sur lui-même. On pourrait éventuellement ajouter cette fonctionnalité,
+   *   mais je n'en avais pas besoin pour le parcours.</li>
+   *
+   *   <li>On vérifie ensuite vers où le drone doit se déplacer durant la rotation, en fonction
+   *   du côté où il va effectuer la rotation. Par exemple, si la rotation est par l'avant du drone,
+   *   c'est avec un roll positif qu'on fera la rotation. Si la rotation est par le côté gauche du
+   *   drone, c'est avec un pitch négatif.</li>
+   *
+   *   <li>On retourne ensuite le {@link MovementTimer} avec les données suivantes :
+   *   <ul>
+   *     <li>Temps          : rayon * nombre de quart de tour en seconde
+   *     (3m 90° = 3s à 1m/s,
+   *     6m 90° = 6s à 1m/s,
+   *     3m 180° = 6s à 1m/s)</li>
+   *     <li>Pitch et roll  : En fonction du côté de la rotation, tel que mentionné ci-dessus;</li>
+   *     <li>Yaw            : (orientation * angle) divisé par (rayon * nombre de quart de tour)
+   *     (3m 90° : (90)/(3*1) = 30°/s,
+   *     6m à 90° : (90)/(6*1) = 15°/s,
+   *     3m à 180° : (180)/(3*2) = 30°/s
+   *     3m à -180° : (-180)/(3*2) = -30°/s)</li>
+   *   </ul>
+   *
+   *   Dans le calcul du yaw, l'orientation (horaire, antihoraire) est en fait un simple 1 ou -1.</li>
+   * </ul>
+   *
+   * <p>Je tiens quand même à mettre l'accent sur une chose : <b>regarder le code en lisant la liste
+   * ci-dessus de ce qui se passe dans la méthode aide fortement à la compréhension de ladite
+   * méthode.</b></p>
+   *
+   * @param   nom                 Nom à donner au {@link MovementTimer}
+   * @param   rayon               Rayon de l'arc de cercle, en mètres
+   * @param   angle               Angle de l'arc de cercle, en quarts de tours
+   * @param   orientation         Orientation de l'arc de cercles, soit horaire ou antihoraire.
+   *                              C'est en fait 1 ou -1.
+   * @param   ajoutOrientation    Degrés à ajouté à chaque quarts de cercle, afin de calibrer
+   *                              correctement le mouvement circulaire.
+   * @param   coteRotation        Côté du drone par laquelle on effectue la rotation. Ceci change
+   *                              par où le drone va bouger pendant qu'il rotate.
+   * @return  Un {@link MovementTimer} circulaire
+   */
+  public MovementTimer getCercleMovementTimer(String nom, float rayon, int angle, int orientation, Float ajoutOrientation, int coteRotation) {
     // Données par défaut
     float pitch = 0;
     float roll  = 0;
-
     if (ajoutOrientation == null) ajoutOrientation = 9F;
 
-    // Ajustement de l'angle, puisque le drone ne tourne pas assez
-    angle = angle + (int) ((angle / CERCLE_QUART) * ajoutOrientation);
+    // Ajustement de l'angle, puisque le drone ne tourne pas toujours assez
+    angle += (int) ((angle / CERCLE_QUART) * ajoutOrientation);
 
-    if (radius == 0) {
-      return null;
-    }
+    if (rayon == 0) return null;
 
-    // On a quatre arguments. Le rayon (2m, 3m), l'angle (90°, 180°), l'orientation (sens des aiguilles d'une montre) et le côté (avant, droite, ...)
+    // On a quatre arguments. Le rayon (2m, 3m, ...), l'angle (90°, 180°, ...), l'orientation (sens
+    // des aiguilles d'une montre, ...) et le côté (avant, droite, ...)
     // La seule différence avec le côté, c'est vers où le drone va se déplacer durant sa rotation.
-    switch (rotationSide) {
+    switch (coteRotation) {
       case ROTATION_AVANT:
         roll = 1;
         break;
@@ -229,53 +452,71 @@ public class DroneHelper {
         break;
     }
 
-    return new MovementTimer(name,                                    // Nom du timer
-      (long) (radius * (angle / CERCLE_QUART) * 1000),                     // Temps : rayon * nombre de quart de tour en seconde (3m 90° -> 3s à 1m/s, 6m 90° -> 6s à 1m/s, 3m 180° -> 6s à 1m/s)
-      100,                                                            // Fréquence
-      pitch,                                                          // Pitch
-      roll,                                                           // Roll
-      ((orientation * angle) / (radius * (angle / CERCLE_QUART))),  // Yaw : (orientation (contre la montre, ...) * angle) divisé par (rayon * nombre de quart de tour en seconde) (3m 90° -> (90)/(3*1) = 30°/s, 6m à 90° -> (90)/(6*1) = 15°/s, 3m à 180° -> (180)/(3*2) = 30°/s)
-      0);                                                             // Throttle
+    return new MovementTimer( nom,
+                              (long) (rayon * (angle / CERCLE_QUART) * 1000),
+                              100,
+                              pitch,
+                              roll,
+                              ((orientation * angle) / (rayon * (angle / CERCLE_QUART))),
+                              0);
   }
 
+  /**
+   *  Mets les règlages de base du {@link dji.sdk.flightcontroller.DJIFlightController}
+   *
+   *  <ul>
+   *    <li>Met le système de coordonées horizontal en mode « Body ». Ceci permet de se servir de
+   *    coordonées x, y, z qui n'utilisent pas le nord magnétique</li>
+   *    <li>Met le contrôle du roll et du pitch en mode « Velocity ». Ceci permet de se servir d'un
+   *    roll et d'un pitch en mètres par secondes, plutôt qu'en angle.</li>
+   *    <li>Met le contrôle du yaw en mode « AngularVelocity». Ceci permet de se servir d'un yaw
+   *    en degrés par secondes.</li>
+   *    <li>Met le contrôle du throttle en mode « Velocity ». Ceci permet de se servir d'un throttle
+   *    en mètres par secondes, plutôt qu'en angle.</li>
+   *    <li>Active le mode de contrôle par Virtual Stick, qui est imite le fonctionnement de la
+   *    manette.</li>
+   *  </ul>
+   *
+   *  @see dji.sdk.flightcontroller.DJIFlightController#setHorizontalCoordinateSystem(DJIVirtualStickFlightCoordinateSystem)
+   *  @see dji.sdk.flightcontroller.DJIFlightController#setRollPitchControlMode(DJIVirtualStickRollPitchControlMode)
+   *  @see dji.sdk.flightcontroller.DJIFlightController#setYawControlMode(DJIVirtualStickYawControlMode)
+   *  @see dji.sdk.flightcontroller.DJIFlightController#setVerticalControlMode(DJIVirtualStickVerticalControlMode)
+   *  @see dji.sdk.flightcontroller.DJIFlightController#enableVirtualStickControlMode(DJICommonCallbacks.DJICompletionCallback)
+   *
+   *  @see  <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/flightController_concepts.html"
+   *        target="_blank">
+   *        Source : Concepts de base du {@link dji.sdk.flightcontroller.DJIFlightController}</a>
+   */
   public void setupFlightController() {
-    // Source : https://developer.dji.com/mobile-sdk/documentation/introduction/flightController_concepts.html
-    // Mode de base du drone
-
-    // Ceci permet de se servir de coordonées x, y, z qui n'utilisent pas le nord magnétique
     DroneApplication.getAircraftInstance().getFlightController().setHorizontalCoordinateSystem(DJIVirtualStickFlightCoordinateSystem.Body);
 
-    // Mise en place du mode de vélocité pour le roll et le pitch (m/s)
     DroneApplication.getAircraftInstance().getFlightController().setRollPitchControlMode(DJIVirtualStickRollPitchControlMode.Velocity);
 
-    // Mise en place du mode de vélocité pour le Throttle (m/s)
-    DroneApplication.getAircraftInstance().getFlightController().setVerticalControlMode(DJIVirtualStickVerticalControlMode.Velocity);
-
-    // Mise en place du mode de vélocité angulaire pour le Yaw (°/s)
     DroneApplication.getAircraftInstance().getFlightController().setYawControlMode(DJIVirtualStickYawControlMode.AngularVelocity);
 
-    // Activation du mode de contrôle par Virtual Stick
+    DroneApplication.getAircraftInstance().getFlightController().setVerticalControlMode(DJIVirtualStickVerticalControlMode.Velocity);
+
     DroneApplication.getAircraftInstance().getFlightController().enableVirtualStickControlMode(
       new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          if (djiError != null) {
-            Log.e(TAG, String.format("Erreur d'activation du mode de contrôle par Virtual Stick : %s", djiError.getDescription()));
-          }
+          Log.d(TAG, djiError == null ? "Succès de l'activation du mode de contrôle Virtual Stick" : djiError.getDescription());
         }
       }
     );
   }
 
+  /**
+   * Désactive le mode de contrôle Virtual Stick du {@link dji.sdk.flightcontroller.DJIFlightController}
+   *
+   * @see dji.sdk.flightcontroller.DJIFlightController#disableVirtualStickControlMode(DJICommonCallbacks.DJICompletionCallback)
+   */
   public void disableVirtualStickMode() {
-    // Désactivation du mode de controle par Virtual Stick
     DroneApplication.getAircraftInstance().getFlightController().disableVirtualStickControlMode(
       new DJICommonCallbacks.DJICompletionCallback() {
         @Override
         public void onResult(DJIError djiError) {
-          if (djiError != null) {
-            Log.e(TAG, String.format("Erreur de désactivation du mode de contrôle par Virtual Stick : %s" + djiError.getDescription()));
-          }
+          Log.d(TAG, djiError == null ? "Succès de la désactivation du mode de contrôle Virtual Stick" : djiError.getDescription());
         }
       }
     );

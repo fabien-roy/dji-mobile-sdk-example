@@ -16,6 +16,7 @@ import dji.common.util.DJICommonCallbacks;
  */
 
 // TODO : Documenter MovementTimer
+// TODO : Prod : Enlever les noms des Timers
 
 public class MovementTimer extends CountDownTimer {
   private final static String TAG = MovementTimer.class.getName();
@@ -34,7 +35,7 @@ public class MovementTimer extends CountDownTimer {
     mRoll     = roll;
     mYaw      = yaw;
     mThrottle = throttle;
-    mName     = name;
+    mName     = name == null ? "sans nom" : name;
 
     Log.d(TAG, String.format("MovementTimer %s : create %s pitch %s roll %s yaw %s throttle : %s %s", mName, pitch, roll, yaw, throttle, millisInFuture, countDownInterval));
   }

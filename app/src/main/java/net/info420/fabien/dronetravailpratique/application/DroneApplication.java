@@ -32,9 +32,9 @@ import dji.sdk.sdkmanager.DJISDKManager;
  * @see DJIBaseProduct
  * @see DroneHelper
  *
- * {@link <a href="https://github.com/dji-sdk/Mobile-SDK-Android/blob/master/Sample%20Code/app/src/main/java/com/dji/sdk/sample/internal/controller/DJISampleApplication.java"
- *        target="_blank">
- *        Source : L'{@link Application} du code d'exemple de DJI</a>}
+ * @see <a href="https://github.com/dji-sdk/Mobile-SDK-Android/blob/master/Sample%20Code/app/src/main/java/com/dji/sdk/sample/internal/controller/DJISampleApplication.java"
+ *      target="_blank">
+ *      Source : L'{@link Application} du code d'exemple de DJI</a>
  */
 public class DroneApplication extends Application {
   private static final String TAG = DroneApplication.class.getName();
