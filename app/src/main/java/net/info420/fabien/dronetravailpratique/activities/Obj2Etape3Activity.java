@@ -12,6 +12,13 @@ import android.widget.ImageView;
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+
 import dji.common.product.Model;
 import dji.sdk.base.DJIBaseProduct;
 import dji.sdk.camera.DJICamera;
@@ -51,6 +58,15 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   protected DJICodecManager codecManager;
 
   private boolean enOperation = false;
+
+  // Vérification du fonctionnement d'OpenCV
+  static {
+    if(!OpenCVLoader.initDebug()){
+      Log.d(TAG, "OpenCV not loaded");
+    } else {
+      Log.d(TAG, "OpenCV loaded");
+    }
+  }
 
   /**
    * Exécuté à la création de l'{@link android.app.Activity}
@@ -182,13 +198,38 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    */
   private void traiter() {
     // TODO : Traiter l'image
-    // TODO : Afficher l'image traitée
     // TODO : Envoyer les instructions au drone
+
+    // Matrice de l'image traitée
+    Mat matImage = new Mat();
+
+    // Conversion du Bitmap de la vidéo dans la matrice
+    Utils.bitmapToMat(tvVideo.getBitmap(), matImage);
+
+    // On met l'image en HSV
+    Imgproc.cvtColor(matImage, matImage, Imgproc.COLOR_RGB2HSV, 3);
+
+    // On détecte une certaine couleur (vert)
+    Core.inRange(matImage, new Scalar(50, 100, 30), new Scalar(85, 255, 255), matImage);
+
+    afficherImage(matImage);
+  }
+
+  /**
+   * Affiche une matrice ({@link Mat} dans le {@link ImageView}
+   *
+   * @param matImage  {@link Mat} de l'image à afficher
+   */
+  private void afficherImage(Mat matImage) {
+    // Affichage de l'image
+    // Image bitmap pour l'affichage
+    Bitmap bmpImageTraitee =  Bitmap.createBitmap(matImage.cols(),
+      matImage.rows(),
+      Bitmap.Config.ARGB_8888);
+    Utils.matToBitmap(matImage, bmpImageTraitee);
+
     ivImageTraitee.setImageBitmap(null);
-
-    Bitmap imageDuDrone = tvVideo.getBitmap();
-
-    ivImageTraitee.setImageBitmap(imageDuDrone);
+    ivImageTraitee.setImageBitmap(bmpImageTraitee);
   }
 
   /**
