@@ -31,15 +31,6 @@
     android:layout_centerHorizontal="true"
     android:layout_marginTop="37dp"/>
 
-  <TextView
-    android:id="@+id/tv_obj2_etape3_image"
-    android:text="@string/original_image"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_below="@id/tv_obj2_etape3_desc"
-    android:layout_marginTop="20dp"/>
-
   <TextureView
     android:id="@+id/tv_obj2_etape3_video"
     android:layout_width="match_parent"

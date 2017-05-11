@@ -25,6 +25,8 @@ import static net.info420.fabien.dronetravailpratique.R.id.tv_obj2_etape2_timer;
 import static net.info420.fabien.dronetravailpratique.application.DroneApplication.getCameraInstance;
 
 /**
+ * {@link android.app.Activity} pour aller chercher la vidéo du drone
+ *
  * @author  Fabien Roy
  * @version 1.0
  * @since   17-04-28
@@ -51,8 +53,8 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
   TextView tvTimer;
   TextureView tvVideo;
 
-  protected DJICamera.CameraReceivedVideoDataCallback mReceivedVideoDataCallBack = null;
-  protected DJICodecManager mCodecManager;
+  protected DJICamera.CameraReceivedVideoDataCallback receivedVideoDataCallBack = null;
+  protected DJICodecManager codecManager;
 
   /**
    * Exécuté à la création de l'{@link android.app.Activity}
@@ -120,7 +122,7 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    * Instancie le {@link dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback}
    *
    * <ul>
-   *   <li>Instancie mReceivedVideoDataCallBack</li>
+   *   <li>Instancie receivedVideoDataCallBack</li>
    *   <li>Lorsque du data est reçu, vérifie si le {@link DJICodecManager} n'est pas null</li>
    *   <li>S'il ne l'est pas, décode la vidéo</li>
    * </ul>
@@ -131,11 +133,11 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    * @see DJICodecManager#sendDataToDecoder(byte[], int)
    */
   private void initCallback() {
-    mReceivedVideoDataCallBack = new DJICamera.CameraReceivedVideoDataCallback() {
+    receivedVideoDataCallBack = new DJICamera.CameraReceivedVideoDataCallback() {
       @Override
       public void onResult(byte[] videoBuffer, int size) {
-        if(mCodecManager != null){
-          mCodecManager.sendDataToDecoder(videoBuffer, size);
+        if(codecManager != null){
+          codecManager.sendDataToDecoder(videoBuffer, size);
         }
       }
     };
@@ -215,7 +217,7 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
       if (null != tvVideo) tvVideo.setSurfaceTextureListener(this);
 
       if (!product.getModel().equals(Model.UnknownAircraft)) {
-        setCameraCallback(mReceivedVideoDataCallBack);
+        setCameraCallback(receivedVideoDataCallBack);
       }
     }
   }
@@ -253,8 +255,8 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    */
   @Override
   public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-    if (mCodecManager == null) {
-      mCodecManager = new DJICodecManager(this, surface, width, height);
+    if (codecManager == null) {
+      codecManager = new DJICodecManager(this, surface, width, height);
     }
   }
 
@@ -282,9 +284,9 @@ public class Obj2Etape2Activity extends AppCompatActivity implements TextureView
    */
   @Override
   public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-    if (mCodecManager != null) {
-      mCodecManager.cleanSurface();
-      mCodecManager = null;
+    if (codecManager != null) {
+      codecManager.cleanSurface();
+      codecManager = null;
     }
     return false;
   }
