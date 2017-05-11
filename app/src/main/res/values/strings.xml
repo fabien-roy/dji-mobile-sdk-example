@@ -44,6 +44,7 @@
   <string name="atterir">Attérir</string>
   <string name="demarrer">Démarrer</string>
   <string name="arreter">Arrêter</string>
+  <string name="traiter">Traiter</string>
   <string name="demarrer_moteurs">Démarrer les moteurs</string>
 
   <string name="aller_avant">Avancer</string>

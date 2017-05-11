@@ -40,34 +40,43 @@
     android:layout_below="@id/tv_obj2_etape3_desc"
     android:layout_marginTop="20dp"/>
 
+  <TextureView
+    android:id="@+id/tv_obj2_etape3_video"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_gravity="center"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="20dp"
+    android:layout_below="@+id/tv_obj2_etape3_desc" />
+
   <ImageView
-    android:id="@+id/iv_obj2_etape3_image"
+    android:id="@+id/iv_obj2_etape3_image_traitee"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:adjustViewBounds="true"
     android:scaleType="centerCrop"
     android:layout_marginTop="20dp"
-    android:layout_below="@+id/btn_obj2_etape3_resultat"
+    android:layout_below="@+id/tv_obj2_etape3_video"
     android:layout_centerHorizontal="true"/>
 
   <Button
-    android:id="@+id/btn_obj2_etape3_original"
-    android:text="@string/original"
+    android:id="@+id/btn_obj2_etape3_traiter"
+    android:text="@string/traiter"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="26dp"
-    android:layout_below="@+id/tv_obj2_etape3_titre"
-    android:layout_alignLeft="@+id/iv_obj2_etape3_image"
-    android:layout_alignStart="@+id/iv_obj2_etape3_image"/>
+    android:layout_alignParentTop="true"
+    android:layout_alignLeft="@+id/iv_obj2_etape3_image_traitee"
+    android:layout_alignStart="@+id/iv_obj2_etape3_image_traitee"/>
 
   <Button
-    android:id="@+id/btn_obj2_etape3_resultat"
-    android:text="@string/resultat"
+    android:id="@+id/btn_obj2_etape3_arreter"
+    android:text="@string/arreter"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="26dp"
-    android:layout_below="@+id/tv_obj2_etape3_titre"
-    android:layout_alignRight="@+id/iv_obj2_etape3_image"
-    android:layout_alignEnd="@+id/iv_obj2_etape3_image"/>
+    android:layout_alignParentTop="true"
+    android:layout_alignRight="@+id/iv_obj2_etape3_image_traitee"
+    android:layout_alignEnd="@+id/iv_obj2_etape3_image_traitee"/>
 
 </RelativeLayout>

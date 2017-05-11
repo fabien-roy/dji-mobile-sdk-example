@@ -36,7 +36,7 @@ public class Obj2Etape3Activity extends AppCompatActivity {
     setContentView(R.layout.activity_obj2_etape3);
 
     tvImage = (TextView) findViewById(R.id.tv_obj2_etape3_image);
-    ivImage = (ImageView) findViewById(R.id.iv_obj2_etape3_image);
+    ivImage = (ImageView) findViewById(R.id.iv_obj2_etape3_image_traitee);
     btnResultat = (Button) findViewById(R.id.btn_obj2_etape3_resultat);
     btnOriginal = (Button) findViewById(R.id.btn_obj2_etape3_original);
 
