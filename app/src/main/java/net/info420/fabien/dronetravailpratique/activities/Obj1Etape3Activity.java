@@ -7,7 +7,7 @@ import android.view.View;
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 import net.info420.fabien.dronetravailpratique.helpers.DroneHelper;
-import net.info420.fabien.dronetravailpratique.util.MovementTimer;
+import net.info420.fabien.dronetravailpratique.util.MouvementTimer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
  * @since   17-02-20
  *
  * @see DroneHelper
- * @see MovementTimer
+ * @see MouvementTimer
  */
 public class Obj1Etape3Activity extends AppCompatActivity {
   public static final String TAG = Obj1Etape2Activity.class.getName();
@@ -96,7 +96,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @see #bouger(char)
    * @see DroneHelper#decoller()
    * @see DroneHelper#atterir()
-   * @see net.info420.fabien.dronetravailpratique.util.MovementTimer
+   * @see MouvementTimer
    */
   private void initUI(){
     setContentView(R.layout.activity_obj1_etape3);
@@ -252,7 +252,7 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * @see DroneHelper#decoller()
    * @see DroneHelper#atterir()
    * @see DroneHelper#sendMovementTimerList(List)
-   * @see MovementTimer
+   * @see MouvementTimer
    *
    * @see <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-flightController.html"
    *      target="_blank">
@@ -263,29 +263,29 @@ public class Obj1Etape3Activity extends AppCompatActivity {
     // Décollage
     // DroneApplication.getDroneHelper().decoller();
 
-    List<MovementTimer> movementTimers = new ArrayList<>();
+    List<MouvementTimer> mouvementTimers = new ArrayList<>();
 
-    // movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("Post-takeoff : wait"));
+    // mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("Post-takeoff : wait"));
 
-    ajouterA(movementTimers);
-    ajouterB(movementTimers);
-    ajouterC(movementTimers);
-    ajouterD(movementTimers);
-    ajouterE(movementTimers);
-    ajouterF(movementTimers);
-    ajouterG(movementTimers);
-    ajouterH(movementTimers);
-    ajouterI(movementTimers);
-    ajouterJ(movementTimers);
-    ajouterK(movementTimers);
-    ajouterL(movementTimers);
-    ajouterM(movementTimers);
-    ajouterN(movementTimers);
+    ajouterA(mouvementTimers);
+    ajouterB(mouvementTimers);
+    ajouterC(mouvementTimers);
+    ajouterD(mouvementTimers);
+    ajouterE(mouvementTimers);
+    ajouterF(mouvementTimers);
+    ajouterG(mouvementTimers);
+    ajouterH(mouvementTimers);
+    ajouterI(mouvementTimers);
+    ajouterJ(mouvementTimers);
+    ajouterK(mouvementTimers);
+    ajouterL(mouvementTimers);
+    ajouterM(mouvementTimers);
+    ajouterN(mouvementTimers);
 
-    // movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("Pre-atterir : wait"));
+    // mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("Pre-atterir : wait"));
 
     // Exécution des mouvements
-    DroneApplication.getDroneHelper().sendMovementTimerList(movementTimers);
+    DroneApplication.getDroneHelper().sendMovementTimerList(mouvementTimers);
 
     // Atterrissage
     // DroneApplication.getDroneHelper().atterir();
@@ -299,15 +299,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *
    * <p>Au départ, le drone pointe vers le <b>Nord</b></p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getMovementTimer(String, float, float, float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterA(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("A1 : bouger", dataA[0], dataA[1], 0, DroneHelper.FACE_NORD));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("A2 : attendre"));
+  private void ajouterA(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("A1 : bouger", dataA[0], dataA[1], 0, DroneHelper.FACE_NORD));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("A2 : attendre"));
   }
 
   /**
@@ -316,15 +316,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * <p>On va du point (0, 12) au point (12, 12), vecteur de mouvement : (12, 0)</p>
    * <p>On dépasse le poteau i vers l'Est</p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getMovementTimer(String, float, float, float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterB(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("B1 : bouger", dataB[0], dataB[1], 0, DroneHelper.FACE_NORD));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("B2 : attendre"));
+  private void ajouterB(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("B1 : bouger", dataB[0], dataB[1], 0, DroneHelper.FACE_NORD));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("B2 : attendre"));
   }
 
   /**
@@ -333,15 +333,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * <p>On va du point (12, 12) au point (12, 0), vecteur de mouvement : (0, -12)</p>
    * <p>On dépasse le poteau i vers le Sud</p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getMovementTimer(String, float, float, float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterC(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("C1 : bouger", dataC[0], dataC[1], 0, DroneHelper.FACE_NORD));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("C2 : attendre"));
+  private void ajouterC(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("C1 : bouger", dataC[0], dataC[1], 0, DroneHelper.FACE_NORD));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("C2 : attendre"));
   }
 
   /**
@@ -350,15 +350,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * <p>On va du point (12, 0) au point (32, 0), vecteur de mouvement : (20, 0)</p>
    * <p>On va jusqu'au Sud du poteau ii</p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getMovementTimer(String, float, float, float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterD(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("D1 : bouger", dataD[0], dataD[1], 0, DroneHelper.FACE_NORD));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("D2 : attendre"));
+  private void ajouterD(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("D1 : bouger", dataD[0], dataD[1], 0, DroneHelper.FACE_NORD));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("D2 : attendre"));
   }
 
   /**
@@ -371,15 +371,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *
    * <p>Après ce mouvement, le drone pointe vers le <b>Sud</b></p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getCercleMovementTimer(String, float, int, int, Float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterE(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("E1 : 180°", dataE[0], DroneHelper.CERCLE_DEMI, DroneHelper.ORIENTATION_ANTIHORAIRE, dataE[1], DroneHelper.ROTATION_DROITE));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("E2 : attendre"));
+  private void ajouterE(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("E1 : 180°", dataE[0], DroneHelper.CERCLE_DEMI, DroneHelper.ORIENTATION_ANTIHORAIRE, dataE[1], DroneHelper.ROTATION_DROITE));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("E2 : attendre"));
   }
 
   /**
@@ -390,16 +390,16 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *
    * <p>Le drone doit d'abord monter, puis descendre. Le mouvement est donc séparé en deux</p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getMovementTimer(String, float, float, float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterF(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("F1 : bouger", dataF[0], dataF[1], dataF[2], DroneHelper.FACE_SUD));
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("F2 : bouger", dataF[0], dataF[1], - dataF[2], DroneHelper.FACE_SUD));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("F3 : attendre"));
+  private void ajouterF(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("F1 : bouger", dataF[0], dataF[1], dataF[2], DroneHelper.FACE_SUD));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("F2 : bouger", dataF[0], dataF[1], - dataF[2], DroneHelper.FACE_SUD));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("F3 : attendre"));
   }
 
   /**
@@ -411,15 +411,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *
    * <p>Après ce mouvement, le drone pointe vers le <b>Nord</b></p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getCercleMovementTimer(String, float, int, int, Float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterG(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("G1 : 180°", dataG[0], DroneHelper.CERCLE_DEMI, DroneHelper.ORIENTATION_HORAIRE, dataG[1], DroneHelper.ROTATION_DROITE));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("G2 : attendre"));
+  private void ajouterG(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("G1 : 180°", dataG[0], DroneHelper.CERCLE_DEMI, DroneHelper.ORIENTATION_HORAIRE, dataG[1], DroneHelper.ROTATION_DROITE));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("G2 : attendre"));
   }
 
   /**
@@ -428,15 +428,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * <p>On va du point (6, 30) au point (32, 18), vecteur de mouvement : (24, -12)</p>
    * <p>On va jusqu'au Sud du poteau v</p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getMovementTimer(String, float, float, float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterH(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("H1 : bouger", dataH[0], dataH[1], 0, DroneHelper.FACE_NORD));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("H2 : attendre"));
+  private void ajouterH(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("H1 : bouger", dataH[0], dataH[1], 0, DroneHelper.FACE_NORD));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("H2 : attendre"));
   }
 
   /**
@@ -448,15 +448,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *
    * <p>Après ce mouvement, le drone pointe vers le <b>Sud</b></p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getCercleMovementTimer(String, float, int, int, Float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterI(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("I1 : 180°", dataI[0], DroneHelper.CERCLE_DEMI, DroneHelper.ORIENTATION_ANTIHORAIRE, dataI[1], DroneHelper.ROTATION_DROITE));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("I2 : attendre"));
+  private void ajouterI(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("I1 : 180°", dataI[0], DroneHelper.CERCLE_DEMI, DroneHelper.ORIENTATION_ANTIHORAIRE, dataI[1], DroneHelper.ROTATION_DROITE));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("I2 : attendre"));
   }
 
   /**
@@ -465,15 +465,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * <p>On va du point (32, 30) au point (19, 31.6), vecteur de mouvement : (-13, 1.6)</p>
    * <p>On va jusqu'au Sud du poteau vi</p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getMovementTimer(String, float, float, float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterJ(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("J1 : bouger", dataJ[0], dataJ[1], 0, DroneHelper.FACE_SUD));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("J2 : attendre"));
+  private void ajouterJ(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("J1 : bouger", dataJ[0], dataJ[1], 0, DroneHelper.FACE_SUD));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("J2 : attendre"));
   }
 
   /**
@@ -485,15 +485,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *
    * <p>Après ce mouvement, le drone pointe vers l'<b>Est</b></p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getCercleMovementTimer(String, float, int, int, Float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterK(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("K1 : 270°", dataK[0], DroneHelper.CERCLE_TROIS_QUARTS, DroneHelper.ORIENTATION_HORAIRE, dataK[1], DroneHelper.ROTATION_DROITE));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("K2 : attendre"));
+  private void ajouterK(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("K1 : 270°", dataK[0], DroneHelper.CERCLE_TROIS_QUARTS, DroneHelper.ORIENTATION_HORAIRE, dataK[1], DroneHelper.ROTATION_DROITE));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("K2 : attendre"));
   }
 
   /**
@@ -502,15 +502,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * <p>On va du point (25, 37.6) au point (19, 12), vecteur de mouvement : (-6, -15.6)</p>
    * <p>On va jusqu'à l'Ouest du poteau iii</p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getMovementTimer(String, float, float, float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterL(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("L1 : bouger", dataL[0], dataL[1], 0, DroneHelper.FACE_EST));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("L2 : attendre"));
+  private void ajouterL(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("L1 : bouger", dataL[0], dataL[1], 0, DroneHelper.FACE_EST));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("L2 : attendre"));
   }
 
   /**
@@ -522,15 +522,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *
    * <p>Après ce mouvement, le drone pointe vers l'<b>Est</b></p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getCercleMovementTimer(String, float, int, int, Float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterM(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("M1 : 360°", dataM[0], DroneHelper.CERCLE_COMPLET, DroneHelper.ORIENTATION_ANTIHORAIRE, dataM[1], DroneHelper.ROTATION_DROITE));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("M2 : attendre"));
+  private void ajouterM(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getCercleMovementTimer("M1 : 360°", dataM[0], DroneHelper.CERCLE_COMPLET, DroneHelper.ORIENTATION_ANTIHORAIRE, dataM[1], DroneHelper.ROTATION_DROITE));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("M2 : attendre"));
   }
 
   /**
@@ -539,15 +539,15 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    * <p>On va du point (19, 12) au point (19, 0), vecteur de mouvement : (0, -12)</p>
    * <p>On va au Sud</p>
    *
-   * @param movementTimers  {@link List} de {@link MovementTimer} où ajouter les {@link MovementTimer}
+   * @param mouvementTimers  {@link List} de {@link MouvementTimer} où ajouter les {@link MouvementTimer}
    *
    * @see DroneApplication#getDroneHelper()
    * @see DroneHelper#getMovementTimer(String, float, float, float, int)
    * @see DroneHelper#getAttenteMovementTimer(String)
    */
-  private void ajouterN(List<MovementTimer> movementTimers) {
-    movementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("N1 : bouger", dataN[0], dataN[1], 0, DroneHelper.FACE_EST));
-    movementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("N2 : attendre"));
+  private void ajouterN(List<MouvementTimer> mouvementTimers) {
+    mouvementTimers.add(DroneApplication.getDroneHelper().getMovementTimer("N1 : bouger", dataN[0], dataN[1], 0, DroneHelper.FACE_EST));
+    mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("N2 : attendre"));
   }
 
   /**
@@ -557,58 +557,58 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *
    * @see #ajouterA(List)
    * @see DroneHelper
-   * @see MovementTimer
+   * @see MouvementTimer
    */
   private void bouger(char lettre) {
-    List<MovementTimer> movementTimers = new ArrayList<>();
+    List<MouvementTimer> mouvementTimers = new ArrayList<>();
 
     switch(lettre) {
       case 'A':
-        ajouterA(movementTimers);
+        ajouterA(mouvementTimers);
         break;
       case 'B':
-        ajouterB(movementTimers);
+        ajouterB(mouvementTimers);
         break;
       case 'C':
-        ajouterC(movementTimers);
+        ajouterC(mouvementTimers);
         break;
       case 'D':
-        ajouterD(movementTimers);
+        ajouterD(mouvementTimers);
         break;
       case 'E':
-        ajouterE(movementTimers);
+        ajouterE(mouvementTimers);
         break;
       case 'F':
-        ajouterF(movementTimers);
+        ajouterF(mouvementTimers);
         break;
       case 'G':
-        ajouterG(movementTimers);
+        ajouterG(mouvementTimers);
         break;
       case 'H':
-        ajouterH(movementTimers);
+        ajouterH(mouvementTimers);
         break;
       case 'I':
-        ajouterI(movementTimers);
+        ajouterI(mouvementTimers);
         break;
       case 'J':
-        ajouterJ(movementTimers);
+        ajouterJ(mouvementTimers);
         break;
       case 'K':
-        ajouterK(movementTimers);
+        ajouterK(mouvementTimers);
         break;
       case 'L':
-        ajouterL(movementTimers);
+        ajouterL(mouvementTimers);
         break;
       case 'M':
-        ajouterM(movementTimers);
+        ajouterM(mouvementTimers);
         break;
       case 'N':
-        ajouterN(movementTimers);
+        ajouterN(mouvementTimers);
         break;
       default:
         break;
     }
 
-    DroneApplication.getDroneHelper().sendMovementTimerList(movementTimers);
+    DroneApplication.getDroneHelper().sendMovementTimerList(mouvementTimers);
   }
 }

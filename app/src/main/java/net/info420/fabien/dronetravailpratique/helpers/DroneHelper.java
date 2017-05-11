@@ -3,7 +3,7 @@ package net.info420.fabien.dronetravailpratique.helpers;
 import android.util.Log;
 
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
-import net.info420.fabien.dronetravailpratique.util.MovementTimer;
+import net.info420.fabien.dronetravailpratique.util.MouvementTimer;
 
 import java.util.List;
 
@@ -14,7 +14,6 @@ import dji.common.flightcontroller.DJIVirtualStickVerticalControlMode;
 import dji.common.flightcontroller.DJIVirtualStickYawControlMode;
 import dji.common.util.DJICommonCallbacks;
 
-// TODO : Documenter DroneHelper
 // TODO : Prod : Enlever les noms des Timers
 
 /**
@@ -49,7 +48,7 @@ public class DroneHelper {
   public static final int ROTATION_GAUCHE         = 2;
   public static final int ROTATION_ARRIERE        = 3;
 
-  private MovementTimer movementTimer;
+  private MouvementTimer mouvementTimer;
 
   /**
    * Démarre les moteurs du drone
@@ -86,16 +85,16 @@ public class DroneHelper {
   /**
    * Fais attérir le drone
    *
-   * <p>Avant de faire attérir le drone, vérifie si le {@link MovementTimer} existe. Si oui,
+   * <p>Avant de faire attérir le drone, vérifie si le {@link MouvementTimer} existe. Si oui,
    * l'arrête.</p>
    *
    * @see dji.sdk.flightcontroller.DJIFlightController#autoLanding(DJICommonCallbacks.DJICompletionCallback)
-   * @see MovementTimer
+   * @see MouvementTimer
    */
   public void atterir() {
-    if (null != movementTimer) {
-      movementTimer.cancel();
-      movementTimer = null;
+    if (null != mouvementTimer) {
+      mouvementTimer.cancel();
+      mouvementTimer = null;
     }
 
     DroneApplication.getAircraftInstance().getFlightController().autoLanding(
@@ -109,76 +108,76 @@ public class DroneHelper {
   }
 
   /**
-   * Fais bouger le drone avec un {@link MovementTimer}
+   * Fais bouger le drone avec un {@link MouvementTimer}
    *
-   * <p>Avant de faire bouger le drone, vérifie si le {@link MovementTimer} existe. Si oui,
+   * <p>Avant de faire bouger le drone, vérifie si le {@link MouvementTimer} existe. Si oui,
    * l'arrête.</p>
    *
-   * @param movementTimer le {@link MovementTimer}
+   * @param mouvementTimer le {@link MouvementTimer}
    *
-   * @see MovementTimer
+   * @see MouvementTimer
    */
-  public void sendMovementTimer(MovementTimer movementTimer) {
-    if (null != this.movementTimer) {
-      this.movementTimer.cancel();
-      this.movementTimer = null;
+  public void sendMovementTimer(MouvementTimer mouvementTimer) {
+    if (null != this.mouvementTimer) {
+      this.mouvementTimer.cancel();
+      this.mouvementTimer = null;
     }
 
     // Vérification de sécurité
-    if (null == this.movementTimer) {
-      this.movementTimer = movementTimer;
-      this.movementTimer.start();
+    if (null == this.mouvementTimer) {
+      this.mouvementTimer = mouvementTimer;
+      this.mouvementTimer.start();
     }
   }
 
   /**
-   * Fais bouger le drone avec une {@link List} de {@link MovementTimer}
+   * Fais bouger le drone avec une {@link List} de {@link MouvementTimer}
    *
-   * <p>Avant de faire bouger le drone, vérifie si le {@link MovementTimer} existe. Si oui,
+   * <p>Avant de faire bouger le drone, vérifie si le {@link MouvementTimer} existe. Si oui,
    * l'arrête.</p>
    *
-   * <p>Petite particularité ici : il faut ajouter la liste des prochains {@link MovementTimer}
-   * au premier {@link MovementTimer} avec {@link MovementTimer#setNextMovementTimers(List)}</p>
+   * <p>Petite particularité ici : il faut ajouter la liste des prochains {@link MouvementTimer}
+   * au premier {@link MouvementTimer} avec {@link MouvementTimer#setNextMovementTimers(List)}</p>
    *
-   * @param  movementTimers {@link List} de {@link MovementTimer}
+   * @param  mouvementTimers {@link List} de {@link MouvementTimer}
    *
-   * @see MovementTimer
-   * @see MovementTimer#setNextMovementTimers(List)
+   * @see MouvementTimer
+   * @see MouvementTimer#setNextMovementTimers(List)
    */
-  public void sendMovementTimerList(List<MovementTimer> movementTimers) {
-    if (null != movementTimer) {
-      movementTimer.cancel();
-      movementTimer = null;
+  public void sendMovementTimerList(List<MouvementTimer> mouvementTimers) {
+    if (null != mouvementTimer) {
+      mouvementTimer.cancel();
+      mouvementTimer = null;
     }
 
     // Vérification de sécurité
-    if (null == movementTimer) {
-      movementTimer = movementTimers.get(0); // Premier timer
+    if (null == mouvementTimer) {
+      mouvementTimer = mouvementTimers.get(0); // Premier timer
 
       // On change le premier timer, afin qu'il ait la liste des prochain timers
-      movementTimer.setNextMovementTimers(movementTimers.subList(1, (movementTimers.size() - 1)));
+      mouvementTimer.setNextMovementTimers(mouvementTimers.subList(1, (mouvementTimers.size() - 1)));
 
-      movementTimer.start();
+      mouvementTimer.start();
     }
   }
 
   /**
-   * Crée et retourne un {@link MovementTimer} avec un tableau représentation le pitch, roll, yaw
+   * Crée et retourne un {@link MouvementTimer} avec un tableau représentation le pitch, roll, yaw
    * et throttle du mouvement.
    *
-   * @param   nom                   Nom à donner au {@link MovementTimer}
+   * @param   nom                   Nom à donner au {@link MouvementTimer}
    * @param   pitchRollYawThrottle  Tableau de float des données pitch, roll, yaw et throttle du
    *                                mouvement
-   * @return  Un {@link MovementTimer} avec les données envoyées
+   * @return  Un {@link MouvementTimer} avec les données envoyées
    *
-   * @see MovementTimer
+   * @see MouvementTimer
    */
-  public MovementTimer getMovementTimer(String nom, float[] pitchRollYawThrottle) {
-    return new MovementTimer(nom, 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
+  public MouvementTimer getMovementTimer(String nom, float[] pitchRollYawThrottle) {
+    return new MouvementTimer(nom, 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
   }
 
   /**
-   * Crée et retourne un {@link MovementTimer} avec des coordonées (x, y) et la direction à laquelle
+   * Crée et retourne un {@link MouvementTimer} avec des coordonées (x, y) et la direction à laquelle
    * le drone fait face
    *
    * <p>Le code est assez complexe. <b>Je recommande de se fier au commentaires présents dans le
@@ -188,7 +187,7 @@ public class DroneHelper {
    * <ul>
    *   <li>On vérifie si le mouvement est nul (x, y) == (0, 0). Si c'est le cas, on vérifie s'il
    *   y a une élévation par seconde. Si c'est le cas, on fait monter le drone, tout en gardant un
-   *   vecteur de mouvement en (x, y) nul. Sinon, on envoie simplement un {@link MovementTimer} nul
+   *   vecteur de mouvement en (x, y) nul. Sinon, on envoie simplement un {@link MouvementTimer} nul
    *   servant à l'attente (voir {@link #getAttenteMovementTimer(String)}).</li>
    *
    *   <li>Ceci est l'étape cruciale. Afin que le système de mouvement du drone par coordonées
@@ -201,11 +200,11 @@ public class DroneHelper {
    *   simplement « rotater » le plan. Il en va de même lorsque le drone fait face à l'Est. On rend
    *   alors x = -y et y = x. Lorsqu'il fait face à l'Ouest, on rend x = y et y = -x.</li>
    *
-   *   <li>Ensuite, on peut créer un {@link MovementTimer} avec des données de pitch et de roll, en
+   *   <li>Ensuite, on peut créer un {@link MouvementTimer} avec des données de pitch et de roll, en
    *   fonction des coordonées (x, y) résultantes de l'opération précédente.</li>
    *
    *   <li>D'abord, on vérifie si une des coordonées (x ou y) est nulle. Ceci représente un
-   *   mouvement « droit », soit non-diagonal. Si c'est le cas, on fait un {@link MovementTimer}
+   *   mouvement « droit », soit non-diagonal. Si c'est le cas, on fait un {@link MouvementTimer}
    *   avec comme données :
    *
    *   <ul>
@@ -217,14 +216,14 @@ public class DroneHelper {
    *   </ul>
    *
    *   Par exemple, disons qu'on a le vecteur de mouvement (4, 0) avec un drone qui fait face au
-   *   Nord. Dans ce cas, on fait un {@link MovementTimer} de 4 secondes avec un pitch de 1 m/s et
+   *   Nord. Dans ce cas, on fait un {@link MouvementTimer} de 4 secondes avec un pitch de 1 m/s et
    *   un roll de 0 m/s.
    *
-   *   Un autre exemple : le vecteur (0, -2). On fait un {@link MovementTimer} de 2 secondes (valeur
+   *   Un autre exemple : le vecteur (0, -2). On fait un {@link MouvementTimer} de 2 secondes (valeur
    *   absolue de -2), avec un pitch de 0 et un roll de -1 (-2 est négatif).</li>
    *
    *   <li>C'est ici que ça se corse. D'abord on vérifie quelle coordonées (x ou y) a la plus grande
-   *   valeur absolue. On fait ensuite un {@link MovementTimer} avec comme données :
+   *   valeur absolue. On fait ensuite un {@link MouvementTimer} avec comme données :
    *
    *   <ul>
    *     <li>Temps                                        : En secondes, le nombre de mètres de la
@@ -241,14 +240,14 @@ public class DroneHelper {
    *   </ul>
    *
    *   Par exemple, disons qu'on a le vecteur de mouvement (7, 4) avec un drone qui fait face au
-   *   Nord. Dans ce cas, on fait un {@link MovementTimer} de 7 secondes, avec un pitch de 1 m/s et
+   *   Nord. Dans ce cas, on fait un {@link MouvementTimer} de 7 secondes, avec un pitch de 1 m/s et
    *   un roll de 4/7 m/s.
    *
-   *   Un autre exemple : le vecteur (3, -5). On fait un {@link MovementTimer} de 5 secondes (valeur
+   *   Un autre exemple : le vecteur (3, -5). On fait un {@link MouvementTimer} de 5 secondes (valeur
    *   absolue de -5), avec un pitch de 3/5 m/s (3 est positif) et un roll de -1 (-5 est négatif).
    *   </li>
    *
-   *   <li>Dans le cas où les deux coordonées sont non-nulles, on fait un {@link MovementTimer}
+   *   <li>Dans le cas où les deux coordonées sont non-nulles, on fait un {@link MouvementTimer}
    *   d'une durée en secondes du nombre de mètres d'une des coordonées. Le pitch et le roll sont
    *   de 1 ou -1 en fonction de la positivité de la coordonée appropriée.</li>
    * </ul>
@@ -257,24 +256,24 @@ public class DroneHelper {
    * ci-dessus de ce qui se passe dans la méthode aide fortement à la compréhension de ladite
    * méthode.</b></p>
    *
-   * @param   nom                 Nom à donner au {@link MovementTimer}
+   * @param   nom                 Nom à donner au {@link MouvementTimer}
    * @param   x                   Coordonée x du vecteur de mouvement
    * @param   y                   Coordonée y du vecteur de mouvement
    * @param   elevationParSeconde Élévation par seconde du drone (throttle en m/s)
    * @param   directionFace       Direction à laquelle le drone fait face
-   * @return  Un {@link MovementTimer} avec les données envoyées
+   * @return  Un {@link MouvementTimer} avec les données envoyées
    *
    * @see #getAttenteMovementTimer(String)
-   * @see MovementTimer
+   * @see MouvementTimer
    */
-  public MovementTimer getMovementTimer(String nom, float x, float y, float elevationParSeconde, int directionFace) {
+  public MouvementTimer getMovementTimer(String nom, float x, float y, float elevationParSeconde, int directionFace) {
     float temp;
 
     // Mouvement nul
     if ((x == 0) && (y == 0)) {
       // Élévation avec un x = 0 et y = 0
       if (elevationParSeconde != 0) {
-       return new MovementTimer(nom, (long) elevationParSeconde * 1000, 100, 0, 0, 0, elevationParSeconde);
+       return new MouvementTimer(nom, (long) elevationParSeconde * 1000, 100, 0, 0, 0, elevationParSeconde);
       }
 
       return getAttenteMovementTimer(nom);
@@ -301,7 +300,7 @@ public class DroneHelper {
     // Vérification si le mouvement est « droit », soit non-diagonal
     if (x == 0) {
       // Le drone ne va qu'en y
-      return new MovementTimer( nom,
+      return new MouvementTimer( nom,
                                 (long) Math.abs(y) * 1000,
                                 100,
                                 0,
@@ -310,7 +309,7 @@ public class DroneHelper {
                                 elevationParSeconde);
     } else if (y == 0) {
       // Le drone ne va qu'en x
-      return new MovementTimer( nom,
+      return new MouvementTimer( nom,
                                 (long) Math.abs(x) * 1000,
                                 100,
                                 (x > 0) ? 1 : -1,
@@ -323,7 +322,7 @@ public class DroneHelper {
       if (Math.abs(x) > Math.abs(y)) {
         // Le vecteur en X est supérieur à celui en Y.
         // Le drone va plus en x qu'en y, donc on se sert de x pour le temps
-        return new  MovementTimer(nom,
+        return new MouvementTimer(nom,
                                   (long) Math.abs(x) * 1000,
                                   100,
                                   (x > 0) ? 1 : -1,
@@ -333,7 +332,7 @@ public class DroneHelper {
       } else if (Math.abs(y) > Math.abs(x)) {
         // Le vecteur en Y est supérieur à celui en X.
         // Le drone va plus en y qu'en x, donc on se sert de y pour le temps
-        return new  MovementTimer(nom,
+        return new MouvementTimer(nom,
                                   (long) Math.abs(y) * 1000,
                                   100,
                                   (x > 0) ? Math.abs(x/y) : - Math.abs(x/y),
@@ -344,7 +343,7 @@ public class DroneHelper {
         // Ils sont égaux.
         // Le drone va autant en x qu'en y, donc on se sert de x pour le temps, puisque ça n'a
         // aucune importance.
-        return new  MovementTimer(nom,
+        return new MouvementTimer(nom,
                                   (long) Math.abs(x) * 1000,
                                   100,
                                   (x > 0) ? 1 : -1,
@@ -356,19 +355,19 @@ public class DroneHelper {
   }
 
   /**
-   * Retourne un {@link MovementTimer} nul (qui ne bouge pas)
+   * Retourne un {@link MouvementTimer} nul (qui ne bouge pas)
    *
-   * @param   nom                 Nom à donner au {@link MovementTimer}
-   * @return  Un {@link MovementTimer} nul
+   * @param   nom                 Nom à donner au {@link MouvementTimer}
+   * @return  Un {@link MouvementTimer} nul
    */
-  public MovementTimer getAttenteMovementTimer(String nom) {
-    return new MovementTimer(nom, 1000, 100, 0, 0, 0, 0);
+  public MouvementTimer getAttenteMovementTimer(String nom) {
+    return new MouvementTimer(nom, 1000, 100, 0, 0, 0, 0);
   }
 
   // TODO : rendre DroneHelper#getCercleMovementTimer fonctionnel pour tourner sur soi-même
 
   /**
-   * Renvoie un {@link MovementTimer} circulaire, en fonction du rayon, des quarts de cercles, de
+   * Renvoie un {@link MouvementTimer} circulaire, en fonction du rayon, des quarts de cercles, de
    * l'orientation et du sens de rotation.
    *
    * <p>Le code est assez complexe. <b>Je recommande de se fier au commentaires présents dans le
@@ -391,7 +390,7 @@ public class DroneHelper {
    *   c'est avec un roll positif qu'on fera la rotation. Si la rotation est par le côté gauche du
    *   drone, c'est avec un pitch négatif.</li>
    *
-   *   <li>On retourne ensuite le {@link MovementTimer} avec les données suivantes :
+   *   <li>On retourne ensuite le {@link MouvementTimer} avec les données suivantes :
    *   <ul>
    *     <li>Temps          : rayon * nombre de quart de tour en seconde
    *     (3m 90° = 3s à 1m/s,
@@ -412,7 +411,7 @@ public class DroneHelper {
    * ci-dessus de ce qui se passe dans la méthode aide fortement à la compréhension de ladite
    * méthode.</b></p>
    *
-   * @param   nom                 Nom à donner au {@link MovementTimer}
+   * @param   nom                 Nom à donner au {@link MouvementTimer}
    * @param   rayon               Rayon de l'arc de cercle, en mètres
    * @param   angle               Angle de l'arc de cercle, en quarts de tours
    * @param   orientation         Orientation de l'arc de cercles, soit horaire ou antihoraire.
@@ -421,9 +420,9 @@ public class DroneHelper {
    *                              correctement le mouvement circulaire.
    * @param   coteRotation        Côté du drone par laquelle on effectue la rotation. Ceci change
    *                              par où le drone va bouger pendant qu'il rotate.
-   * @return  Un {@link MovementTimer} circulaire
+   * @return  Un {@link MouvementTimer} circulaire
    */
-  public MovementTimer getCercleMovementTimer(String nom, float rayon, int angle, int orientation, Float ajoutOrientation, int coteRotation) {
+  public MouvementTimer getCercleMovementTimer(String nom, float rayon, int angle, int orientation, Float ajoutOrientation, int coteRotation) {
     // Données par défaut
     float pitch = 0;
     float roll  = 0;
@@ -452,7 +451,7 @@ public class DroneHelper {
         break;
     }
 
-    return new MovementTimer( nom,
+    return new MouvementTimer( nom,
                               (long) (rayon * (angle / CERCLE_QUART) * 1000),
                               100,
                               pitch,

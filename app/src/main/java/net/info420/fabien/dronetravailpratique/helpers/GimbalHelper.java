@@ -1,7 +1,5 @@
 package net.info420.fabien.dronetravailpratique.helpers;
 
-// TODO : Documenter GimbalHelper
-
 import android.util.Log;
 
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
@@ -23,6 +21,9 @@ import dji.common.util.DJICommonCallbacks;
 public class GimbalHelper {
   private static final String TAG = GimbalHelper.class.getName();
 
+  /**
+   * Appelle {@link #initGimbal()}
+   */
   public GimbalHelper() {
     initGimbal();
   }
@@ -35,11 +36,7 @@ public class GimbalHelper {
     DroneApplication.getGimbalInstance().setGimbalWorkMode(DJIGimbalWorkMode.FreeMode, new DJICommonCallbacks.DJICompletionCallback() {
       @Override
       public void onResult(DJIError djiError) {
-        if (djiError == null) {
-          Log.d(TAG, "Set Gimbal Work Mode success");
-        } else {
-          Log.d(TAG, "Set Gimbal Work Mode failed" + djiError);
-        }
+        Log.d(TAG, djiError == null ? "Succès du changement de mode du gimbal" : djiError.getDescription());
       }
     });
   }
@@ -60,11 +57,7 @@ public class GimbalHelper {
     DroneApplication.getGimbalInstance().rotateGimbalByAngle(DJIGimbalRotateAngleMode.RelativeAngle, pitch, roll, yaw, new DJICommonCallbacks.DJICompletionCallback() {
       @Override
       public void onResult(DJIError djiError) {
-        if (djiError == null) {
-          Log.d(TAG, "Rotate Gimbal Success");
-        } else {
-          Log.d(TAG, "Rotate Gimbal Fail" + djiError);
-        }
+        Log.d(TAG, djiError == null ? "Succès de la rotation du gimbal" : djiError.getDescription());
       }
     });
   }

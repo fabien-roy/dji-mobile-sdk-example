@@ -7,6 +7,7 @@ import android.view.View;
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 import net.info420.fabien.dronetravailpratique.helpers.DroneHelper;
+import net.info420.fabien.dronetravailpratique.util.MouvementTimer;
 
 // TODO : Prod : Enlever les noms des Timers
 
@@ -72,14 +73,14 @@ public class Obj1Etape2Activity extends AppCompatActivity {
    *   <li>Met les Listeners</li>
    * </ul>
    *
-   * <p>Les floats que j'envoie au {@link net.info420.fabien.dronetravailpratique.util.MovementTimer}
+   * <p>Les floats que j'envoie au {@link MouvementTimer}
    * sont dans l'ordre pitch, roll, yaw , throttle</p>
    * <p>On se sert actuellement du mode Velocity et Body.</p>
    *
    * @see DroneHelper#decoller()
    * @see DroneHelper#atterir()
    * @see DroneHelper#getMovementTimer(String, float[])
-   * @see net.info420.fabien.dronetravailpratique.util.MovementTimer
+   * @see MouvementTimer
    *
    * @see <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-flightController.html"
    *      target="_blank">
