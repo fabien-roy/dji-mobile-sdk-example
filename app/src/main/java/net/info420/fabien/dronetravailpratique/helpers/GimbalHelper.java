@@ -39,6 +39,9 @@ public class GimbalHelper {
         Log.d(TAG, djiError == null ? "Succès du changement de mode du gimbal" : djiError.getDescription());
       }
     });
+
+    // TODO : Ceci pour le suivi de ligne
+    DroneApplication.getGimbalInstance().setGimbalWorkMode(DJIGimbalWorkMode.YawFollowMode);
   }
 
   /**

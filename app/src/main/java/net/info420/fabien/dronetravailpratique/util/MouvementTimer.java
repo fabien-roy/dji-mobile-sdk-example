@@ -136,8 +136,7 @@ public class MouvementTimer extends CountDownTimer {
    *     {@link MouvementTimer} que le prochain. Si oui, ajoute la {@link List} de
    *     {@link MouvementTimer} au prochain {@link MouvementTimer}.</li>
    *     <li>Démarre le prochain {@link MouvementTimer} avec {@link #start()}.</li>
-   *     <li><b>Si non</b>, vérifie si le {@link dji.sdk.flightcontroller.DJIFlightController} est
-   *     utilisable. Si c'est le cas, Envoie les données au drone afin qu'il s'arrête.</li>
+   *     <li><b>Si non</b>, fait attérir le drone</li>
    *   </ul></li>
    * </ul>
    *
@@ -162,21 +161,7 @@ public class MouvementTimer extends CountDownTimer {
       // On débute le timer
       nextMouvementTimer.start();
     } else {
-      // Sinon, on arrête tout.
-      if (DroneApplication.isFlightControllerAvailable()) {
-        DroneApplication.getAircraftInstance().getFlightController().sendVirtualStickFlightControlData(
-          new DJIVirtualStickFlightControlData(
-            0, 0, 0, 0
-          ), new DJICommonCallbacks.DJICompletionCallback() {
-            @Override
-            public void onResult(DJIError djiError) {
-              Log.d(TAG, djiError == null ? String.format("MouvementTimer %s : Mouvement à zéro", nom) : djiError.getDescription());
-            }
-          }
-        );
-      }else {
-        Log.e(TAG, "Le DJIFlightController n'est pas utilisable!");
-      }
+      DroneApplication.getDroneHelper().atterir();
     }
   }
 }

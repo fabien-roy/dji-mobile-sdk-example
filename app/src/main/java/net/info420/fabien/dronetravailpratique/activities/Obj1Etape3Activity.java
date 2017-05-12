@@ -1,6 +1,7 @@
 package net.info420.fabien.dronetravailpratique.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -37,9 +38,9 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private float[] dataG = { 2.5F,   13.5F };        // OK 180
   private float[] dataH = { 7.2F,   -1.6F };        // OK
   private float[] dataI = { 2,      9     };        // OK 180
-  private float[] dataJ = {-3,      1     };        // -0
+  private float[] dataJ = {-2.7F,   0.8F  };        // --
   private float[] dataK = { 2,      9     };        // 270
-  private float[] dataL = {-3,      -4    };        //
+  private float[] dataL = {-2.5F,   -4    };        // -0
   private float[] dataM = { 2,      9     };        // 360
   private float[] dataN = { 0,      -5    };        //
 
@@ -259,36 +260,36 @@ public class Obj1Etape3Activity extends AppCompatActivity {
    *      Source : Roll Pitch Control Mode</a>
    */
   private void go() {
-    // TODO : Décollage et atterissage
     // Décollage
-    // DroneApplication.getDroneHelper().decoller();
+    DroneApplication.getDroneHelper().decoller();
 
-    List<MouvementTimer> mouvementTimers = new ArrayList<>();
+    // Suite au décollage, on attend 5 secondes.
+    new Handler().postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        List<MouvementTimer> mouvementTimers = new ArrayList<>();
 
-    // mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("Post-takeoff : wait"));
+        ajouterA(mouvementTimers);
+        ajouterB(mouvementTimers);
+        ajouterC(mouvementTimers);
+        ajouterD(mouvementTimers);
+        ajouterE(mouvementTimers);
+        ajouterF(mouvementTimers);
+        ajouterG(mouvementTimers);
+        ajouterH(mouvementTimers);
+        ajouterI(mouvementTimers);
+        ajouterJ(mouvementTimers);
+        ajouterK(mouvementTimers);
+        ajouterL(mouvementTimers);
+        ajouterM(mouvementTimers);
+        ajouterN(mouvementTimers);
 
-    ajouterA(mouvementTimers);
-    ajouterB(mouvementTimers);
-    ajouterC(mouvementTimers);
-    ajouterD(mouvementTimers);
-    ajouterE(mouvementTimers);
-    ajouterF(mouvementTimers);
-    ajouterG(mouvementTimers);
-    ajouterH(mouvementTimers);
-    ajouterI(mouvementTimers);
-    ajouterJ(mouvementTimers);
-    ajouterK(mouvementTimers);
-    ajouterL(mouvementTimers);
-    ajouterM(mouvementTimers);
-    ajouterN(mouvementTimers);
+        // Exécution des mouvements
+        DroneApplication.getDroneHelper().sendMovementTimerList(mouvementTimers);
 
-    // mouvementTimers.add(DroneApplication.getDroneHelper().getAttenteMovementTimer("Pre-atterir : wait"));
-
-    // Exécution des mouvements
-    DroneApplication.getDroneHelper().sendMovementTimerList(mouvementTimers);
-
-    // Atterrissage
-    // DroneApplication.getDroneHelper().atterir();
+        // Atterrissage est géré par les timers
+      }
+    }, 5000);
   }
 
   /**
