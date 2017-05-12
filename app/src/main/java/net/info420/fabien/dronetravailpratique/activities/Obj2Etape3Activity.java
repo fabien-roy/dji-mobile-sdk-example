@@ -16,6 +16,7 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
@@ -195,9 +196,21 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    *   <li>Enlève l'image {@link Bitmap} déjà dans le {@link ImageView}</li>
    *   <li>Va chercher l'image du drone</li>
    * </ul>
+   *
+   * @see Mat
+   * @see Utils#bitmapToMat(Bitmap, Mat)
+   * @see Imgproc#cvtColor(Mat, Mat, int)
+   * @see Core#inRange(Mat, Scalar, Scalar, Mat)
+   * @see Imgproc#HoughLines(Mat, Mat, double, double, int)
+   *
+   * @see <a href="http://opencvexamples.blogspot.com/2013/10/line-detection-by-hough-line-transform.html"
+   *      target="_blank">
+   *      Source : Détection de lignes</a>
+   * @see <a href="http://stackoverflow.com/questions/43694436/why-different-result-of-houghlines-of-opencv-in-java-and-c"
+   *      target="_blank">
+   *      Source : Dessiner des lignes</a>
    */
   private void traiter() {
-    // TODO : Traiter l'image
     // TODO : Envoyer les instructions au drone
 
     // Matrice de l'image traitée
@@ -206,11 +219,38 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
     // Conversion du Bitmap de la vidéo dans la matrice
     Utils.bitmapToMat(tvVideo.getBitmap(), matImage);
 
+    // Si il faut réduire l'image, c'est ici.
+
     // On met l'image en HSV
     Imgproc.cvtColor(matImage, matImage, Imgproc.COLOR_RGB2HSV, 3);
 
     // On détecte une certaine couleur (vert)
     Core.inRange(matImage, new Scalar(50, 100, 30), new Scalar(85, 255, 255), matImage);
+
+    Mat matLignes = new Mat();
+
+    // Détection de lignes
+    Imgproc.HoughLines(matImage, matLignes, 1, Math.PI / 180, 150);
+
+    // TODO : Enlever l'affichage des lignes
+    // Dessin de la ligne sur l'image affichée
+    for (int i = 0; i < matLignes.cols(); i++) {
+      double rho    = matLignes.get(0, i)[0];
+      double theta  = matLignes.get(0, i)[1];
+
+      double a = Math.cos(theta);
+      double b = Math.sin(theta);
+
+      Point pt1 = new Point();
+      Point pt2 = new Point();
+
+      pt1.x = Math.round(a * rho + 1000 * (-b));
+      pt1.y = Math.round(b * rho + 1000 * (a));
+      pt2.x = Math.round(a * rho - 1000 * (-b));
+      pt2.y = Math.round(b * rho - 1000 * (a));
+
+      Imgproc.line(matImage, pt1, pt2, new Scalar(255, 0, 0), 2, Core.LINE_AA, 0);
+    }
 
     afficherImage(matImage);
   }

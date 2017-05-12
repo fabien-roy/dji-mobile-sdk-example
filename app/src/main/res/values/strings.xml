@@ -32,8 +32,12 @@
   <string name="obj2_etape2_activity">Obj2Etape2Activity</string>
 
   <string name="objectif2_etape3">Objectif #2 Étape #3</string>
-  <string name="objectif2_etape3_description">Détecter une ligne verte</string>
+  <string name="objectif2_etape3_description">Détecter et suivre une ligne verte</string>
   <string name="obj2_etape3_activity">Obj2Etape3Activity</string>
+
+  <string name="objectif3_etape1">Objectif #3 Étape #1</string>
+  <string name="objectif3_etape1_description">Trouver une balle verte</string>
+  <string name="obj3_etape1_activity">Obj3Etape1Activity</string>
 
   <string name="connecter">Connecter</string>
   <string name="deconnecter">Déconnecter</string>
