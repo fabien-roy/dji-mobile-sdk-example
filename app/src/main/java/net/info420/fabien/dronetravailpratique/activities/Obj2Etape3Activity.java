@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
+import net.info420.fabien.dronetravailpratique.helpers.GimbalHelper;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -19,6 +21,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 
 import dji.common.product.Model;
 import dji.sdk.base.DJIBaseProduct;
@@ -58,7 +61,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   protected DJICamera.CameraReceivedVideoDataCallback receivedVideoDataCallBack = null;
   protected DJICodecManager codecManager;
 
-  private boolean enOperation = false;
+  private boolean pretAuTraitement = false;
 
   // Vérification du fonctionnement d'OpenCV
   static {
@@ -87,6 +90,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
 
     initUI();
     initCallback();
+    initGimbal();
   }
 
   /**
@@ -165,7 +169,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    * @see dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback
    */
   private void initVideo() {
-    enOperation = true;
+    pretAuTraitement = true;
 
     DJIBaseProduct product = DroneApplication.getProductInstance();
 
@@ -181,12 +185,21 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   }
 
   /**
+   * Place la {@link dji.sdk.gimbal.DJIGimbal} directement sous le drone
+   *
+   * @see GimbalHelper#setGroundGimbal()
+   */
+  private void initGimbal() {
+    DroneApplication.getGimbalHelper().setGroundGimbal();
+  }
+
+  /**
    * Arrête toutes les opérations
    */
   private void arreter() {
     DroneApplication.getDroneHelper().atterir();
 
-    enOperation = false;
+    pretAuTraitement = false;
   }
 
   /**
@@ -227,10 +240,12 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
     // On détecte une certaine couleur (vert)
     Core.inRange(matImage, new Scalar(50, 100, 30), new Scalar(85, 255, 255), matImage);
 
+    /*
     Mat matLignes = new Mat();
 
     // Détection de lignes
-    Imgproc.HoughLines(matImage, matLignes, 1, Math.PI / 180, 150);
+    // Plus le threshold (dernier argument) est bas, plus on est tolerant
+    Imgproc.HoughLines(matImage, matLignes, 1, Math.PI / 180, 120);
 
     // TODO : Enlever l'affichage des lignes
     // Dessin de la ligne sur l'image affichée
@@ -251,6 +266,44 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
 
       Imgproc.line(matImage, pt1, pt2, new Scalar(255, 0, 0), 2, Core.LINE_AA, 0);
     }
+    */
+
+    // Recherche du centre de masse
+    Moments momentz = Imgproc.moments(matImage);
+
+    // TODO : Source : check ton cell
+    /*
+
+    Log.d(TAG, String.format( "Centre de masse : (%s, %s) m00 : %s m01 : %s m10 : %s",
+                              centreDeMasse.x,
+                              centreDeMasse.y,
+                              momentz.get_m00(),
+                              momentz.get_m01(),
+                              momentz.get_m10()));
+    */
+
+    Point centreDeMasse = new Point(momentz.get_m10() / momentz.get_m00(),
+          momentz.get_m01() / momentz.get_m00());
+    // double centreDeMasseY = momentz.get_m01() / momentz.get_m00();
+
+    // C'est y qui nous interesse, puisqu'on veut un centre de masse horizontal.
+    // Le centre de masse doit être entre -2.5 et 2.5.
+
+    String message = String.format("(%s, %s)", centreDeMasse.x, centreDeMasse.y);
+
+    if (centreDeMasse.y > 5) {
+      // TODO : Amener le drone à gauche
+      message = message + " : plus grand que 5";
+    } else if (centreDeMasse.y < -5) {
+      // TODO : Amener le drone à droite
+      message = message + " : plus petit que -5";
+    } else {
+      // TODO : Avancer, tout simplement
+      message = message + " : ok";
+    }
+
+    Log.d(TAG, message);
+    ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
 
     afficherImage(matImage);
   }
@@ -327,6 +380,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
       codecManager.cleanSurface();
       codecManager = null;
     }
+
     return false;
   }
 
@@ -341,6 +395,6 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    */
   @Override
   public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-    if (enOperation) traiter();
+    if (pretAuTraitement) traiter();
   }
 }

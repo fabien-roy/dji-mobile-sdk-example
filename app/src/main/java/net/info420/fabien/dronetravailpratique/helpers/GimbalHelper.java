@@ -79,4 +79,14 @@ public class GimbalHelper {
 
     bougerGimbal(angleRotationPitch, angleRotationRoll, angleRotationYaw);
   }
+
+  /**
+   * Vise le gimbal vers le sol
+   *
+   * @see #bougerGimbal(int, int, int)
+   */
+  public void setGroundGimbal() {
+    // TODO : Orienter correctement le Gimbal
+    bougerGimbal(0, 1000, 0);
+  }
 }

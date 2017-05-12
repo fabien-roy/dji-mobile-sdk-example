@@ -70,4 +70,15 @@
     android:layout_alignRight="@+id/iv_obj2_etape3_image_traitee"
     android:layout_alignEnd="@+id/iv_obj2_etape3_image_traitee"/>
 
+  <TextView
+    android:id="@+id/tv_obj2_etape3_coords"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_marginBottom="30dp"
+    android:gravity="center"
+    android:textColor="#ffffff"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
