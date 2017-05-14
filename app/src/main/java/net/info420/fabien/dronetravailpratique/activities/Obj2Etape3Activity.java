@@ -3,6 +3,7 @@ package net.info420.fabien.dronetravailpratique.activities;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.TextureView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
+import net.info420.fabien.dronetravailpratique.helpers.DroneHelper;
 import net.info420.fabien.dronetravailpratique.helpers.GimbalHelper;
 
 import org.opencv.android.OpenCVLoader;
@@ -30,8 +32,6 @@ import dji.sdk.codec.DJICodecManager;
 
 import static net.info420.fabien.dronetravailpratique.application.DroneApplication.getCameraInstance;
 
-// TODO : Aller chercher la vidéo du drone dans Obj2Etape3Activity
-// TODO : Faire un traitement OpenCV de la vidéo du drone
 // TODO : Documenter Obj2Etape3Activity
 
 /**
@@ -61,7 +61,8 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   protected DJICamera.CameraReceivedVideoDataCallback receivedVideoDataCallBack = null;
   protected DJICodecManager codecManager;
 
-  private boolean pretAuTraitement = false;
+  private boolean pretAuTraitement  = false;
+  private boolean droneDecolle      = false;
 
   // Vérification du fonctionnement d'OpenCV
   static {
@@ -77,20 +78,44 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    *
    * <ul>
    *   <li>Appelle {@link #initUI()}</li>
-   *   <li>Instancie le callback d</li>
+   *   <li>Active le mode VirtualStick du drone</li>
+   *   <li>Instancie le callback de la vidéo</li>
    * </ul>
    *
    * @param savedInstanceState {@link Bundle}
    *
+   * @see DroneHelper#setupFlightController()
    * @see #initUI()
    */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    DroneApplication.getDroneHelper().setupFlightController();
+
     initUI();
     initCallback();
     initGimbal();
+  }
+
+  /**
+   * Exécuté à la fermetture de l'{@link android.app.Activity}
+   *
+   * <ul>
+   *   <li>Fait attérir le drone</li>
+   *   <li>Désactive le mode VirtualStick du drone</li>
+   * </ul>
+   *
+   * @see #arreter()
+   * @see DroneHelper#disableVirtualStickMode()
+   */
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+
+    arreter();
+
+    DroneApplication.getDroneHelper().disableVirtualStickMode();
   }
 
   /**
@@ -116,6 +141,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
       @Override
       public void onClick(View view) {
         initVideo();
+        pretAuTraitement = true;
       }
     });
 
@@ -169,8 +195,6 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    * @see dji.sdk.camera.DJICamera.CameraReceivedVideoDataCallback
    */
   private void initVideo() {
-    pretAuTraitement = true;
-
     DJIBaseProduct product = DroneApplication.getProductInstance();
 
     if (product == null || !product.isConnected()) {
@@ -194,6 +218,20 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   }
 
   /**
+   * Faire décoller le drone
+   */
+  private void decoller() {
+    DroneApplication.getDroneHelper().decoller();
+
+    // Suite au décollage, on attend 10 secondes.
+    new Handler().postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        droneDecolle = true;
+      }
+    }, 10000);
+  }
+  /**
    * Arrête toutes les opérations
    */
   private void arreter() {
@@ -206,6 +244,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    * Effectue le traitement necéssaire au suivi de ligne
    *
    * <ul>
+   *   <li>Fait décoller le drone s'il n'est pas en vol</li>
    *   <li>Enlève l'image {@link Bitmap} déjà dans le {@link ImageView}</li>
    *   <li>Va chercher l'image du drone</li>
    * </ul>
@@ -225,23 +264,29 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    * @see <a href="http://answers.opencv.org/question/82614/how-to-find-the-centre-of-multiple-objects-in-a-image/"
    *      target="_blank">
    *      Source : Trouver le centre de masse</a>
+   * @see <a href="http://stackoverflow.com/questions/18330959/how-to-check-whether-a-number-is-a-nan-in-java-android"
+   *      target="_blank">
+   *      Source : Est-ce qu'un double est NaN en Java?</a>
    */
   private void traiter() {
-    // TODO : Envoyer les instructions au drone
+    if (!droneDecolle) {
+      decoller();
+    } else {
+      pretAuTraitement = false;
 
-    // Matrice de l'image traitée
-    Mat matImage = new Mat();
+      // Matrice de l'image traitée
+      Mat matImage = new Mat();
 
-    // Conversion du Bitmap de la vidéo dans la matrice
-    Utils.bitmapToMat(tvVideo.getBitmap(), matImage);
+      // Conversion du Bitmap de la vidéo dans la matrice
+      Utils.bitmapToMat(tvVideo.getBitmap(), matImage);
 
-    // Si il faut réduire l'image, c'est ici.
+      // Si il faut réduire l'image, c'est ici.
 
-    // On met l'image en HSV
-    Imgproc.cvtColor(matImage, matImage, Imgproc.COLOR_RGB2HSV, 3);
+      // On met l'image en HSV
+      Imgproc.cvtColor(matImage, matImage, Imgproc.COLOR_RGB2HSV, 3);
 
-    // On détecte une certaine couleur (vert)
-    Core.inRange(matImage, new Scalar(50, 100, 30), new Scalar(85, 255, 255), matImage);
+      // On détecte une certaine couleur (vert)
+      Core.inRange(matImage, new Scalar(50, 100, 30), new Scalar(85, 255, 255), matImage);
 
     /*
     // Détection de lignes
@@ -250,7 +295,6 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
     // Plus le threshold (dernier argument) est bas, plus on est tolerant
     Imgproc.HoughLines(matImage, matLignes, 1, Math.PI / 180, 120);
 
-    // TODO : Enlever l'affichage des lignes
     // Dessin de la ligne sur l'image affichée
     for (int i = 0; i < matLignes.cols(); i++) {
       double rho    = matLignes.get(0, i)[0];
@@ -271,8 +315,8 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
     }
     */
 
-    // Recherche du centre de masse
-    Moments momentz = Imgproc.moments(matImage);
+      // Recherche du centre de masse
+      Moments momentz = Imgproc.moments(matImage);
 
     /*
 
@@ -284,30 +328,73 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
                               momentz.get_m10()));
     */
 
-    Point centreDeMasse = new Point(momentz.get_m10() / momentz.get_m00(),
-          momentz.get_m01() / momentz.get_m00());
-    // double centreDeMasseY = momentz.get_m01() / momentz.get_m00();
+      Point centreDeMasse = new Point(momentz.get_m10() / momentz.get_m00(),
+                                      momentz.get_m01() / momentz.get_m00());
+      // double centreDeMasseY = momentz.get_m01() / momentz.get_m00();
 
-    // C'est y qui nous interesse, puisqu'on veut un centre de masse horizontal.
-    // Le centre de masse doit être entre -2.5 et 2.5.
+      // C'est y qui nous interesse, puisqu'on veut un centre de masse horizontal.
+      // Le centre de masse doit être entre -2.5 et 2.5.
 
-    String message = String.format("(%s, %s)", centreDeMasse.x, centreDeMasse.y);
+      String message = String.format("(%s, %s)", centreDeMasse.x, centreDeMasse.y);
 
-    if (centreDeMasse.y > 5) {
-      // TODO : Amener le drone à gauche
-      message = message + " : plus grand que 5";
-    } else if (centreDeMasse.y < -5) {
-      // TODO : Amener le drone à droite
-      message = message + " : plus petit que -5";
-    } else {
-      // TODO : Avancer, tout simplement
-      message = message + " : ok";
+      if (Double.isNaN(centreDeMasse.y)) {
+        // TODO : Faire attérir le drone
+        message = message + " : NaN";
+
+        Log.d(TAG, message);
+        ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
+
+        DroneApplication.getDroneHelper().atterir();
+
+        // On attend cinq seconde (le temps d'attérir) avant d'être prêt au traitement
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            droneDecolle = false;
+          }
+        }, 5000);
+
+        // On retourne. On ne veut pas que pretAuTraitement soit true;
+        return;
+      } else if (centreDeMasse.y > 5) {
+        // TODO : Amener le drone à gauche
+        message = message + " : plus grand que 5";
+
+        DroneApplication.getDroneHelper().sendMovementTimer(
+          DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
+                                                              new float[] {-1, 1, 0, 0},
+                                                              null));
+      } else if (centreDeMasse.y < -5) {
+        // TODO : Amener le drone à droite
+        message = message + " : plus petit que -5";
+
+        DroneApplication.getDroneHelper().sendMovementTimer(
+          DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
+                                                              new float[] {1, 1, 0, 0},
+                                                              null));
+      } else {
+        // TODO : Avancer, tout simplement
+        message = message + " : ok";
+
+        DroneApplication.getDroneHelper().sendMovementTimer(
+          DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers l'avant",
+                                                              new float[] {0, 1, 0, 0},
+                                                              null));
+      }
+
+      Log.d(TAG, message);
+      ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
+
+      afficherImage(matImage);
+
+      // On attend une seconde (le temps de bouger) avant d'être prêt au traitement
+      new Handler().postDelayed(new Runnable() {
+        @Override
+        public void run() {
+          pretAuTraitement = true;
+        }
+      }, 1000);
     }
-
-    Log.d(TAG, message);
-    ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
-
-    afficherImage(matImage);
   }
 
   /**
@@ -319,8 +406,8 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
     // Affichage de l'image
     // Image bitmap pour l'affichage
     Bitmap bmpImageTraitee =  Bitmap.createBitmap(matImage.cols(),
-      matImage.rows(),
-      Bitmap.Config.ARGB_8888);
+                                                  matImage.rows(),
+                                                  Bitmap.Config.ARGB_8888);
     Utils.matToBitmap(matImage, bmpImageTraitee);
 
     ivImageTraitee.setImageBitmap(null);

@@ -4,15 +4,13 @@ import android.os.CountDownTimer;
 import android.util.Log;
 
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
+import net.info420.fabien.dronetravailpratique.helpers.DroneHelper;
 
 import java.util.List;
 
 import dji.common.error.DJIError;
 import dji.common.flightcontroller.DJIVirtualStickFlightControlData;
 import dji.common.util.DJICommonCallbacks;
-
-// TODO : Prod : Enlever les noms des Timers
-// TODO : Prod : Enlever les logs
 
 /**
  * Classe enfant de {@link CountDownTimer}.
@@ -49,7 +47,8 @@ public class MouvementTimer extends CountDownTimer {
   // Liste des prochains MouvementsTimers de la List
   private List<MouvementTimer> nextMouvementTimers = null;
 
-  private String nom;
+  private String  nom;
+  private int     atterissage;
 
   /**
    * Création d'un {@link MouvementTimer}
@@ -59,15 +58,17 @@ public class MouvementTimer extends CountDownTimer {
    *   <li>Mets les données du mouvement du drone</li>
    * </ul>
    *
-   * @param nom       Nom du timer, pour le debug
-   * @param duree     Durée du timer, en millisecondes
-   * @param interval  Interval entre les appels de {@link #onTick(long)}
-   * @param pitch     Pitch du mouvement du drone
-   * @param roll      Roll du mouvement du drone
-   * @param yaw       Yaw du mouvement du drone
-   * @param throttle  Throttle du mouvement du drone
+   * @param nom         Nom du timer, pour le debug
+   * @param duree       Durée du timer, en millisecondes
+   * @param interval    Interval entre les appels de {@link #onTick(long)}
+   * @param pitch       Pitch du mouvement du drone
+   * @param roll        Roll du mouvement du drone
+   * @param yaw         Yaw du mouvement du drone
+   * @param throttle    Throttle du mouvement du drone
+   * @param atterissage Mode d'atterissage du drone (attéri à la fin, ou non). Par défaut =
+   *                    DroneHelper.NE_PAS_ATTERIR
    */
-  public MouvementTimer(String nom, long duree, long interval, float pitch, float roll, float yaw, float throttle) {
+  public MouvementTimer(String nom, long duree, long interval, float pitch, float roll, float yaw, float throttle, Integer atterissage) {
     super(duree, interval);
 
     this.pitch    = pitch;
@@ -75,7 +76,9 @@ public class MouvementTimer extends CountDownTimer {
     this.yaw      = yaw;
     this.throttle = throttle;
 
-    this.nom      = nom == null ? "sans nom" : nom;
+    this.nom          = nom         == null ? "sans nom"                  : nom;
+    this.atterissage  = atterissage == null ? DroneHelper.NE_PAS_ATTERIR  : atterissage;
+
     Log.d(TAG, String.format("MouvementTimer %s : create %s pitch %s roll %s yaw %s throttle : %s %s", this.nom, pitch, roll, yaw, throttle, duree, interval));
   }
 
@@ -142,8 +145,7 @@ public class MouvementTimer extends CountDownTimer {
    *
    * @see #setNextMovementTimers(List)
    * @see CountDownTimer#start()
-   * @see dji.sdk.flightcontroller.DJIFlightController#sendVirtualStickFlightControlData(DJIVirtualStickFlightControlData, DJICommonCallbacks.DJICompletionCallback)
-   *
+   * @see DroneHelper#atterir()
    */
   @Override
   public void onFinish() {
@@ -161,7 +163,7 @@ public class MouvementTimer extends CountDownTimer {
       // On débute le timer
       nextMouvementTimer.start();
     } else {
-      DroneApplication.getDroneHelper().atterir();
+      if (atterissage == DroneHelper.ATTERIR) DroneApplication.getDroneHelper().atterir();
     }
   }
 }

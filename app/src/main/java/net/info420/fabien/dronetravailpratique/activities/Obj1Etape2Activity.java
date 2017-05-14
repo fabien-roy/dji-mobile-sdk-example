@@ -9,8 +9,6 @@ import net.info420.fabien.dronetravailpratique.application.DroneApplication;
 import net.info420.fabien.dronetravailpratique.helpers.DroneHelper;
 import net.info420.fabien.dronetravailpratique.util.MouvementTimer;
 
-// TODO : Prod : Enlever les noms des Timers
-
 /**
  * {@link android.app.Activity} pour faire bouger le drone
  *
@@ -33,8 +31,8 @@ public class Obj1Etape2Activity extends AppCompatActivity {
    *
    * @param savedInstanceState {@link Bundle}
    *
-   * @see #initUI()
    * @see DroneHelper#setupFlightController()
+   * @see #initUI()
    */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +77,7 @@ public class Obj1Etape2Activity extends AppCompatActivity {
    *
    * @see DroneHelper#decoller()
    * @see DroneHelper#atterir()
-   * @see DroneHelper#getMovementTimer(String, float[])
+   * @see DroneHelper#getMovementTimer(String, float[], Integer)
    * @see MouvementTimer
    *
    * @see <a href="https://developer.dji.com/mobile-sdk/documentation/introduction/component-guide-flightController.html"
@@ -106,42 +104,42 @@ public class Obj1Etape2Activity extends AppCompatActivity {
     findViewById(R.id.btn_obj1_etape2_aller_avant).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {0, 1, 0, 0}));
+        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {0, 1, 0, 0}, null));
       }
     });
 
     findViewById(R.id.btn_obj1_etape2_aller_derriere).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {0, -1, 0, 0}));
+        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {0, -1, 0, 0}, null));
       }
     });
 
     findViewById(R.id.btn_obj1_etape2_aller_gauche).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {-1, 0, 0, 0}));
+        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {-1, 0, 0, 0}, null));
       }
     });
 
     findViewById(R.id.btn_obj1_etape2_aller_droite).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {1, 0, 0, 0}));
+        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {1, 0, 0, 0}, null));
       }
     });
 
     findViewById(R.id.btn_obj1_etape2_tourner_droite).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {0, 0, 15, 0}));
+        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {0, 0, 15, 0}, null));
       }
     });
 
     findViewById(R.id.btn_obj1_etape2_tourner_gauche).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {0, 0, -15, 0}));
+        DroneApplication.getDroneHelper().sendMovementTimer(DroneApplication.getDroneHelper().getMovementTimer(null, new float[] {0, 0, -15, 0}, null));
       }
     });
   }

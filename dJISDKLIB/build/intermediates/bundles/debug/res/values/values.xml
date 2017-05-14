@@ -146,7 +146,7 @@
     <string name="dji_check_fc_takeoff_failed_navigation_system_exception">Navigation System Error. Check Redundancy Status.</string>
     <string name="dji_check_fc_takeoff_failed_not_activated">Please activate the aircraft</string>
     <string name="dji_check_fc_takeoff_failed_novice_protected">Beginner Mode active. Wait until the GPS signal is stable before takeoff </string>
-    <string name="dji_check_fc_takeoff_failed_pack_mode">Cannot takeoff in travel mode. Please exit travel mode</string>
+    <string name="dji_check_fc_takeoff_failed_pack_mode">Cannot takeoff in travel atterissage. Please exit travel atterissage</string>
     <string name="dji_check_fc_takeoff_failed_seriou_low_power">Warning: Critically Low Battery. Charge Battery Before Flight.</string>
     <string name="dji_check_fc_takeoff_failed_seriou_low_voltage">Low voltage, please replace the battery</string>
     <string name="dji_check_fc_takeoff_failed_simulator_mode">Flight simulator initialization failed, please try again</string>
@@ -208,14 +208,10 @@
     <string name="fpv_check_redundancy_failed_when_motor_up">IMU Backup Error. Stop Motors and Check IMU Redundancy</string>
     <string name="version_name">3.3Beta</string>
     <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+        
     </style>
     <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        
     </style>
     <style name="DialogTheme" parent="android:Theme.Dialog">
         <item name="android:windowNoTitle">true</item>

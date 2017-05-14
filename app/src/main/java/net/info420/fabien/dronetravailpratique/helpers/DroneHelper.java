@@ -14,8 +14,6 @@ import dji.common.flightcontroller.DJIVirtualStickVerticalControlMode;
 import dji.common.flightcontroller.DJIVirtualStickYawControlMode;
 import dji.common.util.DJICommonCallbacks;
 
-// TODO : Prod : Enlever les noms des Timers
-
 /**
  * Classe permettant d'interragir avec le Drone et de lui donner des instructions pour bouger
  *
@@ -47,6 +45,10 @@ public class DroneHelper {
   public static final int ROTATION_DROITE         = 1;
   public static final int ROTATION_GAUCHE         = 2;
   public static final int ROTATION_ARRIERE        = 3;
+
+  // Pour savoir si le MouvementTimer doit attérir après
+  public static final int ATTERIR         = 0;
+  public static final int NE_PAS_ATTERIR  = 1;
 
   private MouvementTimer mouvementTimer;
 
@@ -168,12 +170,24 @@ public class DroneHelper {
    * @param   nom                   Nom à donner au {@link MouvementTimer}
    * @param   pitchRollYawThrottle  Tableau de float des données pitch, roll, yaw et throttle du
    *                                mouvement
+   * @param   atterissage           Mode d'atterissage du drone, suite au mouvement
    * @return  Un {@link MouvementTimer} avec les données envoyées
    *
    * @see MouvementTimer
    */
-  public MouvementTimer getMovementTimer(String nom, float[] pitchRollYawThrottle) {
-    return new MouvementTimer(nom, 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3]);
+  public MouvementTimer getMovementTimer(String nom, float[] pitchRollYawThrottle, Integer atterissage) {
+    return new MouvementTimer(nom, 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3], atterissage);
+  }
+
+  /**
+   * Retourne un {@link MouvementTimer} nul (qui ne bouge pas)
+   *
+   * @param   nom                 Nom à donner au {@link MouvementTimer}
+   * @param   atterissage         Mode d'atterissage du drone, suite au mouvement
+   * @return  Un {@link MouvementTimer} nul
+   */
+  public MouvementTimer getAttenteMovementTimer(String nom, Integer atterissage) {
+    return new MouvementTimer(nom, 1000, 100, 0, 0, 0, 0, atterissage);
   }
 
   /**
@@ -188,7 +202,7 @@ public class DroneHelper {
    *   <li>On vérifie si le mouvement est nul (x, y) == (0, 0). Si c'est le cas, on vérifie s'il
    *   y a une élévation par seconde. Si c'est le cas, on fait monter le drone, tout en gardant un
    *   vecteur de mouvement en (x, y) nul. Sinon, on envoie simplement un {@link MouvementTimer} nul
-   *   servant à l'attente (voir {@link #getAttenteMovementTimer(String)}).</li>
+   *   servant à l'attente (voir {@link #getAttenteMovementTimer(String, Integer)}).</li>
    *
    *   <li>Ceci est l'étape cruciale. Afin que le système de mouvement du drone par coordonées
    *   (x, y) soit fonctionnel, il est nécéssaire de vérifier la direction à laquelle le drone
@@ -261,22 +275,23 @@ public class DroneHelper {
    * @param   y                   Coordonée y du vecteur de mouvement
    * @param   elevationParSeconde Élévation par seconde du drone (throttle en m/s)
    * @param   directionFace       Direction à laquelle le drone fait face
+   * @param   atterissage         Mode d'atterissage du drone, suite au mouvement
    * @return  Un {@link MouvementTimer} avec les données envoyées
    *
-   * @see #getAttenteMovementTimer(String)
+   * @see #getAttenteMovementTimer(String, Integer)
    * @see MouvementTimer
    */
-  public MouvementTimer getMovementTimer(String nom, float x, float y, float elevationParSeconde, int directionFace) {
+  public MouvementTimer getMovementTimer(String nom, float x, float y, float elevationParSeconde, int directionFace, Integer atterissage) {
     float temp;
 
     // Mouvement nul
     if ((x == 0) && (y == 0)) {
       // Élévation avec un x = 0 et y = 0
       if (elevationParSeconde != 0) {
-       return new MouvementTimer(nom, (long) elevationParSeconde * 1000, 100, 0, 0, 0, elevationParSeconde);
+       return new MouvementTimer(nom, (long) elevationParSeconde * 1000, 100, 0, 0, 0, elevationParSeconde, atterissage);
       }
 
-      return getAttenteMovementTimer(nom);
+      return getAttenteMovementTimer(nom, atterissage);
     }
 
     // Rotation du plan lorsque le drone ne fait pas face au Nord
@@ -306,7 +321,8 @@ public class DroneHelper {
                                 0,
                                 (y > 0) ? 1 : -1,
                                 0,
-                                elevationParSeconde);
+                                elevationParSeconde,
+                                atterissage);
     } else if (y == 0) {
       // Le drone ne va qu'en x
       return new MouvementTimer( nom,
@@ -315,7 +331,8 @@ public class DroneHelper {
                                 (x > 0) ? 1 : -1,
                                 0,
                                 0,
-                                elevationParSeconde);
+                                elevationParSeconde,
+                                atterissage);
     } else {
       // Sinon, c'est un mouvement diagonal
 
@@ -328,7 +345,8 @@ public class DroneHelper {
                                   (x > 0) ? 1 : -1,
                                   (y > 0) ? Math.abs(y/x) : - Math.abs(y/x),
                                   0,
-                                  elevationParSeconde);
+                                  elevationParSeconde,
+                                  atterissage);
       } else if (Math.abs(y) > Math.abs(x)) {
         // Le vecteur en Y est supérieur à celui en X.
         // Le drone va plus en y qu'en x, donc on se sert de y pour le temps
@@ -338,7 +356,8 @@ public class DroneHelper {
                                   (x > 0) ? Math.abs(x/y) : - Math.abs(x/y),
                                   (y > 0) ? 1 : -1,
                                   0,
-                                  elevationParSeconde);
+                                  elevationParSeconde,
+                                  atterissage);
       } else {
         // Ils sont égaux.
         // Le drone va autant en x qu'en y, donc on se sert de x pour le temps, puisque ça n'a
@@ -349,19 +368,10 @@ public class DroneHelper {
                                   (x > 0) ? 1 : -1,
                                   (y > 0) ? 1 : -1,
                                   0,
-                                  elevationParSeconde);
+                                  elevationParSeconde,
+                                  atterissage);
       }
     }
-  }
-
-  /**
-   * Retourne un {@link MouvementTimer} nul (qui ne bouge pas)
-   *
-   * @param   nom                 Nom à donner au {@link MouvementTimer}
-   * @return  Un {@link MouvementTimer} nul
-   */
-  public MouvementTimer getAttenteMovementTimer(String nom) {
-    return new MouvementTimer(nom, 1000, 100, 0, 0, 0, 0);
   }
 
   /**
@@ -418,9 +428,10 @@ public class DroneHelper {
    *                              correctement le mouvement circulaire.
    * @param   coteRotation        Côté du drone par laquelle on effectue la rotation. Ceci change
    *                              par où le drone va bouger pendant qu'il rotate.
+   * @param   atterissage         Mode d'atterissage du drone, suite au mouvement
    * @return  Un {@link MouvementTimer} circulaire
    */
-  public MouvementTimer getCercleMovementTimer(String nom, float rayon, int angle, int orientation, Float ajoutOrientation, int coteRotation) {
+  public MouvementTimer getCercleMovementTimer(String nom, float rayon, int angle, int orientation, Float ajoutOrientation, int coteRotation, Integer atterissage) {
     // Données par défaut
     float pitch = 0;
     float roll  = 0;
@@ -455,7 +466,8 @@ public class DroneHelper {
                               pitch,
                               roll,
                               ((orientation * angle) / (rayon * (angle / CERCLE_QUART))),
-                              0);
+                              0,
+                              atterissage);
   }
 
   /**

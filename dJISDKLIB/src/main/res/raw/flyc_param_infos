@@ -5703,7 +5703,7 @@
 		"minValue" : -14000,
 		"maxValue" : -5000,
 		"defaultValue" : 4500,
-		"name" : "range.ioc.mode[0]"
+		"name" : "range.ioc.atterissage[0]"
 	},
 	{
 		"index" : 571,
@@ -5713,7 +5713,7 @@
 		"minValue" : -3000,
 		"maxValue" : 3000,
 		"defaultValue" : 3000,
-		"name" : "range.ioc.mode[1]"
+		"name" : "range.ioc.atterissage[1]"
 	},
 	{
 		"index" : 572,
@@ -5723,7 +5723,7 @@
 		"minValue" : 5000,
 		"maxValue" : 14000,
 		"defaultValue" : 4500,
-		"name" : "range.ioc.mode[2]"
+		"name" : "range.ioc.atterissage[2]"
 	},
 	{
 		"index" : 573,

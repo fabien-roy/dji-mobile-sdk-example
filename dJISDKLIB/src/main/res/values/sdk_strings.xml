@@ -108,7 +108,7 @@
     <string name="dji_check_fc_takeoff_failed_smart_low_to_land">Low power, please replace the battery</string>
     <string name="dji_check_fc_takeoff_failed_battery_not_ready">Battery initialization incomplete, restart the motors</string>
     <string name="dji_check_fc_takeoff_failed_simulator_mode">Flight simulator initialization failed, please try again</string>
-    <string name="dji_check_fc_takeoff_failed_pack_mode">Cannot takeoff in travel mode. Please exit travel mode</string>
+    <string name="dji_check_fc_takeoff_failed_pack_mode">Cannot takeoff in travel atterissage. Please exit travel atterissage</string>
     <string name="dji_check_fc_takeoff_failed_attitude_limit">The aircraft’s angle is too great. Place aircraft on a flat, level surface and restart. Contact DJI Support if the error persists</string>
     <string name="dji_check_fc_takeoff_failed_not_activated">Please activate the aircraft</string>
     <string name="dji_check_fc_takeoff_failed_in_fly_limit_zone">Cannot takeoff in a no-fly zone</string>
