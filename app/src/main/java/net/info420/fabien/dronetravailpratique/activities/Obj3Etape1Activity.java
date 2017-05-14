@@ -64,8 +64,6 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
   private boolean pretAuTraitement  = false;
   private boolean droneDecolle      = false;
 
-  private int orientation = 1; // 1 = devant, -1 = derrière
-
   // Vérification du fonctionnement d'OpenCV
   static {
     if(!OpenCVLoader.initDebug()){

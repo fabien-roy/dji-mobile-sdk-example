@@ -61,8 +61,11 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   protected DJICamera.CameraReceivedVideoDataCallback receivedVideoDataCallBack = null;
   protected DJICodecManager codecManager;
 
-  private boolean pretAuTraitement  = false;
-  private boolean droneDecolle      = false;
+  private boolean pretAuTraitement  = false; // Vrai si le traitement est prêt et qu'aucun
+                                             // traitement n'est en cours
+  private boolean droneDecolle      = false; // Vrai si le drone est décollé
+  private boolean enRetour          = false; // Vrai si le drone a perdu la ligne (car il l'a
+                                             // dépassé) et doit revenir sur ses pas
 
   private int orientation = 1; // 1 = devant, -1 = derrière
 
@@ -362,7 +365,16 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
         */
 
         // TODO : Est-ce que le drone doit juste se revirer?
-        orientation = -orientation;
+        // La variable enRetour est false dès que la ligne est retrouvée
+        if (enRetour) {
+          DroneApplication.getDroneHelper().sendMovementTimer(
+            DroneApplication.getDroneHelper().getMovementTimer( "Traitement : retour vers la ligne",
+                                                                new float[] {0, orientation, 0, 0},
+                                                                null));
+        } else {
+          orientation = -orientation;
+          enRetour = true;
+        }
       } else if (centreDeMasse.y > 5) {
         // TODO : Amener le drone à gauche
         message = message + " : plus grand que 5";
@@ -371,6 +383,8 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
           DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
                                                               new float[] {-1, orientation, 0, 0},
                                                               null));
+
+        enRetour = false;
       } else if (centreDeMasse.y < -5) {
         // TODO : Amener le drone à droite
         message = message + " : plus petit que -5";
@@ -379,6 +393,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
           DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
                                                               new float[] {1, orientation, 0, 0},
                                                               null));
+        enRetour = false;
       } else {
         // TODO : Avancer, tout simplement
         message = message + " : ok";
@@ -387,6 +402,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
           DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers l'avant",
                                                               new float[] {0, orientation, 0, 0},
                                                               null));
+        enRetour = false;
       }
 
       Log.d(TAG, message);
