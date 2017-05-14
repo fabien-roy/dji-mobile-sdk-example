@@ -1,6 +1,6 @@
 <resources>
   <string name="app_name">ROYF Drone Travail Pratique</string>
-  <string name="app_license">CC3.0 Fabien Roy BY-NC-SA</string>
+  <string name="app_author">Fabien Roy</string>
 
   <!-- Interface du PrincipaleActivity -->
   <string name="modele_non_accessible">Drone non-accessible</string>
@@ -36,7 +36,7 @@
   <string name="obj2_etape3_activity">Obj2Etape3Activity</string>
 
   <string name="objectif3_etape1">Objectif #3 Étape #1</string>
-  <string name="objectif3_etape1_description">Trouver une balle verte</string>
+  <string name="objectif3_etape1_description">Trouver la couleur de la balle verte</string>
   <string name="obj3_etape1_activity">Obj3Etape1Activity</string>
 
   <string name="connecter">Connecter</string>

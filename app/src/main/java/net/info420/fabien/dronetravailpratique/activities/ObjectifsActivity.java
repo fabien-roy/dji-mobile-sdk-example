@@ -91,8 +91,7 @@ public class ObjectifsActivity extends Activity {
     findViewById(R.id.btn_obj3_etape1).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        // TODO : Démarer Obj3Etape1Activity
-        startActivity(new Intent(getApplicationContext(), Obj2Etape3Activity.class));
+        startActivity(new Intent(getApplicationContext(), Obj3Etape1Activity.class));
       }
     });
   }

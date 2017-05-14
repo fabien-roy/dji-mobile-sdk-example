@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/activity_operation"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:paddingBottom="@dimen/activity_vertical_margin"
+  android:paddingLeft="@dimen/activity_horizontal_margin"
+  android:paddingRight="@dimen/activity_horizontal_margin"
+  android:paddingTop="@dimen/activity_vertical_margin"
+  tools:context="net.info420.fabien.dronetravailpratique.activities.Obj3Etape1Activity">
+
+  <TextView
+    android:id="@+id/tv_obj3_etape1_titre"
+    android:text="@string/objectif3_etape1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="14dp"
+    android:textSize="20sp"
+    android:layout_centerHorizontal="true"/>
+
+  <TextView
+    android:id="@+id/tv_obj3_etape1_desc"
+    android:text="@string/objectif3_etape1_description"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tv_obj3_etape1_titre"
+    android:textSize="15sp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="37dp"/>
+
+  <TextureView
+    android:id="@+id/tv_obj3_etape1_video"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_gravity="center"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="20dp"
+    android:layout_below="@+id/tv_obj3_etape1_desc" />
+
+  <ImageView
+    android:id="@+id/iv_obj3_etape1_image_traitee"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:adjustViewBounds="true"
+    android:scaleType="centerCrop"
+    android:layout_marginTop="20dp"
+    android:layout_below="@+id/tv_obj3_etape1_video"
+    android:layout_centerHorizontal="true"/>
+
+  <Button
+    android:id="@+id/btn_obj3_etape1_traiter"
+    android:text="@string/traiter"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="26dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignLeft="@+id/iv_obj3_etape1_image_traitee"
+    android:layout_alignStart="@+id/iv_obj3_etape1_image_traitee"/>
+
+  <Button
+    android:id="@+id/btn_obj3_etape1_arreter"
+    android:text="@string/arreter"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="26dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignRight="@+id/iv_obj3_etape1_image_traitee"
+    android:layout_alignEnd="@+id/iv_obj3_etape1_image_traitee"/>
+
+  <TextView
+    android:id="@+id/tv_obj3_etape1_coords"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_marginBottom="30dp"
+    android:gravity="center"
+    android:textColor="#ffffff"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

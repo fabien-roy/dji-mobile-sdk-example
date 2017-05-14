@@ -89,13 +89,12 @@
     android:textSize="15sp"
     />
 
-  <!-- TODO : Enlever la license? -->
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="450dp"
-    android:text="@string/app_license"
+    android:text="@string/app_author"
     android:textSize="10sp"
     />
 
