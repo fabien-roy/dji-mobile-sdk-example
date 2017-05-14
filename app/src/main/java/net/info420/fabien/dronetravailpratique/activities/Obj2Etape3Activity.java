@@ -222,6 +222,9 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    * @see <a href="http://stackoverflow.com/questions/43694436/why-different-result-of-houghlines-of-opencv-in-java-and-c"
    *      target="_blank">
    *      Source : Dessiner des lignes</a>
+   * @see <a href="http://answers.opencv.org/question/82614/how-to-find-the-centre-of-multiple-objects-in-a-image/"
+   *      target="_blank">
+   *      Source : Trouver le centre de masse</a>
    */
   private void traiter() {
     // TODO : Envoyer les instructions au drone
@@ -241,9 +244,9 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
     Core.inRange(matImage, new Scalar(50, 100, 30), new Scalar(85, 255, 255), matImage);
 
     /*
+    // Détection de lignes
     Mat matLignes = new Mat();
 
-    // Détection de lignes
     // Plus le threshold (dernier argument) est bas, plus on est tolerant
     Imgproc.HoughLines(matImage, matLignes, 1, Math.PI / 180, 120);
 
@@ -271,7 +274,6 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
     // Recherche du centre de masse
     Moments momentz = Imgproc.moments(matImage);
 
-    // TODO : Source : check ton cell
     /*
 
     Log.d(TAG, String.format( "Centre de masse : (%s, %s) m00 : %s m01 : %s m10 : %s",

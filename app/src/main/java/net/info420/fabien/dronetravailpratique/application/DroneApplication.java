@@ -20,8 +20,6 @@ import dji.sdk.gimbal.DJIGimbal;
 import dji.sdk.products.DJIAircraft;
 import dji.sdk.sdkmanager.DJISDKManager;
 
-// TODO : Construire une Activity pour montrer l'objectif 3
-
 /**
  * {@link Application} contenant des méthodes et variables utilisées dans toute l'application
  *

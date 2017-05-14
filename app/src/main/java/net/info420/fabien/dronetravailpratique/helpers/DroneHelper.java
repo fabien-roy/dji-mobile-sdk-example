@@ -364,8 +364,6 @@ public class DroneHelper {
     return new MouvementTimer(nom, 1000, 100, 0, 0, 0, 0);
   }
 
-  // TODO : rendre DroneHelper#getCercleMovementTimer fonctionnel pour tourner sur soi-même
-
   /**
    * Renvoie un {@link MouvementTimer} circulaire, en fonction du rayon, des quarts de cercles, de
    * l'orientation et du sens de rotation.

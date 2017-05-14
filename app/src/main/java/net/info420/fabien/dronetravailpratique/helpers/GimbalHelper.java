@@ -33,15 +33,27 @@ public class GimbalHelper {
    */
   private void initGimbal() {
     // FreeMode permet de jouer avec le pitch, le roll et le yaw
-    DroneApplication.getGimbalInstance().setGimbalWorkMode(DJIGimbalWorkMode.FreeMode, new DJICommonCallbacks.DJICompletionCallback() {
+    setGimbalWorkMode(DJIGimbalWorkMode.FreeMode);
+  }
+
+  /**
+   * Modifie le mode du {@link dji.sdk.gimbal.DJIGimbal}
+   *
+   * @param djiGimbalWorkMode Le {@link DJIGimbalWorkMode} du {@link dji.sdk.gimbal.DJIGimbal}
+   *
+   * @see dji.sdk.gimbal.DJIGimbal#setGimbalWorkMode(DJIGimbalWorkMode, DJICommonCallbacks.DJICompletionCallback)
+   *
+   * @see <a href="https://developer.dji.com/api-reference/android-api/Components/Gimbal/DJIGimbal.html#djigimbal_workmode_inline"
+   *      target="_blank">
+   *      Source : Les différents modes du {@link dji.sdk.gimbal.DJIGimbal}</a>
+   */
+  private void setGimbalWorkMode(DJIGimbalWorkMode djiGimbalWorkMode) {
+    DroneApplication.getGimbalInstance().setGimbalWorkMode(djiGimbalWorkMode, new DJICommonCallbacks.DJICompletionCallback() {
       @Override
       public void onResult(DJIError djiError) {
         Log.d(TAG, djiError == null ? "Succès du changement de mode du gimbal" : djiError.getDescription());
       }
     });
-
-    // TODO : Ceci pour le suivi de ligne
-    DroneApplication.getGimbalInstance().setGimbalWorkMode(DJIGimbalWorkMode.YawFollowMode);
   }
 
   /**
@@ -84,12 +96,24 @@ public class GimbalHelper {
   }
 
   /**
-   * Vise le gimbal vers le sol
+   * Vise le {@link dji.sdk.camera.DJICamera} vers le sol
    *
+   * <ul>
+   *   <li>Ajuste le {@link DJIGimbalWorkMode} pour qu'il suive le devant du drone</li>
+   *   <li>Vise le {@link dji.sdk.gimbal.DJIGimbal} vers le sol</li>
+   * </ul>
+   *
+   * @see #setGimbalWorkMode(DJIGimbalWorkMode)
    * @see #bougerGimbal(int, int, int)
+   *
+   * @see <a href="https://developer.dji.com/api-reference/android-api/Components/Gimbal/DJIGimbal.html#djigimbal_workmode_inline"
+   *      target="_blank">
+   *      Source : Les différents modes du {@link dji.sdk.gimbal.DJIGimbal}</a>
    */
   public void setGroundGimbal() {
-    // TODO : Orienter correctement le Gimbal
+    // TODO : Tester si le DJIGimbal s'ajuste correctement
+    setGimbalWorkMode(DJIGimbalWorkMode.FpvMode);
+
     bougerGimbal(0, 1000, 0);
   }
 }
