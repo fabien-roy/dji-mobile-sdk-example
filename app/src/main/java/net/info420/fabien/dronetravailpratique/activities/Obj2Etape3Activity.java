@@ -10,6 +10,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import net.info420.fabien.dronetravailpratique.R;
 import net.info420.fabien.dronetravailpratique.application.DroneApplication;
@@ -20,10 +21,15 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import dji.common.product.Model;
 import dji.sdk.base.DJIBaseProduct;
@@ -31,8 +37,6 @@ import dji.sdk.camera.DJICamera;
 import dji.sdk.codec.DJICodecManager;
 
 import static net.info420.fabien.dronetravailpratique.application.DroneApplication.getCameraInstance;
-
-// TODO : Documenter Obj2Etape3Activity
 
 /**
  * {@link android.app.Activity} pour aller chercher la vidéo du drone et faire un traitement
@@ -55,6 +59,10 @@ import static net.info420.fabien.dronetravailpratique.application.DroneApplicati
 public class Obj2Etape3Activity extends AppCompatActivity implements TextureView.SurfaceTextureListener {
   public static final String TAG = Obj2Etape3Activity.class.getName();
 
+  // Seuil necéssaire afin d'ajuster le suivi de la ligne
+  private static final int SEUIL_LIGNE = 5;
+
+  // Views
   private TextureView tvVideo;
   private ImageView   ivImageTraitee;
 
@@ -66,15 +74,19 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   private boolean droneDecolle      = false; // Vrai si le drone est décollé
   private boolean enRetour          = false; // Vrai si le drone a perdu la ligne (car il l'a
                                              // dépassé) et doit revenir sur ses pas
+  private boolean enRotation        = false; // Vrai si le drone voit encore le coin de la ligne et
+                                             // doit s'en éloigner
 
-  private int orientation = 1; // 1 = devant, -1 = derrière
+  private Float orientation = 1F; // 1 = devant, -1 = derrière
+
+  private int face = DroneHelper.FACE_NORD; // Face du suivi de ligne
 
   // Vérification du fonctionnement d'OpenCV
   static {
     if(!OpenCVLoader.initDebug()){
-      Log.d(TAG, "OpenCV not loaded");
+      Log.d(TAG, "OpenCV non loadé");
     } else {
-      Log.d(TAG, "OpenCV loaded");
+      Log.d(TAG, "OpenCV loadé correctement");
     }
   }
 
@@ -236,6 +248,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
       }
     }, 10000);
   }
+
   /**
    * Arrête toutes les opérations
    */
@@ -260,6 +273,44 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    *   <li>Fait décoller le drone s'il n'est pas en vol</li>
    *   <li>Enlève l'image {@link Bitmap} déjà dans le {@link ImageView}</li>
    *   <li>Va chercher l'image du drone</li>
+   *   <li>Calcul le centre de masse de l'image</li>
+   *   <li>Fait bouger le drone en fonction du mode <b>(voir plus bas)</b></li>
+   *   <li>Affiche le centre de masse dans un {@link TextView}</li>
+   * </ul>
+   *
+   * <p>Mode A : Suivi de la ligne sans tourner</p>
+   * <ul>
+   *   <li>Si le centre de masse est NaN : on vérifie si le drone est en mode "enRetour" :
+   *   <ul>
+   *     <li>Si le drone est "enRetour", il ne fait qu'avancer avec l'orientation en cours.</li>
+   *     <li>Sinon, il changer l'orientation en cours (devant/derrière) et se met en mode
+   *     "enRetour".</li>
+   *   </ul></li>
+   *   <li>Si le centre de masse est plus grand que le seuil, le drone ajuste son mouvement.</li>
+   *   <li>Si le centre de masse est plus petit que le seuil, le drone ajuste son mouvement.</li>
+   *   <li>Sinon, le drone avance en fonction de l'orientation choisie.</li>
+   * </ul>
+   *
+   * <p><i>N.B. : Le mode "enRetour" est désactivé lorsque le centre de masse n'est pas NaN</i></p>
+   *
+   * <p>Mode B : Suivi de la ligne en tournant</p>
+   * <ul>
+   *   <li>Ajuste les mouvements (avancer, ajustement sous le seuil, ajustement au-dessus du seuil)
+   *   en fonction de la face du suivi de ligne</li>
+   *   <li>Si le nombre de coins détecté est supérieur à 1 :
+   *   <ul>
+   *     <li>Si le drone est "enRotation", il ne fait qu'avancer avec l'orientation en cours.</li>
+   *     <li>Sinon, il changer l'orientation en cours (Nord, Ouest, Sud, Est) et se met en mode
+   *     "enRotation". Cela va modifier ses mouvements d'avance et d'ajustement avec l'orientation
+   *     (la face).</li>
+   *   </ul></li>
+   *   <li>Sinon :
+   *   <ul>
+   *     <li>Si le centre de masse est NaN, le drone se pose.</li>
+   *     <li>Si le centre de masse est plus grand que le seuil, le drone ajuste son mouvement.</li>
+   *     <li>Si le centre de masse est plus petit que le seuil, le drone ajuste son mouvement.</li>
+   *     <li>Sinon, le drone avance en fonction de l'orientation choisie.</li>
+   *   </ul></li>
    * </ul>
    *
    * @see Mat
@@ -267,6 +318,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    * @see Imgproc#cvtColor(Mat, Mat, int)
    * @see Core#inRange(Mat, Scalar, Scalar, Mat)
    * @see Imgproc#HoughLines(Mat, Mat, double, double, int)
+   * @see Imgproc#goodFeaturesToTrack(Mat, MatOfPoint, int, double, double)
    *
    * @see <a href="http://opencvexamples.blogspot.com/2013/10/line-detection-by-hough-line-transform.html"
    *      target="_blank">
@@ -293,116 +345,199 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
       // Conversion du Bitmap de la vidéo dans la matrice
       Utils.bitmapToMat(tvVideo.getBitmap(), matImage);
 
-      // Si il faut réduire l'image, c'est ici.
-
       // On met l'image en HSV
       Imgproc.cvtColor(matImage, matImage, Imgproc.COLOR_RGB2HSV, 3);
 
       // On détecte une certaine couleur (vert)
       Core.inRange(matImage, new Scalar(50, 100, 30), new Scalar(85, 255, 255), matImage);
 
-    /*
-    // Détection de lignes
-    Mat matLignes = new Mat();
+      // La détection de ligne a été enlevée complètement, puisqu'on a besoin que de la couleur
+      // Je laisse quand même ça ici.
+      /*
+      // Détection de lignes
+      Mat matLignes = new Mat();
 
-    // Plus le threshold (dernier argument) est bas, plus on est tolerant
-    Imgproc.HoughLines(matImage, matLignes, 1, Math.PI / 180, 120);
+      // Plus le threshold (dernier argument) est bas, plus on est tolerant
+      Imgproc.HoughLines(matImage, matLignes, 1, Math.PI / 180, 120);
 
-    // Dessin de la ligne sur l'image affichée
-    for (int i = 0; i < matLignes.cols(); i++) {
-      double rho    = matLignes.get(0, i)[0];
-      double theta  = matLignes.get(0, i)[1];
+      // Dessin de la ligne sur l'image affichée
+      for (int i = 0; i < matLignes.cols(); i++) {
+        double rho    = matLignes.get(0, i)[0];
+        double theta  = matLignes.get(0, i)[1];
 
-      double a = Math.cos(theta);
-      double b = Math.sin(theta);
+        double a = Math.cos(theta);
+        double b = Math.sin(theta);
 
-      Point pt1 = new Point();
-      Point pt2 = new Point();
+        Point pt1 = new Point();
+        Point pt2 = new Point();
 
-      pt1.x = Math.round(a * rho + 1000 * (-b));
-      pt1.y = Math.round(b * rho + 1000 * (a));
-      pt2.x = Math.round(a * rho - 1000 * (-b));
-      pt2.y = Math.round(b * rho - 1000 * (a));
+        pt1.x = Math.round(a * rho + 1000 * (-b));
+        pt1.y = Math.round(b * rho + 1000 * (a));
+        pt2.x = Math.round(a * rho - 1000 * (-b));
+        pt2.y = Math.round(b * rho - 1000 * (a));
 
-      Imgproc.line(matImage, pt1, pt2, new Scalar(255, 0, 0), 2, Core.LINE_AA, 0);
-    }
-    */
+        Imgproc.line(matImage, pt1, pt2, new Scalar(255, 0, 0), 2, Core.LINE_AA, 0);
+      }
+      */
 
       // Recherche du centre de masse
       Moments momentz = Imgproc.moments(matImage);
 
-    /*
-
-    Log.d(TAG, String.format( "Centre de masse : (%s, %s) m00 : %s m01 : %s m10 : %s",
-                              centreDeMasse.x,
-                              centreDeMasse.y,
-                              momentz.get_m00(),
-                              momentz.get_m01(),
-                              momentz.get_m10()));
-    */
-
       Point centreDeMasse = new Point(momentz.get_m10() / momentz.get_m00(),
                                       momentz.get_m01() / momentz.get_m00());
-      // double centreDeMasseY = momentz.get_m01() / momentz.get_m00();
-
-      // C'est y qui nous interesse, puisqu'on veut un centre de masse horizontal.
-      // Le centre de masse doit être entre -2.5 et 2.5.
 
       String message = String.format("(%s, %s)", centreDeMasse.x, centreDeMasse.y);
 
-      if (Double.isNaN(centreDeMasse.y)) {
-        // TODO : Faire attérir le drone
-        message = message + " : NaN";
+      if (!((ToggleButton) findViewById(R.id.btn_obj2_etape3_mode)).isChecked()) {
+        // Mode de suivi A : au bout de la ligne, on retourne
 
-        /*
-        Log.d(TAG, message);
-        ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
+        enRotation = false; // Sécurité
 
-        arreter();
+        if (Double.isNaN(centreDeMasse.y)) {
+          message = message + " : NaN";
 
-        // On retourne. On ne veut pas que pretAuTraitement soit true;
-        return;
-        */
+          // TODO : On pourrait aussi plutôt utiliser la détection de coins
 
-        // TODO : Est-ce que le drone doit juste se revirer?
-        // La variable enRetour est false dès que la ligne est retrouvée
-        if (enRetour) {
+          // Je laisse ceci ici : arrêt du drone lorsque la ligne est perdue.
+          /*
+          Log.d(TAG, message);
+          ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
+
+          arreter();
+
+          // On retourne. On ne veut pas que pretAuTraitement soit true;
+          return;
+          */
+
+          // La variable enRetour est false dès que la ligne est retrouvée
+          if (enRetour) {
+            DroneApplication.getDroneHelper().sendMovementTimer(
+              DroneApplication.getDroneHelper().getMovementTimer( "Traitement : retour vers la ligne",
+                                                                  new Float[] {0F, orientation, 0F, 0F},
+                                                                  null));
+          } else {
+            orientation = -orientation;
+            enRetour = true;
+          }
+        } else if (centreDeMasse.y > SEUIL_LIGNE) {
+          message = message + String.format(" : plus grand que %s", SEUIL_LIGNE);
+
           DroneApplication.getDroneHelper().sendMovementTimer(
-            DroneApplication.getDroneHelper().getMovementTimer( "Traitement : retour vers la ligne",
-                                                                new float[] {0, orientation, 0, 0},
+            DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
+                                                                new Float[] {-1F, orientation, 0F, 0F},
                                                                 null));
+
+          enRetour = false;
+        } else if (centreDeMasse.y < -SEUIL_LIGNE) {
+          message = message + String.format(" : plus petit que -%s", SEUIL_LIGNE);
+
+          DroneApplication.getDroneHelper().sendMovementTimer(
+            DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
+                                                                new Float[] {1F, orientation, 0F, 0F},
+                                                                null));
+          enRetour = false;
         } else {
-          orientation = -orientation;
-          enRetour = true;
+          message = message + " : ok";
+
+          DroneApplication.getDroneHelper().sendMovementTimer(
+            DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers l'avant",
+                                                                new Float[] {0F, orientation, 0F, 0F},
+                                                                null));
+          enRetour = false;
         }
-      } else if (centreDeMasse.y > 5) {
-        // TODO : Amener le drone à gauche
-        message = message + " : plus grand que 5";
-
-        DroneApplication.getDroneHelper().sendMovementTimer(
-          DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
-                                                              new float[] {-1, orientation, 0, 0},
-                                                              null));
-
-        enRetour = false;
-      } else if (centreDeMasse.y < -5) {
-        // TODO : Amener le drone à droite
-        message = message + " : plus petit que -5";
-
-        DroneApplication.getDroneHelper().sendMovementTimer(
-          DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
-                                                              new float[] {1, orientation, 0, 0},
-                                                              null));
-        enRetour = false;
       } else {
-        // TODO : Avancer, tout simplement
-        message = message + " : ok";
+        // Mode de suivi B : Lorsque le drone détecte un coin, il tourne à droite
 
-        DroneApplication.getDroneHelper().sendMovementTimer(
-          DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers l'avant",
-                                                              new float[] {0, orientation, 0, 0},
-                                                              null));
-        enRetour = false;
+        enRetour = false; // Sécurité
+
+        // Mouvements par défaut, soit quand le suivi est face au Nord
+        Double      centreDeMasseCoord  = centreDeMasse.y;
+        List<Float> mouvementAvant      = new ArrayList<>(Arrays.asList(1F,  0F, 0F, 0F));
+        List<Float> mouvementSeuilMin   = new ArrayList<>(Arrays.asList(1F,  1F, 0F, 0F));
+        List<Float> mouvementSeuilMax   = new ArrayList<>(Arrays.asList(1F, -1F, 0F, 0F));
+
+        // En fonction de la face du suivi de ligne, les mouvements d'ajustements changent
+        switch(face) {
+          case DroneHelper.FACE_OUEST:
+            centreDeMasseCoord  = centreDeMasse.x;
+            mouvementAvant      = new ArrayList<>(Arrays.asList( 0F,  1F, 0F, 0F));
+            mouvementSeuilMin   = new ArrayList<>(Arrays.asList( 1F,  1F, 0F, 0F));
+            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-1F,  1F, 0F, 0F));
+            break;
+          case DroneHelper.FACE_SUD:
+            centreDeMasseCoord  = centreDeMasse.y;
+            mouvementAvant      = new ArrayList<>(Arrays.asList(-1F,  0F, 0F, 0F));
+            mouvementSeuilMin   = new ArrayList<>(Arrays.asList(-1F,  1F, 0F, 0F));
+            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-1F, -1F, 0F, 0F));
+            break;
+          case DroneHelper.FACE_EST:
+            centreDeMasseCoord  = centreDeMasse.x;
+            mouvementAvant      = new ArrayList<>(Arrays.asList( 0F, -1F, 0F, 0F));
+            mouvementSeuilMin   = new ArrayList<>(Arrays.asList( 1F, -1F, 0F, 0F));
+            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-1F, -1F, 0F, 0F));
+            break;
+        }
+
+        // On doit d'abord vérifié si il y a un coin
+        MatOfPoint coins = new MatOfPoint();
+
+        // Détection de contours
+        // Je pourrais pogner davantage de coins, mais je préfère limiter à 150. Normalement, on
+        // devrait juste mettre le nombre de coins qu'on veut, approximativement.
+        // Arguments : Source, Destination (coins seulement, c'est un MatOfPoints), Nombre de coins,
+        // Niveau de qualité, Distance minimale
+        Imgproc.goodFeaturesToTrack(matImage, coins, 2, 0.01, 10);
+
+        if (coins.toList().size() > 0) {
+          if (enRotation) {
+            // Le drone avance jusqu'à ce qu'il ne voit plus de coin
+            DroneApplication.getDroneHelper().sendMovementTimer(
+              DroneApplication.getDroneHelper().getMovementTimer( "Traitement : en rotation",
+                                                                  mouvementAvant.toArray(new Float[mouvementAvant.size()]),
+                                                                  null));
+          } else {
+            // Rotation du mouvement
+            face = face < DroneHelper.FACE_EST ? face++ : DroneHelper.FACE_NORD;
+
+            enRotation = true;
+          }
+        } else {
+          enRotation = false;
+
+          if (Double.isNaN(centreDeMasseCoord)) {
+            message = message + " : NaN";
+
+            Log.d(TAG, message);
+            ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
+
+            arreter();
+
+            // On retourne. On ne veut pas que pretAuTraitement soit true;
+            return;
+          } else if (centreDeMasseCoord > SEUIL_LIGNE) {
+            message = message + String.format(" : plus grand que %s", SEUIL_LIGNE);
+
+            DroneApplication.getDroneHelper().sendMovementTimer(
+              DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
+                                                                  mouvementSeuilMax.toArray(new Float[mouvementSeuilMax.size()]),
+                                                                  null));
+
+          } else if (centreDeMasseCoord < -SEUIL_LIGNE) {
+            message = message + String.format(" : plus petit que -%s", SEUIL_LIGNE);
+
+            DroneApplication.getDroneHelper().sendMovementTimer(
+              DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
+                                                                  mouvementSeuilMin.toArray(new Float[mouvementSeuilMin.size()]),
+                                                                  null));
+          } else {
+            message = message + " : ok";
+
+            DroneApplication.getDroneHelper().sendMovementTimer(
+              DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers l'avant",
+                                                                  mouvementAvant.toArray(new Float[mouvementAvant.size()]),
+                                                                  null));
+          }
+        }
       }
 
       Log.d(TAG, message);

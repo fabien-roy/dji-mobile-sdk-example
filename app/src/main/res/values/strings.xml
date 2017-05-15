@@ -77,4 +77,6 @@
   <string name="arreter_enregistrement">Arrêter l\'enregistrement</string>
   <string name="mode_photo">Mode photo</string>
   <string name="mode_video">Mode vidéo</string>
+  <string name="mode_suivi_a">Mode suivi A</string>
+  <string name="mode_suivi_b">Mode suivi B</string>
 </resources>

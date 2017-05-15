@@ -67,9 +67,9 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
   // Vérification du fonctionnement d'OpenCV
   static {
     if(!OpenCVLoader.initDebug()){
-      Log.d(TAG, "OpenCV not loaded");
+      Log.d(TAG, "OpenCV non loadé");
     } else {
-      Log.d(TAG, "OpenCV loaded");
+      Log.d(TAG, "OpenCV loadé correctement");
     }
   }
 
@@ -303,7 +303,6 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
 
       if (Double.isNaN(centreDeMasse.y)) {
         // Lorsque la couleur n'est pas trouvée, le drone avance
-        // TODO : Avancer, tout simplement
         message = message + " : NaN";
 
         Log.d(TAG, message);
@@ -311,7 +310,7 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
 
         DroneApplication.getDroneHelper().sendMovementTimer(
           DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers l'avant",
-                                                              new float[] {0, 1, 0, 0},
+                                                              new Float[] {0F, 1F, 0F, 0F},
                                                               null));
 
         afficherImage(matImage);
@@ -325,7 +324,6 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
         }, 1000);
       } else {
         // Lorsque la couleur est trouvée, le drone avance un peu et attéri
-        // TODO : Faire attérir le drone
         message = message + " : trouvée";
 
         Log.d(TAG, message);
@@ -333,7 +331,7 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
 
         DroneApplication.getDroneHelper().sendMovementTimer(
           DroneApplication.getDroneHelper().getMovementTimer( "Traitement : trouvée! Vers l'avant + atteri",
-                                                              new float[] {0, 1, 0, 0},
+                                                              new Float[] {0F, 1F, 0F, 0F},
                                                               null));
 
         new Handler().postDelayed(new Runnable() {

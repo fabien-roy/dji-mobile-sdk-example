@@ -81,4 +81,16 @@
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true" />
 
+  <ToggleButton
+    android:id="@+id/btn_obj2_etape3_mode"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_weight="1"
+    android:text="@string/mode_suivi_a"
+    android:textOn="@string/mode_suivi_b"
+    android:textOff="@string/mode_suivi_a"
+    android:textSize="12sp"
+    android:checked="false" />
+
 </RelativeLayout>

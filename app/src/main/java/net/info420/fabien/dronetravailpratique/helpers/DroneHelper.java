@@ -26,9 +26,9 @@ public class DroneHelper {
 
   // Variables statiques pour le calcul de mouvement par vecteurs (x, y)
   public static final int FACE_NORD               = 0;
-  public static final int FACE_EST                = 1;
-  public static final int FACE_OUEST              = 2;
-  public static final int FACE_SUD                = 3;
+  public static final int FACE_OUEST              = 1;
+  public static final int FACE_SUD                = 2;
+  public static final int FACE_EST                = 3;
 
   // Variables statiques pour la rotation (sens horaire ou antihoraire)
   public static final int ORIENTATION_HORAIRE     = 1;
@@ -175,7 +175,7 @@ public class DroneHelper {
    *
    * @see MouvementTimer
    */
-  public MouvementTimer getMovementTimer(String nom, float[] pitchRollYawThrottle, Integer atterissage) {
+  public MouvementTimer getMovementTimer(String nom, Float[] pitchRollYawThrottle, Integer atterissage) {
     return new MouvementTimer(nom, 1000, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3], atterissage);
   }
 
