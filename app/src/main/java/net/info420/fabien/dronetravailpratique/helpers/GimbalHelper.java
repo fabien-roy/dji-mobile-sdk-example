@@ -111,8 +111,8 @@ public class GimbalHelper {
   public void setGroundGimbal() {
     setGimbalWorkMode(DJIGimbalWorkMode.FreeMode);
 
-    bougerGimbal(0, 1000, 0);
+    bougerGimbal(-1000, 0, 0);
 
-    setGimbalWorkMode(DJIGimbalWorkMode.FpvMode);
+    // setGimbalWorkMode(DJIGimbalWorkMode.FpvMode);
   }
 }

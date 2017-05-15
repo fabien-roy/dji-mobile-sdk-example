@@ -27,18 +27,18 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   public static final String TAG = Obj1Etape2Activity.class.getName();
 
   // Variables des mouvements du drone
-  private float[] dataA = { 0,      3.8F  };        // OK
+  private float[] dataA = { 0,      3.9F  };        // OK
   private float[] dataB = { 3.5F,   0     };        // OK
-  private float[] dataC = { 0,      -3.8F };        // OK
+  private float[] dataC = { 0,      -3.9F };        // OK
   private float[] dataD = { 5.95F,  0     };        // OK
   private float[] dataE = { 2,      9     };        // OK 180
   private float[] dataF = {-3.35F,  1.95F, 0.4F };  // OK
   private float[] dataG = { 2.5F,   13.5F };        // OK 180
   private float[] dataH = { 7.2F,   -1.6F };        // OK
   private float[] dataI = { 2,      9     };        // OK 180
-  private float[] dataJ = {-2.7F,   0.7F  };        // 0-
+  private float[] dataJ = {-2.8F,   0.85F };        // 0-
   private float[] dataK = { 2,      9     };        // 270
-  private float[] dataL = {-2.5F,   -4    };        // 00
+  private float[] dataL = {-2.4F,   -4    };        // 00
   private float[] dataM = { 2,      9     };        // 360
   private float[] dataN = { 0,      -5    };        //
 

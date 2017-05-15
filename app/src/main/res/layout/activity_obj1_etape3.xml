@@ -57,6 +57,8 @@
     android:textAllCaps="false"
     android:text="@string/objectif1_etape3_description"
     android:textSize="15sp"
+    android:textColor="@color/colorTextIcons"
+    android:backgroundTint="@color/colorAccent"
     android:layout_marginTop="200dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>

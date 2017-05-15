@@ -60,13 +60,17 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   public static final String TAG = Obj2Etape3Activity.class.getName();
 
   // Seuil necéssaire afin d'ajuster le suivi de la ligne
-  private static final int   SEUIL_LIGNE_NORD   = 100;
-  private static final int   SEUIL_LIGNE_SUD    = 300;
-  private static final int   SEUIL_LIGNE_OUEST  = 550;
-  private static final int   SEUIL_LIGNE_EST    = 350;
-  private static final int   SEUIL_COINS        = 4;
-  private static final int   TEMPS_MOUVEMENT    = 250;
-  private static final Float MOUVEMENT          = 0.5F;
+  private static final int   SEUIL_LIGNE_NORD     = 100;
+  private static final int   SEUIL_LIGNE_SUD      = 300;
+  private static final int   SEUIL_LIGNE_OUEST    = 550;
+  private static final int   SEUIL_LIGNE_EST      = 350;
+  private static final int   SEUIL_COINS          = 4;
+  private static final int   TEMPS_MOUVEMENT      = 250;
+  private static final Float MOUVEMENT_AVANT      = 0.5F;
+  private static final Float MOUVEMENT_AJUSTEMENT = 0.2F;
+
+  private boolean gimbalAjuste = false;
+  private int ajustementGimbal = 1000;
 
   // Views
   private TextureView tvVideo;
@@ -83,7 +87,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   private boolean enRotation        = false; // Vrai si le drone voit encore le coin de la ligne et
                                              // doit s'en éloigner
 
-  private Float orientation = MOUVEMENT; // 1 = devant, -1 = derrière
+  private Float orientation = MOUVEMENT_AVANT; // + = devant, - = derrière
 
   private int faceSuivi = DroneHelper.FACE_NORD; // Face du suivi de ligne
 
@@ -118,7 +122,6 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
 
     initUI();
     initCallback();
-    initGimbal();
   }
 
   /**
@@ -176,6 +179,11 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
       @Override
       public void onClick(View view) {
         pretAuTraitement = true;
+
+        if (gimbalAjuste) {
+          DroneApplication.getGimbalHelper().bougerGimbal(ajustementGimbal, 0, 0);
+          ajustementGimbal = -ajustementGimbal;
+        }
       }
     });
 
@@ -354,6 +362,11 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    *      Source : Est-ce qu'un double est NaN en Java?</a>
    */
   private void traiter() {
+    if (!gimbalAjuste) {
+      initGimbal();
+      gimbalAjuste = true;
+    }
+
     // pretAuTraitement = false;
 
     // Matrice de l'image traitée
@@ -418,17 +431,6 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
           Log.d(TAG, String.format("A : NaN, enRetour : %s", enRetour));
           message = message + " : NaN";
 
-          // TODO : On devrait plutôt utiliser la détection de coins pour le mode de suivi A
-
-          // Je laisse ceci ici : arrêt du drone lorsque la ligne est perdue.
-          // Log.d(TAG, message);
-          // ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
-
-          // arreter();
-
-          // On retourne. On ne veut pas que pretAuTraitement soit true;
-          // return;
-
           // La variable enRetour est false dès que la ligne est retrouvée
           if (enRetour) {
             DroneApplication.getDroneHelper().sendMovementTimer(
@@ -446,9 +448,9 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
           message = message + String.format(" : plus grand que %s", SEUIL_LIGNE_OUEST);
 
           DroneApplication.getDroneHelper().sendMovementTimer(
-            DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
+            DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
                                                                 TEMPS_MOUVEMENT,
-                                                                new Float[] {-MOUVEMENT, orientation, 0F, 0F},
+                                                                new Float[] {MOUVEMENT_AJUSTEMENT, orientation, 0F, 0F},
                                                                 null));
 
           enRetour = false;
@@ -458,9 +460,9 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
           message = message + String.format(" : plus petit que %s", SEUIL_LIGNE_EST);
 
           DroneApplication.getDroneHelper().sendMovementTimer(
-            DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
+            DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
                                                                 TEMPS_MOUVEMENT,
-                                                                new Float[] {MOUVEMENT, orientation, 0F, 0F},
+                                                                new Float[] {-MOUVEMENT_AJUSTEMENT, orientation, 0F, 0F},
                                                                 null));
           enRetour = false;
         } else {
@@ -495,9 +497,9 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
         seuilMax            = SEUIL_LIGNE_OUEST;
         seuilMin            = SEUIL_LIGNE_EST;
         centreDeMasseCoord  = centreDeMasse.x;
-        mouvementAvant      = new ArrayList<>(Arrays.asList(MOUVEMENT,         0F, 0F, 0F));
-        mouvementSeuilMax   = new ArrayList<>(Arrays.asList(MOUVEMENT, -MOUVEMENT, 0F, 0F));
-        mouvementSeuilMin   = new ArrayList<>(Arrays.asList(MOUVEMENT,  MOUVEMENT, 0F, 0F));
+        mouvementAvant      = new ArrayList<>(Arrays.asList(MOUVEMENT_AVANT,                    0F, 0F, 0F));
+        mouvementSeuilMax   = new ArrayList<>(Arrays.asList(MOUVEMENT_AVANT,  MOUVEMENT_AJUSTEMENT, 0F, 0F));
+        mouvementSeuilMin   = new ArrayList<>(Arrays.asList(MOUVEMENT_AVANT, -MOUVEMENT_AJUSTEMENT, 0F, 0F));
 
         // En fonction de la face du suivi de ligne, les mouvements d'ajustements changent
         switch(faceSuivi) {
@@ -511,9 +513,9 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
             seuilMax            = SEUIL_LIGNE_NORD;
             seuilMin            = SEUIL_LIGNE_SUD;
             centreDeMasseCoord  = centreDeMasse.y;
-            mouvementAvant      = new ArrayList<>(Arrays.asList( 0F,        MOUVEMENT, 0F, 0F));
-            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-MOUVEMENT, MOUVEMENT, 0F, 0F));
-            mouvementSeuilMin   = new ArrayList<>(Arrays.asList( MOUVEMENT, MOUVEMENT, 0F, 0F));
+            mouvementAvant      = new ArrayList<>(Arrays.asList(                   0F,  MOUVEMENT_AVANT, 0F, 0F));
+            mouvementSeuilMax   = new ArrayList<>(Arrays.asList( MOUVEMENT_AJUSTEMENT,  MOUVEMENT_AVANT, 0F, 0F));
+            mouvementSeuilMin   = new ArrayList<>(Arrays.asList(-MOUVEMENT_AJUSTEMENT,  MOUVEMENT_AVANT, 0F, 0F));
 
             break;
           case DroneHelper.FACE_SUD:
@@ -522,9 +524,9 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
             seuilMax            = SEUIL_LIGNE_OUEST;
             seuilMin            = SEUIL_LIGNE_EST;
             centreDeMasseCoord  = centreDeMasse.x;
-            mouvementAvant      = new ArrayList<>(Arrays.asList(-MOUVEMENT,         0F, 0F, 0F));
-            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-MOUVEMENT, -MOUVEMENT, 0F, 0F));
-            mouvementSeuilMin   = new ArrayList<>(Arrays.asList(-MOUVEMENT,  MOUVEMENT, 0F, 0F));
+            mouvementAvant      = new ArrayList<>(Arrays.asList(-MOUVEMENT_AVANT,                     0F, 0F, 0F));
+            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-MOUVEMENT_AVANT,   MOUVEMENT_AJUSTEMENT, 0F, 0F));
+            mouvementSeuilMin   = new ArrayList<>(Arrays.asList(-MOUVEMENT_AVANT,  -MOUVEMENT_AJUSTEMENT, 0F, 0F));
 
             break;
           case DroneHelper.FACE_EST:
@@ -533,9 +535,9 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
             seuilMax            = SEUIL_LIGNE_NORD;
             seuilMin            = SEUIL_LIGNE_SUD;
             centreDeMasseCoord  = centreDeMasse.y;
-            mouvementAvant      = new ArrayList<>(Arrays.asList( 0F,        -MOUVEMENT, 0F, 0F));
-            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-MOUVEMENT, -MOUVEMENT, 0F, 0F));
-            mouvementSeuilMin   = new ArrayList<>(Arrays.asList( MOUVEMENT, -MOUVEMENT, 0F, 0F));
+            mouvementAvant      = new ArrayList<>(Arrays.asList(                   0F,  -MOUVEMENT_AVANT, 0F, 0F));
+            mouvementSeuilMax   = new ArrayList<>(Arrays.asList( MOUVEMENT_AJUSTEMENT,  -MOUVEMENT_AVANT, 0F, 0F));
+            mouvementSeuilMin   = new ArrayList<>(Arrays.asList(-MOUVEMENT_AJUSTEMENT,  -MOUVEMENT_AVANT, 0F, 0F));
 
             break;
         }
@@ -590,7 +592,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
             message = message + String.format(" : plus grand que %s", seuilMax);
 
             DroneApplication.getDroneHelper().sendMovementTimer(
-              DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
+              DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
                                                                   TEMPS_MOUVEMENT,
                                                                   mouvementSeuilMax.toArray(new Float[mouvementSeuilMax.size()]),
                                                                   null));
@@ -601,7 +603,7 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
             message = message + String.format(" : plus petit que %s", seuilMin);
 
             DroneApplication.getDroneHelper().sendMovementTimer(
-              DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
+              DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
                                                                   TEMPS_MOUVEMENT,
                                                                   mouvementSeuilMin.toArray(new Float[mouvementSeuilMin.size()]),
                                                                   null));
