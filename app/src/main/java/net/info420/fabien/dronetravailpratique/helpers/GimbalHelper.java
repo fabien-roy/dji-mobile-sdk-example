@@ -66,7 +66,7 @@ public class GimbalHelper {
    * @see DJIGimbalAngleRotation
    * @see dji.sdk.gimbal.DJIGimbal
    */
-   public void bougerGimbal(DJIGimbalAngleRotation pitch, DJIGimbalAngleRotation roll, DJIGimbalAngleRotation yaw) {
+   private void bougerGimbal(DJIGimbalAngleRotation pitch, DJIGimbalAngleRotation roll, DJIGimbalAngleRotation yaw) {
     // RelativeAngle permet d'ajouter l'angle à l'angle actuel du Gimbal
     // AbsoluteAngle permettrait d'ajuster l'angle avec le devant du drone
     DroneApplication.getGimbalInstance().rotateGimbalByAngle(DJIGimbalRotateAngleMode.RelativeAngle, pitch, roll, yaw, new DJICommonCallbacks.DJICompletionCallback() {
@@ -88,11 +88,9 @@ public class GimbalHelper {
    * @see dji.sdk.gimbal.DJIGimbal
    */
   public void bougerGimbal(int pitch, int roll, int yaw) {
-    DJIGimbalAngleRotation angleRotationPitch = new DJIGimbalAngleRotation(true, pitch, DJIGimbalRotateDirection.Clockwise);
-    DJIGimbalAngleRotation angleRotationRoll  = new DJIGimbalAngleRotation(true, roll,  DJIGimbalRotateDirection.Clockwise);
-    DJIGimbalAngleRotation angleRotationYaw   = new DJIGimbalAngleRotation(true, yaw,   DJIGimbalRotateDirection.Clockwise);
-
-    bougerGimbal(angleRotationPitch, angleRotationRoll, angleRotationYaw);
+    bougerGimbal( new DJIGimbalAngleRotation(true, pitch, DJIGimbalRotateDirection.Clockwise),
+                  new DJIGimbalAngleRotation(true, roll,  DJIGimbalRotateDirection.Clockwise),
+                  new DJIGimbalAngleRotation(true, yaw,   DJIGimbalRotateDirection.Clockwise));
   }
 
   /**
@@ -111,9 +109,10 @@ public class GimbalHelper {
    *      Source : Les différents modes du {@link dji.sdk.gimbal.DJIGimbal}</a>
    */
   public void setGroundGimbal() {
-    // TODO : Tester si le DJIGimbal s'ajuste correctement
-    setGimbalWorkMode(DJIGimbalWorkMode.FpvMode);
+    setGimbalWorkMode(DJIGimbalWorkMode.FreeMode);
 
     bougerGimbal(0, 1000, 0);
+
+    setGimbalWorkMode(DJIGimbalWorkMode.FpvMode);
   }
 }

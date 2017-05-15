@@ -60,7 +60,13 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   public static final String TAG = Obj2Etape3Activity.class.getName();
 
   // Seuil necéssaire afin d'ajuster le suivi de la ligne
-  private static final int SEUIL_LIGNE = 5;
+  private static final int   SEUIL_LIGNE_NORD   = 100;
+  private static final int   SEUIL_LIGNE_SUD    = 300;
+  private static final int   SEUIL_LIGNE_OUEST  = 550;
+  private static final int   SEUIL_LIGNE_EST    = 350;
+  private static final int   SEUIL_COINS        = 4;
+  private static final int   TEMPS_MOUVEMENT    = 250;
+  private static final Float MOUVEMENT          = 0.5F;
 
   // Views
   private TextureView tvVideo;
@@ -77,9 +83,9 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   private boolean enRotation        = false; // Vrai si le drone voit encore le coin de la ligne et
                                              // doit s'en éloigner
 
-  private Float orientation = 1F; // 1 = devant, -1 = derrière
+  private Float orientation = MOUVEMENT; // 1 = devant, -1 = derrière
 
-  private int face = DroneHelper.FACE_NORD; // Face du suivi de ligne
+  private int faceSuivi = DroneHelper.FACE_NORD; // Face du suivi de ligne
 
   // Vérification du fonctionnement d'OpenCV
   static {
@@ -136,6 +142,18 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   }
 
   /**
+   * Lorsqu'on revient sur l'{@link android.app.Activity}, appelle {@link #initVideo()}
+   *
+   * @see #initVideo()
+   */
+  @Override
+  public void onResume() {
+    super.onResume();
+
+    initVideo();
+  }
+
+  /**
    * Inialise l'interface
    *
    * <ul>
@@ -157,7 +175,6 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
     findViewById(R.id.btn_obj2_etape3_traiter).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        initVideo();
         pretAuTraitement = true;
       }
     });
@@ -269,11 +286,14 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
   /**
    * Effectue le traitement necéssaire au suivi de ligne
    *
+   * <p>Je me suis grandement inspiré de mon programme précédemment remis sur les exercices à faire
+   * avec OpenCV. Par exemple, comme j'avais un exercice qui détectait la couleur verte, je n'ai
+   * eu qu'à copier/coller mon propre code et la ligne était détectée.</p>
+   *
    * <ul>
-   *   <li>Fait décoller le drone s'il n'est pas en vol</li>
-   *   <li>Enlève l'image {@link Bitmap} déjà dans le {@link ImageView}</li>
    *   <li>Va chercher l'image du drone</li>
-   *   <li>Calcul le centre de masse de l'image</li>
+   *   <li>Extrait la couleur verte</li>
+   *   <li>Fait décoller le drone s'il n'est pas en vol</li>
    *   <li>Fait bouger le drone en fonction du mode <b>(voir plus bas)</b></li>
    *   <li>Affiche le centre de masse dans un {@link TextView}</li>
    * </ul>
@@ -296,13 +316,13 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    * <p>Mode B : Suivi de la ligne en tournant</p>
    * <ul>
    *   <li>Ajuste les mouvements (avancer, ajustement sous le seuil, ajustement au-dessus du seuil)
-   *   en fonction de la face du suivi de ligne</li>
+   *   en fonction de la faceSuivi du suivi de ligne</li>
    *   <li>Si le nombre de coins détecté est supérieur à 1 :
    *   <ul>
    *     <li>Si le drone est "enRotation", il ne fait qu'avancer avec l'orientation en cours.</li>
    *     <li>Sinon, il changer l'orientation en cours (Nord, Ouest, Sud, Est) et se met en mode
    *     "enRotation". Cela va modifier ses mouvements d'avance et d'ajustement avec l'orientation
-   *     (la face).</li>
+   *     (la faceSuivi).</li>
    *   </ul></li>
    *   <li>Sinon :
    *   <ul>
@@ -334,25 +354,30 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
    *      Source : Est-ce qu'un double est NaN en Java?</a>
    */
   private void traiter() {
-    if (!droneDecolle) {
-      decoller();
-    } else {
-      pretAuTraitement = false;
+    // pretAuTraitement = false;
 
-      // Matrice de l'image traitée
-      Mat matImage = new Mat();
+    // Matrice de l'image traitée
+    Mat matImage = new Mat();
 
-      // Conversion du Bitmap de la vidéo dans la matrice
-      Utils.bitmapToMat(tvVideo.getBitmap(), matImage);
+    // Conversion du Bitmap de la vidéo dans la matrice
+    Utils.bitmapToMat(tvVideo.getBitmap(), matImage);
 
-      // On met l'image en HSV
-      Imgproc.cvtColor(matImage, matImage, Imgproc.COLOR_RGB2HSV, 3);
+    // On met l'image en HSV
+    Imgproc.cvtColor(matImage, matImage, Imgproc.COLOR_RGB2HSV, 3);
 
-      // On détecte une certaine couleur (vert)
-      Core.inRange(matImage, new Scalar(50, 100, 30), new Scalar(85, 255, 255), matImage);
+    // On détecte une certaine couleur (vert)
+    Core.inRange(matImage, new Scalar(50, 100, 30), new Scalar(85, 255, 255), matImage);
 
-      // La détection de ligne a été enlevée complètement, puisqu'on a besoin que de la couleur
-      // Je laisse quand même ça ici.
+    // Recherche du centre de masse
+    Moments momentz = Imgproc.moments(matImage);
+
+    Point centreDeMasse = new Point(momentz.get_m10() / momentz.get_m00(),
+                                    momentz.get_m01() / momentz.get_m00());
+
+    String message = String.format("(%s, %s)", centreDeMasse.x, centreDeMasse.y);
+
+    // La détection de ligne a été enlevée complètement, puisqu'on a besoin que de la couleur
+    // Je laisse quand même ça ici.
       /*
       // Détection de lignes
       Mat matLignes = new Mat();
@@ -380,101 +405,138 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
       }
       */
 
-      // Recherche du centre de masse
-      Moments momentz = Imgproc.moments(matImage);
-
-      Point centreDeMasse = new Point(momentz.get_m10() / momentz.get_m00(),
-                                      momentz.get_m01() / momentz.get_m00());
-
-      String message = String.format("(%s, %s)", centreDeMasse.x, centreDeMasse.y);
-
+    if (!droneDecolle) {
+      decoller(); // Fait décoller le drone et mets droneDecolle = true
+    } else {
       if (!((ToggleButton) findViewById(R.id.btn_obj2_etape3_mode)).isChecked()) {
         // Mode de suivi A : au bout de la ligne, on retourne
+        Log.d(TAG, "Mode de suivi A");
 
         enRotation = false; // Sécurité
 
-        if (Double.isNaN(centreDeMasse.y)) {
+        if (Double.isNaN(centreDeMasse.x)) {
+          Log.d(TAG, String.format("A : NaN, enRetour : %s", enRetour));
           message = message + " : NaN";
 
-          // TODO : On pourrait aussi plutôt utiliser la détection de coins
+          // TODO : On devrait plutôt utiliser la détection de coins pour le mode de suivi A
 
           // Je laisse ceci ici : arrêt du drone lorsque la ligne est perdue.
-          /*
-          Log.d(TAG, message);
-          ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
+          // Log.d(TAG, message);
+          // ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
 
-          arreter();
+          // arreter();
 
           // On retourne. On ne veut pas que pretAuTraitement soit true;
-          return;
-          */
+          // return;
 
           // La variable enRetour est false dès que la ligne est retrouvée
           if (enRetour) {
             DroneApplication.getDroneHelper().sendMovementTimer(
               DroneApplication.getDroneHelper().getMovementTimer( "Traitement : retour vers la ligne",
+                                                                  TEMPS_MOUVEMENT,
                                                                   new Float[] {0F, orientation, 0F, 0F},
                                                                   null));
           } else {
             orientation = -orientation;
             enRetour = true;
           }
-        } else if (centreDeMasse.y > SEUIL_LIGNE) {
-          message = message + String.format(" : plus grand que %s", SEUIL_LIGNE);
+        } else if (centreDeMasse.x > SEUIL_LIGNE_OUEST) {
+          Log.d(TAG, String.format("A : %s est plus grand que le seuil (%s)", centreDeMasse.x, SEUIL_LIGNE_OUEST));
+
+          message = message + String.format(" : plus grand que %s", SEUIL_LIGNE_OUEST);
 
           DroneApplication.getDroneHelper().sendMovementTimer(
             DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
-                                                                new Float[] {-1F, orientation, 0F, 0F},
+                                                                TEMPS_MOUVEMENT,
+                                                                new Float[] {-MOUVEMENT, orientation, 0F, 0F},
                                                                 null));
 
           enRetour = false;
-        } else if (centreDeMasse.y < -SEUIL_LIGNE) {
-          message = message + String.format(" : plus petit que -%s", SEUIL_LIGNE);
+        } else if (centreDeMasse.x < SEUIL_LIGNE_EST) {
+          Log.d(TAG, String.format("A : %s est plus petit que le seuil (%s)", centreDeMasse.x, SEUIL_LIGNE_EST));
+
+          message = message + String.format(" : plus petit que %s", SEUIL_LIGNE_EST);
 
           DroneApplication.getDroneHelper().sendMovementTimer(
             DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
-                                                                new Float[] {1F, orientation, 0F, 0F},
+                                                                TEMPS_MOUVEMENT,
+                                                                new Float[] {MOUVEMENT, orientation, 0F, 0F},
                                                                 null));
           enRetour = false;
         } else {
+          Log.d(TAG, String.format("A : %s est entre les seuils (%s et %s)", centreDeMasse.x, SEUIL_LIGNE_EST, SEUIL_LIGNE_OUEST));
+
           message = message + " : ok";
 
           DroneApplication.getDroneHelper().sendMovementTimer(
             DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers l'avant",
+                                                                TEMPS_MOUVEMENT,
                                                                 new Float[] {0F, orientation, 0F, 0F},
                                                                 null));
           enRetour = false;
         }
       } else {
         // Mode de suivi B : Lorsque le drone détecte un coin, il tourne à droite
+        Log.d(TAG, "Mode de suivi B");
 
         enRetour = false; // Sécurité
 
-        // Mouvements par défaut, soit quand le suivi est face au Nord
-        Double      centreDeMasseCoord  = centreDeMasse.y;
-        List<Float> mouvementAvant      = new ArrayList<>(Arrays.asList(1F,  0F, 0F, 0F));
-        List<Float> mouvementSeuilMin   = new ArrayList<>(Arrays.asList(1F,  1F, 0F, 0F));
-        List<Float> mouvementSeuilMax   = new ArrayList<>(Arrays.asList(1F, -1F, 0F, 0F));
+        // Variables nécessaires au mouvement
+        int         seuilMax;           // Seuil maximal avant un ajustement du mouvement
+        int         seuilMin;           // Seuil minimal avant un ajustement du mouvement
+        Double      centreDeMasseCoord; // Variable du centre de masse pour l'ajustement (x ou y)
+        List<Float> mouvementAvant;     // Commande à envoyer pour avancer sur la ligne
+        List<Float> mouvementSeuilMax;  // Commande à envoyer pour ajuster le mouvement lorsqu'il
+                                        // dépasse le seuil maximal
+        List<Float> mouvementSeuilMin;  // Commande à envoyer pour ajuster le mouvement lorsqu'il
+                                        // dépasse le seuil minimum
+
+        // Valeurs par défaut (face au Nord)
+        seuilMax            = SEUIL_LIGNE_OUEST;
+        seuilMin            = SEUIL_LIGNE_EST;
+        centreDeMasseCoord  = centreDeMasse.x;
+        mouvementAvant      = new ArrayList<>(Arrays.asList(MOUVEMENT,         0F, 0F, 0F));
+        mouvementSeuilMax   = new ArrayList<>(Arrays.asList(MOUVEMENT, -MOUVEMENT, 0F, 0F));
+        mouvementSeuilMin   = new ArrayList<>(Arrays.asList(MOUVEMENT,  MOUVEMENT, 0F, 0F));
 
         // En fonction de la face du suivi de ligne, les mouvements d'ajustements changent
-        switch(face) {
+        switch(faceSuivi) {
+          case DroneHelper.FACE_NORD:
+            Log.d(TAG, String.format("B : %s : Nord", faceSuivi));
+
+            break;
           case DroneHelper.FACE_OUEST:
-            centreDeMasseCoord  = centreDeMasse.x;
-            mouvementAvant      = new ArrayList<>(Arrays.asList( 0F,  1F, 0F, 0F));
-            mouvementSeuilMin   = new ArrayList<>(Arrays.asList( 1F,  1F, 0F, 0F));
-            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-1F,  1F, 0F, 0F));
+            Log.d(TAG, String.format("B : %s : Ouest", faceSuivi));
+
+            seuilMax            = SEUIL_LIGNE_NORD;
+            seuilMin            = SEUIL_LIGNE_SUD;
+            centreDeMasseCoord  = centreDeMasse.y;
+            mouvementAvant      = new ArrayList<>(Arrays.asList( 0F,        MOUVEMENT, 0F, 0F));
+            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-MOUVEMENT, MOUVEMENT, 0F, 0F));
+            mouvementSeuilMin   = new ArrayList<>(Arrays.asList( MOUVEMENT, MOUVEMENT, 0F, 0F));
+
             break;
           case DroneHelper.FACE_SUD:
-            centreDeMasseCoord  = centreDeMasse.y;
-            mouvementAvant      = new ArrayList<>(Arrays.asList(-1F,  0F, 0F, 0F));
-            mouvementSeuilMin   = new ArrayList<>(Arrays.asList(-1F,  1F, 0F, 0F));
-            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-1F, -1F, 0F, 0F));
+            Log.d(TAG, String.format("B : %s : Sud", faceSuivi));
+
+            seuilMax            = SEUIL_LIGNE_OUEST;
+            seuilMin            = SEUIL_LIGNE_EST;
+            centreDeMasseCoord  = centreDeMasse.x;
+            mouvementAvant      = new ArrayList<>(Arrays.asList(-MOUVEMENT,         0F, 0F, 0F));
+            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-MOUVEMENT, -MOUVEMENT, 0F, 0F));
+            mouvementSeuilMin   = new ArrayList<>(Arrays.asList(-MOUVEMENT,  MOUVEMENT, 0F, 0F));
+
             break;
           case DroneHelper.FACE_EST:
-            centreDeMasseCoord  = centreDeMasse.x;
-            mouvementAvant      = new ArrayList<>(Arrays.asList( 0F, -1F, 0F, 0F));
-            mouvementSeuilMin   = new ArrayList<>(Arrays.asList( 1F, -1F, 0F, 0F));
-            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-1F, -1F, 0F, 0F));
+            Log.d(TAG, String.format("B : %s : Est", faceSuivi));
+
+            seuilMax            = SEUIL_LIGNE_NORD;
+            seuilMin            = SEUIL_LIGNE_SUD;
+            centreDeMasseCoord  = centreDeMasse.y;
+            mouvementAvant      = new ArrayList<>(Arrays.asList( 0F,        -MOUVEMENT, 0F, 0F));
+            mouvementSeuilMax   = new ArrayList<>(Arrays.asList(-MOUVEMENT, -MOUVEMENT, 0F, 0F));
+            mouvementSeuilMin   = new ArrayList<>(Arrays.asList( MOUVEMENT, -MOUVEMENT, 0F, 0F));
+
             break;
         }
 
@@ -486,18 +548,24 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
         // devrait juste mettre le nombre de coins qu'on veut, approximativement.
         // Arguments : Source, Destination (coins seulement, c'est un MatOfPoints), Nombre de coins,
         // Niveau de qualité, Distance minimale
-        Imgproc.goodFeaturesToTrack(matImage, coins, 2, 0.01, 10);
+        Imgproc.goodFeaturesToTrack(matImage, coins, 10, 0.01, 10);
 
-        if (coins.toList().size() > 0) {
+        Log.d(TAG, String.format("B : Nb de coins : %s", coins.toList().size()));
+
+        // 4 coins est le mi
+        if (coins.toList().size() > SEUIL_COINS) {
+          Log.d(TAG, String.format("B : Nb de coins (%s) plus grand que %s, enRotation : %s",
+            coins.toList().size(), SEUIL_COINS, enRotation));
           if (enRotation) {
             // Le drone avance jusqu'à ce qu'il ne voit plus de coin
             DroneApplication.getDroneHelper().sendMovementTimer(
               DroneApplication.getDroneHelper().getMovementTimer( "Traitement : en rotation",
+                                                                  TEMPS_MOUVEMENT,
                                                                   mouvementAvant.toArray(new Float[mouvementAvant.size()]),
                                                                   null));
           } else {
             // Rotation du mouvement
-            face = face < DroneHelper.FACE_EST ? face++ : DroneHelper.FACE_NORD;
+            faceSuivi = faceSuivi < DroneHelper.FACE_EST ? faceSuivi++ : DroneHelper.FACE_NORD;
 
             enRotation = true;
           }
@@ -505,6 +573,8 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
           enRotation = false;
 
           if (Double.isNaN(centreDeMasseCoord)) {
+            Log.d(TAG, "B : NaN");
+
             message = message + " : NaN";
 
             Log.d(TAG, message);
@@ -514,26 +584,36 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
 
             // On retourne. On ne veut pas que pretAuTraitement soit true;
             return;
-          } else if (centreDeMasseCoord > SEUIL_LIGNE) {
-            message = message + String.format(" : plus grand que %s", SEUIL_LIGNE);
+          } else if (centreDeMasseCoord > seuilMax) {
+            Log.d(TAG, String.format("B : %s est plus grand que %s", centreDeMasseCoord, seuilMax));
+
+            message = message + String.format(" : plus grand que %s", seuilMax);
 
             DroneApplication.getDroneHelper().sendMovementTimer(
               DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la gauche + avant",
+                                                                  TEMPS_MOUVEMENT,
                                                                   mouvementSeuilMax.toArray(new Float[mouvementSeuilMax.size()]),
                                                                   null));
 
-          } else if (centreDeMasseCoord < -SEUIL_LIGNE) {
-            message = message + String.format(" : plus petit que -%s", SEUIL_LIGNE);
+          } else if (centreDeMasseCoord < seuilMin) {
+            Log.d(TAG, String.format("B : %s est plus petit que %s", centreDeMasseCoord, seuilMin));
+
+            message = message + String.format(" : plus petit que %s", seuilMin);
 
             DroneApplication.getDroneHelper().sendMovementTimer(
               DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers la droite + avant",
+                                                                  TEMPS_MOUVEMENT,
                                                                   mouvementSeuilMin.toArray(new Float[mouvementSeuilMin.size()]),
                                                                   null));
           } else {
+            Log.d(TAG, String.format("B : %s est entre les seuils (%s et %s)",
+              centreDeMasseCoord, seuilMin, seuilMax));
+
             message = message + " : ok";
 
             DroneApplication.getDroneHelper().sendMovementTimer(
               DroneApplication.getDroneHelper().getMovementTimer( "Traitement : vers l'avant",
+                                                                  TEMPS_MOUVEMENT,
                                                                   mouvementAvant.toArray(new Float[mouvementAvant.size()]),
                                                                   null));
           }
@@ -542,21 +622,24 @@ public class Obj2Etape3Activity extends AppCompatActivity implements TextureView
 
       Log.d(TAG, message);
       ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
-
-      afficherImage(matImage);
-
-      // On attend une seconde (le temps de bouger) avant d'être prêt au traitement
-      new Handler().postDelayed(new Runnable() {
-        @Override
-        public void run() {
-          pretAuTraitement = true;
-        }
-      }, 1000);
     }
+
+    Log.d(TAG, message);
+    ((TextView) findViewById(R.id.tv_obj2_etape3_coords)).setText(message);
+
+    afficherImage(matImage);
+
+    // On attend 1,5 seconde (le temps de bouger) avant d'être prêt au traitement
+    new Handler().postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        pretAuTraitement = true;
+      }
+    }, 1500);
   }
 
   /**
-   * Affiche une matrice ({@link Mat} dans le {@link ImageView}
+   * Affiche une matrice ({@link Mat}) dans le {@link ImageView}
    *
    * @param matImage  {@link Mat} de l'image à afficher
    */

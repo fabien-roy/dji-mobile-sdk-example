@@ -180,6 +180,23 @@ public class DroneHelper {
   }
 
   /**
+   * Crée et retourne un {@link MouvementTimer} avec un tableau représentation le pitch, roll, yaw
+   * et throttle du mouvement.
+   *
+   * @param   nom                   Nom à donner au {@link MouvementTimer}
+   * @param   duree                 Durée en millisecondes à donner au {@link MouvementTimer}
+   * @param   pitchRollYawThrottle  Tableau de float des données pitch, roll, yaw et throttle du
+   *                                mouvement
+   * @param   atterissage           Mode d'atterissage du drone, suite au mouvement
+   * @return  Un {@link MouvementTimer} avec les données envoyées
+   *
+   * @see MouvementTimer
+   */
+  public MouvementTimer getMovementTimer(String nom, int duree, Float[] pitchRollYawThrottle, Integer atterissage) {
+    return new MouvementTimer(nom, duree, 100, pitchRollYawThrottle[0], pitchRollYawThrottle[1], pitchRollYawThrottle[2], pitchRollYawThrottle[3], atterissage);
+  }
+
+  /**
    * Retourne un {@link MouvementTimer} nul (qui ne bouge pas)
    *
    * @param   nom                 Nom à donner au {@link MouvementTimer}

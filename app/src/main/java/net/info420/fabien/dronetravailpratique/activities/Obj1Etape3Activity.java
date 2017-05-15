@@ -36,9 +36,9 @@ public class Obj1Etape3Activity extends AppCompatActivity {
   private float[] dataG = { 2.5F,   13.5F };        // OK 180
   private float[] dataH = { 7.2F,   -1.6F };        // OK
   private float[] dataI = { 2,      9     };        // OK 180
-  private float[] dataJ = {-2.7F,   0.8F  };        // --
+  private float[] dataJ = {-2.7F,   0.7F  };        // 0-
   private float[] dataK = { 2,      9     };        // 270
-  private float[] dataL = {-2.5F,   -4    };        // -0
+  private float[] dataL = {-2.5F,   -4    };        // 00
   private float[] dataM = { 2,      9     };        // 360
   private float[] dataN = { 0,      -5    };        //
 

@@ -32,8 +32,6 @@ import dji.sdk.codec.DJICodecManager;
 
 import static net.info420.fabien.dronetravailpratique.application.DroneApplication.getCameraInstance;
 
-// TODO : Documenter Obj3Etape1Activity
-
 /**
  * {@link android.app.Activity} pour aller chercher la vidéo du drone et faire un traitement
  * d'image
@@ -119,6 +117,18 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
   }
 
   /**
+   * Lorsqu'on revient sur l'{@link android.app.Activity}, appelle {@link #initVideo()}
+   *
+   * @see #initVideo()
+   */
+  @Override
+  public void onResume() {
+    super.onResume();
+
+    initVideo();
+  }
+
+  /**
    * Inialise l'interface
    *
    * <ul>
@@ -140,7 +150,6 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
     findViewById(R.id.btn_obj3_etape1_traiter).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        initVideo();
         pretAuTraitement = true;
       }
     });
@@ -263,7 +272,6 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
    * @see Utils#bitmapToMat(Bitmap, Mat)
    * @see Imgproc#cvtColor(Mat, Mat, int)
    * @see Core#inRange(Mat, Scalar, Scalar, Mat)
-   * @see Imgproc#HoughLines(Mat, Mat, double, double, int)
    *
    * @see <a href="http://answers.opencv.org/question/82614/how-to-find-the-centre-of-multiple-objects-in-a-image/"
    *      target="_blank">
@@ -297,7 +305,6 @@ public class Obj3Etape1Activity extends AppCompatActivity implements TextureView
 
       Point centreDeMasse = new Point(momentz.get_m10() / momentz.get_m00(),
                                       momentz.get_m01() / momentz.get_m00());
-      // double centreDeMasseY = momentz.get_m01() / momentz.get_m00();
 
       String message = String.format("(%s, %s)", centreDeMasse.x, centreDeMasse.y);
 

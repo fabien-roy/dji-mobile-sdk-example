@@ -83,10 +83,11 @@
 
   <ToggleButton
     android:id="@+id/btn_obj2_etape3_mode"
-    android:layout_width="0dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:layout_weight="1"
     android:text="@string/mode_suivi_a"
     android:textOn="@string/mode_suivi_b"
     android:textOff="@string/mode_suivi_a"
