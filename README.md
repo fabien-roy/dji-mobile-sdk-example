@@ -9,7 +9,7 @@ I mainly leave this here so anyone using DJI's Mobile SDK will have a much less 
 Single-man college project where I had to use a drone to do three specific goals : 
 
     A) Make the drone follow a precise course (featuring loops) -> Done
-    B) Make the drone follow a line in the school's gymnasium   -> Done
+    B) Make the drone follow a line in the school's gymnasium   -> Mostly done
     C) Make the drone find a ball in the school's gymnasium     -> Cancelled due to time restrictions
 
 ## How does it work? ##
