@@ -1,21 +1,17 @@
-# README #
+# DJI Mobile SDK and OpenCV example : Drone AI #
 
-Travail pratique dans le cadre du cours Projet de programmation.
+**This README is incomplete. Give me like 2-3 hours.**
 
-Il faut une application à trois volets, soient : 
+Single-man college project where I had to use a drone (DJI Matrice 100) to do three specific goals : 
 
-    A) Faire suivre un parcours précis à un drone;
-    B) Faire suivre une ligne de gymnase verte à un drone;
-    C) Faire trouver une balle dans un gymnase à un drone.
+    A) Make the drone follow a precise course (featuring loops)
+    B) Make the drone follow a line in the school's gymnasium
+    C) Make the drone find a ball in the school's gymnasium (this goal was cancelled due to time restrictions)
 
-## Technologies utilisées ##
+## Technologies used ##
 
 Java
 Android Studio
 OpenCV
 DJI Mobile SDK
 Matrice 100 (drone)
-
-## Problèmes ##
-
-(rien pour l'instant)
