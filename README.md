@@ -31,6 +31,9 @@ Other than that, main files located in src/main/java/net/info420/fabien/dronetra
     helpers/DroneHelper.java            : Class to build and interact with MouvementTimers; MouvementTimers can be sent as an array to helpers/DroneHelper.java. In this case, they will be executed one after the other; Most methods here should have been static methods located in util/MouvementTimer.java
     helpers/GimbalHelper.java           : Class for basic gimbal movements and setup
     helpers/CameraHelper.java           : Class for camera access and setup
+
+I also recommend checking up those two activities, since they involve lots of previously mentionned classes usages :  
+
     activities/Obj1Etape3Activity.java  : Activity for course with hardcoded movements
     activities/Obj2Etape3Activity.java  : Activity for line detection and tracing using OpenCV
 
